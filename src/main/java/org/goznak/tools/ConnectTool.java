@@ -70,7 +70,7 @@ class PortReader implements SerialPortEventListener {
                 int end = data.indexOf('.');
                 /*if(start >=0 && end >= 0){
                     currentResult = data.substring(start, end + 1);
-                } else if()*/
+                } else if()  */
                 dataFromSensor.setData(CommandList.current(), data);
                 serialPort.writeBytes(ConnectTool.getFullCommandName(CommandList.next()).getBytes(StandardCharsets.US_ASCII));
             }

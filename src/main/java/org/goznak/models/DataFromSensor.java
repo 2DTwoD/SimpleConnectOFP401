@@ -2,6 +2,7 @@ package org.goznak.models;
 
 
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import org.goznak.tools.CommandList;
 
 import java.util.HashMap;
@@ -18,20 +19,79 @@ public class DataFromSensor {
     public void setData(String command, String data){
         sensorData.replace(command, data);
     }
-    private Color getColorFromHex(String hex){
-        //System.out.println(hex);
-        return Color.rgb(Integer.valueOf(hex.substring(0, 2), 16),
-                Integer.valueOf(hex.substring(2, 4), 16),
-                Integer.valueOf(hex.substring(4, 6), 16));
+    public String[] getSensorType(){
+        ///070Vaa:bbccqq.
+        String data = sensorData.get("000V49");
+        String[] result = {"NOK", "NOK", "NOK"};
+        if(data.contains("NOK") || data.length() != 15){
+            return result;
+        }
+        //Software version
+        result[0] = data.substring(5, 6);
+        //Sensor group
+        result[1] = data.substring(7, 8);
+        //Sensor select
+        result[2] = data.substring(8, 9);
+        return result;
     }
-    public Color getRGB(){
+    public Paint getPaint(){
         ///SS0M0D0srrggbbqq.
         String data = sensorData.get("020D0s1A");
-        System.out.println(data);
         if(data.contains("NOK") || data.length() != 18){
-
-            return Color.BLACK;
+            return Paint.valueOf("Black");
         }
-        return getColorFromHex(data.substring(9, 15));
+        //Paint p = new Color();
+        return Paint.valueOf(data.substring(9, 15));
+    }
+
+    public String[] getRGB(){
+        ///SS0M0D0srrggbbqq.
+        String data = sensorData.get("020D0s1A");
+        String[] result = {"NOK", "NOK", "NOK"};
+        if(data.contains("NOK") || data.length() != 18){
+            System.out.println("11111111111111111111111111111111111111111111111111111111111111111111111111111111");
+            return result;
+        }
+        //red
+        result[0] = data.substring(9, 11);
+        //green
+        result[1] = data.substring(11, 13);
+        //blue
+        result[2] = data.substring(13, 15);
+        return result;
+    }
+    public String[] getHSL(){
+        ///SS0M0D0pHHHhhhHHHSSSLLLqq.
+        String data = sensorData.get("020D0p19");
+        String[] result = {"NOK", "NOK", "NOK", "NOK", "NOK"};
+        if(data.contains("NOK") || data.length() != 27){
+            return result;
+        }
+        //hueRed
+        result[0] = data.substring(9, 12);
+        //hueGreen
+        result[1] = data.substring(12, 15);
+        //hueBlue
+        result[2] = data.substring(15, 18);
+        //saturation
+        result[3] = data.substring(18, 21);
+        //lightness
+        result[4] = data.substring(21, 24);
+        return result;
+    }
+    public String[] getXYZ(){
+        ///SS0M0D0rxxxyyyzzzqq.
+        String data = sensorData.get("020D0r1B");
+        String[] result = {"NOK", "NOK", "NOK"};
+        if(data.contains("NOK") || data.length() != 21){
+            return result;
+        }
+        //red
+        result[0] = data.substring(9, 12);
+        //green
+        result[1] = data.substring(15, 18);
+        //blue
+        result[2] = data.substring(13, 15);
+        return result;
     }
 }

@@ -28,7 +28,7 @@ public class ConnectTool {
                         SerialPort.STOPBITS_1,
                         SerialPort.PARITY_NONE);
                 serialPort.addEventListener(new PortReader(serialPort, main.dataFromSensor), SerialPort.MASK_RXCHAR);
-                serialPort.writeBytes(getFullCommandName(CommandList.current()).getBytes(StandardCharsets.US_ASCII));
+                serialPort.writeBytes(CommandList.current().getBytes(StandardCharsets.US_ASCII));
             }
             catch (SerialPortException ex) {
                 System.out.println(ex.getMessage());
@@ -110,10 +110,10 @@ class PortReader implements SerialPortEventListener {
     }
     private void setDataAndGetNewCommand(String data) throws SerialPortException {
         dataFromSensor.setData(CommandList.current(), data);
-        serialPort.writeBytes(ConnectTool.getFullCommandName(CommandList.next()).getBytes(StandardCharsets.US_ASCII));
+        serialPort.writeBytes(CommandList.next().getBytes(StandardCharsets.US_ASCII));
         repeatFlag = true;
     }
     private void repeatCommand() throws SerialPortException {
-        serialPort.writeBytes(ConnectTool.getFullCommandName(CommandList.current()).getBytes(StandardCharsets.US_ASCII));
+        serialPort.writeBytes(CommandList.current().getBytes(StandardCharsets.US_ASCII));
     }
 }

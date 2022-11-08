@@ -1,7 +1,5 @@
 package org.goznak.models;
 
-
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import org.goznak.tools.CommandList;
 
@@ -11,8 +9,9 @@ import java.util.Map;
 public class DataFromSensor {
     private Map<String, String> sensorData = new HashMap<>();
 
+
     public DataFromSensor() {
-        for(String command: CommandList.getCommands()){
+        for(String command: CommandList.getReadCommands()){
             sensorData.put(command, "NOK");
         }
     }
@@ -21,7 +20,7 @@ public class DataFromSensor {
     }
     public String[] getSensorType(){
         ///070Vaa:bbccqq.
-        String data = sensorData.get("000V49");
+        String data = sensorData.get(CommandList.READ_SENSOR_VERSION);
         String[] result = {"NOK", "NOK", "NOK"};
         if(data.contains("NOK") || data.length() != 15){
             return result;
@@ -36,7 +35,7 @@ public class DataFromSensor {
     }
     public Paint getPaint(){
         ///SS0M0D0srrggbbqq.
-        String data = sensorData.get("020D0s1A");
+        String data = sensorData.get(CommandList.READ_RGB);
         if(data.contains("NOK") || data.length() != 18){
             return Paint.valueOf("Black");
         }
@@ -46,7 +45,7 @@ public class DataFromSensor {
 
     public String[] getRGB(){
         ///SS0M0D0srrggbbqq.
-        String data = sensorData.get("020D0s1A");
+        String data = sensorData.get(CommandList.READ_RGB);
         String[] result = {"NOK", "NOK", "NOK"};
         if(data.contains("NOK") || data.length() != 18){
             System.out.println("11111111111111111111111111111111111111111111111111111111111111111111111111111111");
@@ -62,7 +61,7 @@ public class DataFromSensor {
     }
     public String[] getHSL(){
         ///SS0M0D0pHHHhhhHHHSSSLLLqq.
-        String data = sensorData.get("020D0p19");
+        String data = sensorData.get(CommandList.READ_HSL);
         String[] result = {"NOK", "NOK", "NOK", "NOK", "NOK"};
         if(data.contains("NOK") || data.length() != 27){
             return result;
@@ -81,7 +80,7 @@ public class DataFromSensor {
     }
     public String[] getXYZ(){
         ///SS0M0D0rxxxyyyzzzqq.
-        String data = sensorData.get("020D0r1B");
+        String data = sensorData.get(CommandList.READ_XYZ);
         String[] result = {"NOK", "NOK", "NOK"};
         if(data.contains("NOK") || data.length() != 21){
             return result;

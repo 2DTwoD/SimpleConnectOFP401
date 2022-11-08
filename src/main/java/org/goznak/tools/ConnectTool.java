@@ -8,8 +8,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static java.lang.Thread.sleep;
-
 public class ConnectTool {
     Main main;
     SerialPort serialPort;
@@ -18,8 +16,8 @@ public class ConnectTool {
         this.main = main;
     }
     public void connect(){
-//        executor = Executors.newSingleThreadExecutor();
-//        executor.submit(() -> {
+        executor = Executors.newSingleThreadExecutor();
+        executor.submit(() -> {
             serialPort = new SerialPort("COM4");//main.connectSettingsPanel.getPort()
             try {
                 serialPort.openPort();
@@ -28,27 +26,16 @@ public class ConnectTool {
                         SerialPort.STOPBITS_1,
                         SerialPort.PARITY_NONE);
                 serialPort.addEventListener(new PortReader(serialPort, main.dataFromSensor), SerialPort.MASK_RXCHAR);
-                serialPort.writeBytes(CommandList.current().getBytes(StandardCharsets.US_ASCII));
+                serialPort.writeBytes(CommandList.current().getCommand().getBytes(StandardCharsets.US_ASCII));
             }
             catch (SerialPortException ex) {
                 System.out.println(ex.getMessage());
             }
-//        });
-
-    }
-    static String getFullCommandName(String command){
-        return String.format("/%s.", command);
-    }
-    static String getWriteCommandName(String command){
-        byte checkSum = '/';
-        for(byte b: command.getBytes(StandardCharsets.US_ASCII)){
-            checkSum ^= b;
-        }
-        return String.format("/%s%02X.", command, checkSum);
+        });
     }
     public void disconnect(){
         try {
-            //executor.shutdownNow();
+            executor.shutdownNow();
             serialPort.closePort();
         } catch (SerialPortException e) {
             throw new RuntimeException(e);
@@ -60,7 +47,6 @@ class PortReader implements SerialPortEventListener {
     DataFromSensor dataFromSensor;
     String currentResult;
     private boolean startFlag = false;
-    private boolean repeatFlag = true;
     public PortReader(SerialPort serialPort, DataFromSensor dataFromSensor) {
         this.serialPort = serialPort;
         this.dataFromSensor = dataFromSensor;
@@ -69,11 +55,6 @@ class PortReader implements SerialPortEventListener {
     public void serialEvent(SerialPortEvent event) {
         if(event.isRXCHAR() && event.getEventValue() > 0){
             try {
-                if(repeatFlag){
-                    repeatCommand();
-                    repeatFlag = false;
-                    return;
-                }
                 int start;
                 int end;
                 String data = serialPort.readString();
@@ -81,7 +62,7 @@ class PortReader implements SerialPortEventListener {
                     start = data.lastIndexOf('/');
                     if(start != -1) {
                         String subData = data.substring(start);
-                        end = subData.lastIndexOf('.');
+                        end = subData.indexOf('.');
                         if(end != -1){
                             currentResult = subData.substring(0, end + 1);
                             setDataAndGetNewCommand(currentResult);
@@ -110,10 +91,9 @@ class PortReader implements SerialPortEventListener {
     }
     private void setDataAndGetNewCommand(String data) throws SerialPortException {
         dataFromSensor.setData(CommandList.current(), data);
-        serialPort.writeBytes(CommandList.next().getBytes(StandardCharsets.US_ASCII));
-        repeatFlag = true;
+        serialPort.writeBytes(CommandList.next().getCommand().getBytes(StandardCharsets.US_ASCII));
     }
     private void repeatCommand() throws SerialPortException {
-        serialPort.writeBytes(CommandList.current().getBytes(StandardCharsets.US_ASCII));
+        serialPort.writeBytes(CommandList.current().getCommand().getBytes(StandardCharsets.US_ASCII));
     }
 }

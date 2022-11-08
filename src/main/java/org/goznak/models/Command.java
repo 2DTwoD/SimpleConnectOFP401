@@ -3,16 +3,17 @@ package org.goznak.models;
 import java.nio.charset.StandardCharsets;
 
 public class Command {
-    private String body;
-    private String[] params;
+    private final String body;
+    private final int responseLength;
 
-    public Command(String body) {
+    public Command(String body, int responseLength) {
         this.body = body;
+        this.responseLength = responseLength;
     }
-    public String getCommand(){
-        return String.format("/%s.", body);
+    public RequestCommand getCommand(){
+        return new RequestCommand(String.format("/%s.", body), responseLength);
     }
-    public String getCommand(String[] params){
+    public RequestCommand getCommand(String[] params){
         String fullBody = body;
         for(String param: params){
             fullBody = fullBody.concat(param);
@@ -21,6 +22,6 @@ public class Command {
         for(byte b: fullBody.getBytes(StandardCharsets.US_ASCII)){
             checkSum ^= b;
         }
-        return String.format("/%s%02X.", fullBody, checkSum);
+        return new RequestCommand(String.format("/%s%02X.", fullBody, checkSum), responseLength);
     }
 }

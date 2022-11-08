@@ -1,28 +1,41 @@
 package org.goznak.models;
 
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import org.goznak.tools.CommandList;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DataFromSensor {
-    private Map<String, String> sensorData = new HashMap<>();
+    private Map<RequestCommand, String> sensorData = new HashMap<>();
 
 
     public DataFromSensor() {
-        for(String command: CommandList.getReadCommands()){
+        for(RequestCommand command: CommandList.getReadCommands()){
             sensorData.put(command, "NOK");
         }
     }
-    public void setData(String command, String data){
+    public void setData(RequestCommand command, String data){
+        if(data.contains("NOK") || !checkSumOK(data) || data.length() != command.getLength() || !sensorData.containsKey(command)){
+            return;
+        }
         sensorData.replace(command, data);
+    }
+    static boolean checkSumOK(String data){
+        int lim = data.length() - 3;
+        byte checkSum = '/';
+        for(byte b: data.substring(1, lim).getBytes(StandardCharsets.US_ASCII)){
+            checkSum ^= b;
+        }
+        return String.format("%02X", checkSum).equals(data.substring(lim, lim + 2));
     }
     public String[] getSensorType(){
         ///070Vaa:bbccqq.
         String data = sensorData.get(CommandList.READ_SENSOR_VERSION);
         String[] result = {"NOK", "NOK", "NOK"};
-        if(data.contains("NOK") || data.length() != 15){
+        if(data.equals("NOK")){
             return result;
         }
         //Software version
@@ -34,24 +47,26 @@ public class DataFromSensor {
         return result;
     }
     public Paint getPaint(){
-        ///SS0M0D0srrggbbqq.
-        String data = sensorData.get(CommandList.READ_RGB);
-        if(data.contains("NOK") || data.length() != 18){
-            return Paint.valueOf("Black");
+        ///SS0M0D0rxxxyyyzzzqq.
+        String data = sensorData.get(CommandList.READ_XYZ);
+        if(data.equals("NOK")){
+            return Color.BLACK;
         }
+        int red = Integer.decode(String.format("0x%s", data.substring(9, 12))) / 2;
+        int green = Integer.decode(String.format("0x%s", data.substring(12, 15))) / 2;
+        int blue = Integer.decode(String.format("0x%s", data.substring(15, 18))) / 2;
         //Paint p = new Color();
-        return Paint.valueOf(data.substring(9, 15));
+        return Color.rgb(red, green, blue);
     }
 
     public String[] getRGB(){
         ///SS0M0D0srrggbbqq.
         String data = sensorData.get(CommandList.READ_RGB);
         String[] result = {"NOK", "NOK", "NOK"};
-        if(data.contains("NOK") || data.length() != 18){
-            System.out.println("11111111111111111111111111111111111111111111111111111111111111111111111111111111");
+        if(data.equals("NOK")){
             return result;
         }
-        //red
+         //red
         result[0] = data.substring(9, 11);
         //green
         result[1] = data.substring(11, 13);
@@ -63,7 +78,7 @@ public class DataFromSensor {
         ///SS0M0D0pHHHhhhHHHSSSLLLqq.
         String data = sensorData.get(CommandList.READ_HSL);
         String[] result = {"NOK", "NOK", "NOK", "NOK", "NOK"};
-        if(data.contains("NOK") || data.length() != 27){
+        if(data.equals("NOK")){
             return result;
         }
         //hueRed
@@ -82,7 +97,7 @@ public class DataFromSensor {
         ///SS0M0D0rxxxyyyzzzqq.
         String data = sensorData.get(CommandList.READ_XYZ);
         String[] result = {"NOK", "NOK", "NOK"};
-        if(data.contains("NOK") || data.length() != 21){
+        if(data.equals("NOK")){
             return result;
         }
         //red

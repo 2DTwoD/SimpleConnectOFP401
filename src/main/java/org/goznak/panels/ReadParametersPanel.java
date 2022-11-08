@@ -50,21 +50,26 @@ public class ReadParametersPanel extends GridPane {
         add(sensorSelect, 0, 8);
         executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(() -> {
-            colorRectangle.setFill(dataFromSensor.getPaint());
-            rValue.setText(dataFromSensor.getRGB()[0]);
-            gValue.setText(dataFromSensor.getRGB()[1]);
-            bValue.setText(dataFromSensor.getRGB()[2]);
-            hrValue.setText(dataFromSensor.getHSL()[0]);
-            hgValue.setText(dataFromSensor.getHSL()[1]);
-            hbValue.setText(dataFromSensor.getHSL()[2]);
-            sValue.setText(dataFromSensor.getHSL()[3]);
-            lValue.setText(dataFromSensor.getHSL()[4]);
-            xValue.setText(dataFromSensor.getXYZ()[0]);
-            yValue.setText(dataFromSensor.getXYZ()[1]);
-            zValue.setText(dataFromSensor.getXYZ()[2]);
-            softwareVersion.setText(dataFromSensor.getSensorType()[0]);
-            sensorGroup.setText(dataFromSensor.getSensorType()[1]);
-            sensorSelect.setText(dataFromSensor.getSensorType()[2]);
+            try {
+                colorRectangle.setFill(dataFromSensor.getPaint());
+                rValue.setText(dataFromSensor.getRGB()[0]);
+                gValue.setText(dataFromSensor.getRGB()[1]);
+                bValue.setText(dataFromSensor.getRGB()[2]);
+                hrValue.setText(dataFromSensor.getHSL()[0]);
+                hgValue.setText(dataFromSensor.getHSL()[1]);
+                hbValue.setText(dataFromSensor.getHSL()[2]);
+                sValue.setText(dataFromSensor.getHSL()[3]);
+                lValue.setText(dataFromSensor.getHSL()[4]);
+                xValue.setText(dataFromSensor.getXYZ()[0]);
+                yValue.setText(dataFromSensor.getXYZ()[1]);
+                zValue.setText(dataFromSensor.getXYZ()[2]);
+                softwareVersion.setText(dataFromSensor.getSensorType()[0]);
+                sensorGroup.setText(dataFromSensor.getSensorType()[1]);
+                sensorSelect.setText(dataFromSensor.getSensorType()[2]);
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
         }, 0, 100, TimeUnit.MILLISECONDS);
     }
     public void stopAllThreads(){

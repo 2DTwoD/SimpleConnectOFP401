@@ -3,39 +3,37 @@ package org.goznak.tools;
 import jssc.*;
 import org.goznak.Main;
 import org.goznak.models.DataFromSensor;
+import org.goznak.panels.ConnectSettingsPanel;
 
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class ConnectTool {
-    Main main;
+    ConnectSettingsPanel connectSettingsPanel;
+    DataFromSensor dataFromSensor;
     SerialPort serialPort;
     ExecutorService executor;
     public ConnectTool(Main main) {
-        this.main = main;
+        connectSettingsPanel = main.connectSettingsPanel;
+        dataFromSensor = main.dataFromSensor;
     }
     public void connect(){
-        executor = Executors.newSingleThreadExecutor();
-        executor.submit(() -> {
-            serialPort = new SerialPort("COM4");//main.connectSettingsPanel.getPort()
+            serialPort = new SerialPort("COM4");//connectSettingsPanel.getPort()
             try {
                 serialPort.openPort();
-                serialPort.setParams(main.connectSettingsPanel.getBaudRate(),
+                serialPort.setParams(connectSettingsPanel.getBaudRate(),
                         SerialPort.DATABITS_8,
                         SerialPort.STOPBITS_1,
                         SerialPort.PARITY_NONE);
-                serialPort.addEventListener(new PortReader(serialPort, main.dataFromSensor), SerialPort.MASK_RXCHAR);
+                serialPort.addEventListener(new PortReader(serialPort, dataFromSensor), SerialPort.MASK_RXCHAR);
                 serialPort.writeBytes(CommandList.current().getCommand().getBytes(StandardCharsets.US_ASCII));
             }
             catch (SerialPortException ex) {
                 System.out.println(ex.getMessage());
             }
-        });
     }
     public void disconnect(){
         try {
-            executor.shutdownNow();
             serialPort.closePort();
         } catch (SerialPortException e) {
             throw new RuntimeException(e);

@@ -4,5 +4,6 @@ module org.goznak {
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
     requires jssc;
+    requires javafx.fxml;
     exports org.goznak;
 }

@@ -1,27 +1,29 @@
 package org.goznak.tools;
 
+import javafx.scene.Parent;
 import jssc.*;
 import org.goznak.Main;
 import org.goznak.models.DataFromSensor;
 import org.goznak.panels.ConnectSettingsPanel;
+import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
-
+@Component
 public class ConnectTool {
-    ConnectSettingsPanel connectSettingsPanel;
+    Parent connectSettingsPanel;
     DataFromSensor dataFromSensor;
     SerialPort serialPort;
     ExecutorService executor;
-    public ConnectTool(Main main) {
-        connectSettingsPanel = main.connectSettingsPanel;
-        dataFromSensor = main.dataFromSensor;
+    public ConnectTool() {//Main main
+        /*connectSettingsPanel = main.connectSettingsPanel;
+        dataFromSensor = main.dataFromSensor;*/
     }
     public void connect(){
             serialPort = new SerialPort("COM4");//connectSettingsPanel.getPort()
             try {
                 serialPort.openPort();
-                serialPort.setParams(connectSettingsPanel.getBaudRate(),
+                serialPort.setParams(((ConnectSettingsPanel)connectSettingsPanel).getBaudRate(),
                         SerialPort.DATABITS_8,
                         SerialPort.STOPBITS_1,
                         SerialPort.PARITY_NONE);

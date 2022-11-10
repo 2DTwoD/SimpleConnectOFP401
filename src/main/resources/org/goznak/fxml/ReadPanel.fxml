@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.goznak.panels.ReadPanel">
+   <children>
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="130.0" text="Красный:" textFill="RED" GridPane.rowIndex="1" />
+             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="169.0" text="Зелёный:" textFill="#32c832" GridPane.rowIndex="2" />
+             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="97.0" text="Синий:" textFill="BLUE" GridPane.rowIndex="3" />
+            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="153.0" text="Тон красного:" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="122.0" text="Тон зелёного:" textFill="#32c832" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="106.0" text="Тон синего:" textFill="BLUE" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="114.0" text="Насыщенность:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="123.0" text="Светлота:" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="129.0" text="Красный (X):" textFill="RED" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="155.0" text="Зелёный (Y):" textFill="#32c832" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="113.0" text="Синий (Z):" textFill="BLUE" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="645.0" text="Параметры цвета:" GridPane.columnSpan="6" />
+         </children>
+      </GridPane>
+   </children>
+</VBox>

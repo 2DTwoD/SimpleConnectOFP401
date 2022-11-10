@@ -9,9 +9,7 @@ import org.goznak.Main;
 import org.goznak.inputs.ShowValuePanel;
 import org.goznak.models.DataFromSensor;
 
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class ReadParametersPanel extends GridPane {
     ScheduledExecutorService executorService;
@@ -58,15 +56,15 @@ public class ReadParametersPanel extends GridPane {
         add(softwareVersion, 0, 6);
         add(sensorGroup, 0, 7);
         add(sensorSelect, 0, 8);
-        executorService = Executors.newSingleThreadScheduledExecutor();
-        executorService.scheduleAtFixedRate(() -> {
-            try {
-                runTime();
-            }
-            catch(Exception e){
-                System.out.println(e.getMessage());
-            }
-        }, 0, 50, TimeUnit.MILLISECONDS);
+//        executorService = Executors.newSingleThreadScheduledExecutor();
+//        executorService.scheduleAtFixedRate(() -> {
+//            try {
+//                runTime();
+//            }
+//            catch(Exception e){
+//                System.out.println(e.getMessage());
+//            }
+//        }, 0, 50, TimeUnit.MILLISECONDS);
     }
     private void runTime() throws InterruptedException {
         colorRectangle.setFill(dataFromSensor.getPaint());

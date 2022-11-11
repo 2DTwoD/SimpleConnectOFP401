@@ -4,26 +4,25 @@ import javafx.scene.Parent;
 import jssc.*;
 import org.goznak.Main;
 import org.goznak.models.DataFromSensor;
-import org.goznak.panels.ConnectSettingsPanel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 @Component
 public class ConnectTool {
-    Parent connectSettingsPanel;
+    Parent connectPanel;
+    @Autowired
     DataFromSensor dataFromSensor;
     SerialPort serialPort;
     ExecutorService executor;
-    public ConnectTool() {//Main main
-        /*connectSettingsPanel = main.connectSettingsPanel;
-        dataFromSensor = main.dataFromSensor;*/
-    }
+    String comPort = "COM1";
+    int baudRate = 38400;
     public void connect(){
-            serialPort = new SerialPort("COM4");//connectSettingsPanel.getPort()
+            serialPort = new SerialPort(comPort);
             try {
                 serialPort.openPort();
-                serialPort.setParams(((ConnectSettingsPanel)connectSettingsPanel).getBaudRate(),
+                serialPort.setParams(baudRate,
                         SerialPort.DATABITS_8,
                         SerialPort.STOPBITS_1,
                         SerialPort.PARITY_NONE);
@@ -33,6 +32,12 @@ public class ConnectTool {
             catch (SerialPortException ex) {
                 System.out.println(ex.getMessage());
             }
+    }
+    public void setComPort(String comPort) {
+        this.comPort = comPort;
+    }
+    public void setBaudRate(int baudRate) {
+        this.baudRate = baudRate;
     }
     public void disconnect(){
         try {

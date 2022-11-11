@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import java.net.URL;
 import java.util.ResourceBundle;
 @Component
-public class ConnectSettingsPanel extends Parent implements Initializable {
+public class ConnectPanel extends Parent implements Initializable {
     @Autowired
     ConnectTool connectTool;
     @Autowired
@@ -45,9 +45,20 @@ public class ConnectSettingsPanel extends Parent implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         comCombo.setItems(comList);
-        comCombo.setValue(comList.get(0));
+        comCombo.setValue("COM4");//comList.get(0)
         baudRateCombo.setItems(baudRateList);
         baudRateCombo.setValue(baudRateList.get(3));
-        System.out.println(dataFromSensor);
+        setComPort();
+        setBaudRate();
+        connectTool.connect();
+    }
+    private void setComPort(){
+        connectTool.setComPort(comCombo.getValue());
+    }
+    private void setBaudRate(){
+        connectTool.setBaudRate(baudRateCombo.getValue());
+    }
+    public void disconnect(){
+        connectTool.disconnect();
     }
 }

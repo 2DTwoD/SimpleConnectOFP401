@@ -102,19 +102,29 @@ public class DataFromSensor {
         result[2] = data.substring(10, 12);
         return result;
     }
-    public Paint getPaint(){
+    public Paint getPaintFromHSL(){
+        int[] rgb = getRGBFromHSL();
+        return Color.rgb(rgb[0], rgb[1], rgb[2]);
+    }
+    public int[] getRGBFromHSL(){
         ///SS0M0D0pHHHhhhHHHSSSLLLqq.
         String data = sensorData.get(CommandList.READ_HSL);
         if(data.equals("NOK")){
-            return Color.BLACK;
+            return new int[]{0, 0, 0};
         }
         int hred = Integer.decode(String.format("0x%s", data.substring(9, 12)));
         int hgreen = Integer.decode(String.format("0x%s", data.substring(12, 15)));
         int hblue = Integer.decode(String.format("0x%s", data.substring(15, 18)));
         int s = Integer.decode(String.format("0x%s", data.substring(18, 21)));
         int l = Integer.decode(String.format("0x%s", data.substring(21, 24)));
-        int[] rgb = hslToRGB(hred, hgreen, hblue, s, l);
-        return Color.rgb(rgb[0], rgb[1], rgb[2]);
+        return hslToRGB(hred, hgreen, hblue, s, l);
+    }
+    public Paint getPaintFromRGB(){
+        String data = sensorData.get(CommandList.READ_RGB);
+        if(data.equals("NOK")){
+            return Color.BLACK;
+        }
+        return Paint.valueOf(data.substring(9, 15));
     }
 
     public String[] getRGB(){
@@ -163,7 +173,15 @@ public class DataFromSensor {
         //green
         result[1] = data.substring(15, 18);
         //blue
-        result[2] = data.substring(13, 15);
+        result[2] = data.substring(13, 16);
         return result;
+    }
+    public QueryStatus getQueryStatus(){
+        ///SS0M0Wppppeeedqq.
+        String data = sensorData.get(CommandList.READ_QUERY_STATUS);
+        return new QueryStatus(data);
+    }
+    public void getImpulse(){
+        System.out.println(sensorData.get(CommandList.READ_IMPULSE_PIN1));
     }
 }

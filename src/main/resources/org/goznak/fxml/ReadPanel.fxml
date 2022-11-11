@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.goznak.panels.ReadPanel">
    <children>
       <GridPane>
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="74.0" minWidth="10.0" prefWidth="54.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="109.0" minWidth="10.0" prefWidth="106.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -21,35 +25,146 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints />
         </rowConstraints>
          <children>
              <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="130.0" text="Красный:" textFill="RED" GridPane.rowIndex="1" />
              <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="169.0" text="Зелёный:" textFill="#32c832" GridPane.rowIndex="2" />
              <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="97.0" text="Синий:" textFill="BLUE" GridPane.rowIndex="3" />
-            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="153.0" text="Тон красного:" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="122.0" text="Тон зелёного:" textFill="#32c832" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="106.0" text="Тон синего:" textFill="BLUE" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="114.0" text="Насыщенность:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="123.0" text="Светлота:" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="129.0" text="Красный (X):" textFill="RED" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="155.0" text="Зелёный (Y):" textFill="#32c832" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="113.0" text="Синий (Z):" textFill="BLUE" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+            <TextField fx:id="rField" editable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="gField" editable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="bField" editable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="153.0" text="Тон красного:" textFill="RED" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="122.0" text="Тон зелёного:" textFill="#32c832" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="106.0" text="Тон синего:" textFill="BLUE" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="114.0" text="Насыщенность:" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="123.0" text="Светлота:" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <TextField fx:id="hrField" editable="false" mouseTransparent="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <TextField fx:id="hgField" editable="false" mouseTransparent="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <TextField fx:id="hbField" editable="false" mouseTransparent="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <TextField fx:id="sField" editable="false" mouseTransparent="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+            <TextField fx:id="lField" editable="false" mouseTransparent="true" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="129.0" text="Красный (X):" textFill="RED" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="155.0" text="Зелёный (Y):" textFill="#32c832" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="113.0" text="Синий (Z):" textFill="BLUE" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="6" GridPane.rowIndex="1" fx:id="xrField" />
+            <TextField fx:id="ygField" editable="false" mouseTransparent="true" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+            <TextField fx:id="zbField" editable="false" mouseTransparent="true" GridPane.columnIndex="6" GridPane.rowIndex="3" />
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="645.0" text="Параметры цвета:" GridPane.columnSpan="6" />
+            <Rectangle fx:id="colorRectangle" arcHeight="5.0" arcWidth="5.0" height="90.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="267.0" GridPane.columnIndex="7" GridPane.columnSpan="3" GridPane.rowSpan="3" />
+            <Rectangle fx:id="rect" arcHeight="5.0" arcWidth="5.0" height="92.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="268.0" GridPane.columnIndex="7" GridPane.rowIndex="3" GridPane.rowSpan="3" />
+            <Label fx:id="colorTitle" prefHeight="17.0" prefWidth="96.0" text="Цвет с датчика" textFill="WHITE" GridPane.columnIndex="8" GridPane.rowIndex="2" />
+            <Label text="Label" />
+            <ProgressBar fx:id="redProgress" prefWidth="200.0" progress="0.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ProgressBar fx:id="greenProgress" prefWidth="200.0" progress="0.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <ProgressBar fx:id="blueProgress" prefWidth="200.0" progress="0.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
          </children>
       </GridPane>
+      <Label alignment="CENTER" prefHeight="17.0" prefWidth="467.0" text="Состояние датчика:" />
+      <HBox prefHeight="29.0" prefWidth="800.0">
+         <children>
+            <Label fx:id="A1label" style="-fx-background-color: lightgray;" text="Канал A1" textFill="WHITE">
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+            </Label>
+            <Label fx:id="A2label" style="-fx-background-color: lightgray;" text="Канал A2" textFill="WHITE">
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding></Label>
+            <Label fx:id="A3label" depthTest="DISABLE" style="-fx-background-color: lightgray;" text="Канал A3" textFill="WHITE">
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+            </Label>
+            <Label text="Статус:">
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding></Label>
+            <Label fx:id="statusField" style="-fx-background-color: lightgray;" text="( v )">
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label text="Ошибки:">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding></Label>
+            <Label fx:id="errorField" text="OK">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+            <Label text="Software:">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
+            <Label fx:id="softwareLabel" text="0">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets right="5.0" />
+               </padding>
+            </Label>
+            <Label text="Group:">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
+            <Label fx:id="groupLabel" text="0">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets right="5.0" />
+               </padding>
+            </Label>
+            <Label text="Select:">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
+            <Label fx:id="selectLabel" text="0">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets right="5.0" />
+               </padding>
+            </Label>
+         </children>
+      </HBox>
    </children>
 </VBox>

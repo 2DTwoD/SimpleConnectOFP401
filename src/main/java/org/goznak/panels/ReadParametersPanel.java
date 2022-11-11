@@ -21,7 +21,6 @@ public class ReadParametersPanel extends GridPane {
     String[] sensorType;
     public ReadParametersPanel(Main main) {
         super();
-        dataFromSensor = main.dataFromSensor;
         rgb = dataFromSensor.getRGB();
         hsl = dataFromSensor.getHSL();
         xyz = dataFromSensor.getXYZ();
@@ -67,7 +66,7 @@ public class ReadParametersPanel extends GridPane {
 //        }, 0, 50, TimeUnit.MILLISECONDS);
     }
     private void runTime() throws InterruptedException {
-        colorRectangle.setFill(dataFromSensor.getPaint());
+        colorRectangle.setFill(dataFromSensor.getPaintFromHSL());
         rgb = dataFromSensor.getRGB();
         hsl = dataFromSensor.getHSL();
         xyz = dataFromSensor.getXYZ();

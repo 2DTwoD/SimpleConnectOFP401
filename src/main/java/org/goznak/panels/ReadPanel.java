@@ -4,13 +4,13 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.goznak.models.DataFromSensor;
 import org.goznak.models.QueryStatus;
+import org.goznak.models.RequestCommand;
+import org.goznak.tools.CommandList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -75,9 +75,50 @@ public class ReadPanel extends Parent implements Initializable {
     ProgressBar greenProgress;
     @FXML
     ProgressBar blueProgress;
-
+    @FXML
+    Label opModeLabel;
+    @FXML
+    ComboBox<String> opModeCombo;
+    @FXML
+    Button opModeButton;
+    @FXML
+    Label filterLabel;
+    @FXML
+    ComboBox<String> filterCombo;
+    @FXML
+    Button filterButton;
+    @FXML
+    Label lightLabel;
+    @FXML
+    ComboBox<String> lightCombo;
+    @FXML
+    Button lightButton;
+    @FXML
+    Label fpModeLabel;
+    @FXML
+    ComboBox<String> fpModeCombo;
+    @FXML
+    Button fpModeButton;
+    @FXML
+    Label menuLabel;
+    @FXML
+    ComboBox<String> menuCombo;
+    @FXML
+    Button menuButton;
+    @FXML
+    Button resetButton;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        opModeCombo.setItems(DataFromSensor.opModeList);
+        filterCombo.setItems(DataFromSensor.filterList);
+        lightCombo.setItems(DataFromSensor.lightList);
+        fpModeCombo.setItems(DataFromSensor.fpModeList);
+        menuCombo.setItems(DataFromSensor.menuList);
+        opModeCombo.setValue("?");
+        filterCombo.setValue("?");
+        lightCombo.setValue("?");
+        fpModeCombo.setValue("?");
+        menuCombo.setValue("?");
         executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(() -> {
             try {
@@ -95,6 +136,11 @@ public class ReadPanel extends Parent implements Initializable {
         String[] hsl = dataFromSensor.getHSL();
         String[] xyz = dataFromSensor.getXYZ();
         String[] sensorType = dataFromSensor.getSensorType();
+        String opMode = dataFromSensor.getOpMode();
+        String filterSize = dataFromSensor.getFilterSize();
+        String emittedLight = dataFromSensor.getLight();
+        String fpMode = dataFromSensor.getFpMode();
+        String expertMenu = dataFromSensor.getMenu();
         dataFromSensor.getQueryStatus();
         colorRectangle.setFill(dataFromSensor.getPaintFromHSL());
         rect.setFill(dataFromSensor.getPaintFromRGB());
@@ -127,7 +173,32 @@ public class ReadPanel extends Parent implements Initializable {
         redProgress.setProgress(rgbFromHsl[0] / 255.0);
         greenProgress.setProgress(rgbFromHsl[1] / 255.0);
         blueProgress.setProgress(rgbFromHsl[2] / 255.0);
+        opModeLabel.setText(opMode);
+        filterLabel.setText(filterSize);
+        lightLabel.setText(emittedLight);
+        fpModeLabel.setText(fpMode);
+        menuLabel.setText(expertMenu);
         //dataFromSensor.getImpulse();
+    }
+    @FXML
+    public void setOpMode(){
+        dataFromSensor.setOpMode(opModeCombo.getValue());
+    }
+    @FXML
+    public void setFilter(){
+        dataFromSensor.setFilter(filterCombo.getValue());
+    }
+    @FXML
+    public void setLight(){
+        dataFromSensor.setLight(lightCombo.getValue());
+    }
+    @FXML
+    public void setFpMode(){
+        dataFromSensor.setFpMode(fpModeCombo.getValue());
+    }
+    @FXML
+    public void setMenu(){
+        dataFromSensor.setMenu(menuCombo.getValue());
     }
     public void stopAllThreads(){
         executorService.shutdown();

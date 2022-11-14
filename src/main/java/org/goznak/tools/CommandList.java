@@ -184,7 +184,7 @@ public class CommandList {
         list.addAll(List.of(lastPriority));
         return list.toArray(RequestCommand[]::new);
     }
-    public void setWriteCommand(RequestCommand command){
+    public static void setWriteCommand(RequestCommand command){
         writeCommand = command;
     }
 }

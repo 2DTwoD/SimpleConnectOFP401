@@ -11,7 +11,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 @Component
 public class ConnectTool {
-    Parent connectPanel;
     @Autowired
     DataFromSensor dataFromSensor;
     SerialPort serialPort;

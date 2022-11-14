@@ -1,15 +1,28 @@
 package org.goznak.models;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import org.goznak.tools.CommandList;
+import org.goznak.tools.ConnectTool;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DataFromSensor {
+    @Autowired
+    ConnectTool connectTool;
     private Map<RequestCommand, String> sensorData = new HashMap<>();
+    public static ObservableList<String> opModeList = FXCollections.observableArrayList("HSL", "assign", "RGB");
+    public static ObservableList<String> filterList = FXCollections.observableArrayList("1", "2", "4", "8",
+            "16", "32", "64", "128", "256", "512", "1024", "2048", "4096");
+    public static ObservableList<String> lightList = FXCollections.observableArrayList("OFF", "normal", "bright", "dark");
+    public static ObservableList<String> fpModeList = FXCollections.observableArrayList("OFP", "FP");
+    public static ObservableList<String> menuList = FXCollections.observableArrayList("ON", "OFF");
 
 
     public DataFromSensor() {
@@ -39,6 +52,7 @@ public class DataFromSensor {
         double delta = max - min;
         final double part1 = 1.0 / 6.0;
         final double part2 = 1.0 / 3.0;
+        final double range = 511.0;
         if(max == hr && hg >= hb){
             h = part1 * (hg - hb) / delta;
         } else if(max == hr && hg < hb){
@@ -48,14 +62,14 @@ public class DataFromSensor {
         } else if(max == hb){
             h = part1 * (hr - hg) / delta + part1 * 4;
         }
-        //get  RGB from HSL
+        //get RGB from HSL
         double q;
         double p;
         double r;
         double g;
         double b;
-        l /= 511.0;
-        s /= 511.0;
+        l /= range;
+        s /= range;
         l = Math.min(l, 1.0);
         s = Math.min(s, 1.0);
         if(l < 0.5){
@@ -162,7 +176,7 @@ public class DataFromSensor {
         return result;
     }
     public String[] getXYZ(){
-        ///SS0M0D0rxxxyyyzzzqq.
+        // /SS0M0D0rxxxyyyzzzqq.
         String data = sensorData.get(CommandList.READ_XYZ);
         String[] result = {"NOK", "NOK", "NOK"};
         if(data.equals("NOK")){
@@ -171,17 +185,68 @@ public class DataFromSensor {
         //red
         result[0] = data.substring(9, 12);
         //green
-        result[1] = data.substring(15, 18);
+        result[1] = data.substring(12, 15);
         //blue
-        result[2] = data.substring(13, 16);
+        result[2] = data.substring(15, 18);
         return result;
     }
     public QueryStatus getQueryStatus(){
-        ///SS0M0Wppppeeedqq.
+        // /SS0M0Wppppeeedqq.
         String data = sensorData.get(CommandList.READ_QUERY_STATUS);
         return new QueryStatus(data);
     }
+    private String getListParameter(ObservableList<String> list, String data){
+        try {
+            return list.get(Integer.parseInt(data.substring(8, 9)));
+        }
+        catch (Exception e){
+            return "NOK";
+        }
+    }
+    public String getOpMode(){
+        // /SS0M0M0jqq.
+        return getListParameter(opModeList, sensorData.get(CommandList.READ_OPERATING_MODE));
+    }
+    public String getFilterSize(){
+        // /SS0M0F0sqq.
+        return getListParameter(filterList, sensorData.get(CommandList.READ_FILTER_SIZE));
+    }
+    public String getLight(){
+        // /SS0M0L0iqq.
+        return getListParameter(lightList, sensorData.get(CommandList.READ_EMITTED_LIGHT));
+    }
+    public String getFpMode(){
+        // /SS0M0J0iqq.
+        return getListParameter(fpModeList, sensorData.get(CommandList.READ_SENSOR_SELECT));
+    }
+    public String getMenu(){
+        // /SS0M0Ehhqq.
+        return getListParameter(menuList, sensorData.get(CommandList.READ_EXPERT_MENU));
+    }
     public void getImpulse(){
         System.out.println(sensorData.get(CommandList.READ_IMPULSE_PIN1));
+    }
+
+    private void setOneValue(Command command, List<String> list, String value){
+        if(!list.contains(value)){
+            return;
+        }
+        RequestCommand cmd = command.getCommand(new String[]{Integer.toString(list.indexOf(value))});
+        CommandList.setWriteCommand(cmd);
+    }
+    public void setOpMode(String value){
+        setOneValue(CommandList.WRITE_OPERATING_MODE, opModeList, value);
+    }
+    public void setFilter(String value){
+        setOneValue(CommandList.WRITE_FILTER_SIZE, filterList, value);
+    }
+    public void setLight(String value){
+        setOneValue(CommandList.WRITE_EMITTED_LIGHT, lightList, value);
+    }
+    public void setFpMode(String value){
+        setOneValue(CommandList.WRITE_SENSOR_SELECT, fpModeList, value);
+    }
+    public void setMenu(String value){
+        setOneValue(CommandList.WRITE_EXPERT_MENU, menuList, value);
     }
 }

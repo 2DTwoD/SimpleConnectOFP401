@@ -21,7 +21,7 @@ public class CommandList {
     public static final Command WRITE_EMITTED_LIGHT = new Command("020L0", 12);
     public static final Command WRITE_SENSOR_SELECT = new Command("020J0", 12);
     public static final Command WRITE_TEST_OUTPUT = new Command("030t0", 13);
-    public static final Command WRITE_EXPERT_MENU = new Command("020E", 12);
+    public static final Command WRITE_EXPERT_MENU = new Command("020E0", 12);
     public static final Command RESET_SENSOR = new Command("000R4D", 15);
     public static final Command _READ_PIN_FUNCTION = new Command("020P0", 13);
     public static final Command _READ_ASSIGNED_TEACH = new Command("040O0A", 18);

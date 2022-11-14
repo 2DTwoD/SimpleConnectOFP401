@@ -52,7 +52,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="statusField" prefHeight="17.0" prefWidth="32.0" style="-fx-background-color: lightgray;" text="( v )" GridPane.columnIndex="4">
+            <Label fx:id="statusField" alignment="CENTER" prefHeight="17.0" prefWidth="39.0" style="-fx-background-color: lightgray;" text="( v )" GridPane.columnIndex="4">
                <padding>
                   <Insets left="5.0" right="5.0" />
                </padding>
@@ -146,13 +146,13 @@
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="153.0" text="Тон красного:" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="122.0" text="Тон зелёного:" textFill="#32c832" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="106.0" text="Тон синего:" textFill="BLUE" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="114.0" text="Насыщенность:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="123.0" text="Светлота:" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="114.0" text="Насыщенность:" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="123.0" text="Светлота:" GridPane.columnIndex="2" GridPane.rowIndex="7" />
             <TextField fx:id="hrField" editable="false" mouseTransparent="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             <TextField fx:id="hgField" editable="false" mouseTransparent="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             <TextField fx:id="hbField" editable="false" mouseTransparent="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <TextField fx:id="sField" editable="false" mouseTransparent="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <TextField fx:id="lField" editable="false" mouseTransparent="true" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <TextField fx:id="sField" editable="false" mouseTransparent="true" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <TextField fx:id="lField" editable="false" mouseTransparent="true" GridPane.columnIndex="3" GridPane.rowIndex="7" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="129.0" text="Красный (X):" textFill="RED" GridPane.rowIndex="4" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="155.0" text="Зелёный (Y):" textFill="#32c832" GridPane.rowIndex="5" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="113.0" text="Синий (Z):" textFill="BLUE" GridPane.rowIndex="7" />
@@ -160,15 +160,23 @@
             <TextField fx:id="ygField" editable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <TextField fx:id="zbField" editable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="297.0" text="Параметры цвета:" GridPane.columnSpan="4" />
-            <Rectangle fx:id="colorRectangle" arcHeight="5.0" arcWidth="5.0" height="150.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="205.0" GridPane.columnIndex="8" GridPane.columnSpan="3" GridPane.rowSpan="5" />
-            <Rectangle fx:id="rect" arcHeight="5.0" arcWidth="5.0" height="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="204.0" GridPane.columnIndex="8" GridPane.columnSpan="5" GridPane.rowIndex="5" GridPane.rowSpan="3" />
-            <Label fx:id="colorTitle" alignment="TOP_CENTER" prefHeight="17.0" prefWidth="150.0" text="Цвет с датчика" textFill="WHITE" GridPane.columnIndex="9" GridPane.columnSpan="2" />
-            <ProgressBar fx:id="redProgress" prefWidth="200.0" progress="0.0" GridPane.columnIndex="8" />
-            <ProgressBar fx:id="greenProgress" prefWidth="200.0" progress="0.0" GridPane.columnIndex="8" GridPane.rowIndex="1" />
-            <ProgressBar fx:id="blueProgress" prefWidth="200.0" progress="0.0" GridPane.columnIndex="8" GridPane.rowIndex="2" />
-            <Label text="Красный" textFill="RED" GridPane.columnIndex="8" />
-            <Label text="Зелёный" textFill="#32c832" GridPane.columnIndex="8" GridPane.rowIndex="1" />
-            <Label text="Синий" textFill="BLUE" GridPane.columnIndex="8" GridPane.rowIndex="2" />
+            <Rectangle fx:id="colorRectangle" arcHeight="5.0" arcWidth="5.0" height="210.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="205.0" GridPane.columnIndex="8" GridPane.columnSpan="3" GridPane.rowSpan="2147483647" />
+            <Label fx:id="colorTitle" alignment="TOP_CENTER" prefHeight="17.0" prefWidth="231.0" text="Цвет с датчика" textFill="WHITE" GridPane.columnIndex="8" GridPane.columnSpan="3" GridPane.rowIndex="3" />
+            <ProgressBar fx:id="redProgress" prefHeight="30.0" prefWidth="206.0" progress="0.0" style="-fx-accent: red;" GridPane.columnIndex="8" GridPane.columnSpan="3" />
+            <ProgressBar fx:id="greenProgress" prefHeight="30.0" prefWidth="205.0" progress="0.0" style="-fx-accent: #32c832;" GridPane.columnIndex="8" GridPane.columnSpan="3" GridPane.rowIndex="1" />
+            <ProgressBar fx:id="blueProgress" prefHeight="30.0" prefWidth="257.0" progress="0.0" style="-fx-accent: blue;" GridPane.columnIndex="8" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="225.0" text="Красный" textFill="#900202" GridPane.columnIndex="8" GridPane.columnSpan="3">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label alignment="CENTER" prefHeight="23.0" prefWidth="204.0" text="Зелёный" textFill="#1a681a" GridPane.columnIndex="8" GridPane.columnSpan="3" GridPane.rowIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="466.0" text="Синий" textFill="#010183" GridPane.columnIndex="8" GridPane.columnSpan="3" GridPane.rowIndex="2">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
             <Label alignment="TOP_CENTER" prefHeight="17.0" prefWidth="339.0" text="Общие параметры:" GridPane.columnIndex="4" GridPane.columnSpan="4" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="95.0" text="Режим работы:" GridPane.columnIndex="4" GridPane.rowIndex="1">
                <font>
@@ -182,7 +190,7 @@
                   <Font name="System Bold" size="12.0" />
                </font></Label>
             <Label fx:id="filterLabel" prefHeight="17.0" prefWidth="81.0" text="?" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-            <Button fx:id="filterButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="106.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="2" />
+            <Button fx:id="filterButton" mnemonicParsing="false" onAction="#setFilter" prefHeight="25.0" prefWidth="106.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="2" />
             <ComboBox fx:id="filterCombo" prefWidth="150.0" GridPane.columnIndex="6" GridPane.rowIndex="2" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="102.0" text="Излуч. свет:" GridPane.columnIndex="4" GridPane.rowIndex="3">
                <font>
@@ -190,22 +198,24 @@
                </font></Label>
             <Label fx:id="lightLabel" text="?" GridPane.columnIndex="5" GridPane.rowIndex="3" />
             <ComboBox fx:id="lightCombo" prefWidth="150.0" GridPane.columnIndex="6" GridPane.rowIndex="3" />
-            <Button fx:id="lightButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="3" />
+            <Button fx:id="lightButton" mnemonicParsing="false" onAction="#setLight" prefHeight="25.0" prefWidth="100.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="3" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="96.0" text="FP/OFP:" GridPane.columnIndex="4" GridPane.rowIndex="4">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
             <Label fx:id="fpModeLabel" text="?" GridPane.columnIndex="5" GridPane.rowIndex="4" />
             <ComboBox fx:id="fpModeCombo" prefWidth="150.0" GridPane.columnIndex="6" GridPane.rowIndex="4" />
-            <Button fx:id="fpModeButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="93.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="4" />
+            <Button fx:id="fpModeButton" mnemonicParsing="false" onAction="#setFpMode" prefHeight="25.0" prefWidth="93.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="4" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="151.0" text="Эксперт. меню:" GridPane.columnIndex="4" GridPane.rowIndex="5">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
             <Label fx:id="menuLabel" text="?" GridPane.columnIndex="5" GridPane.rowIndex="5" />
             <ComboBox fx:id="menuCombo" prefWidth="150.0" GridPane.columnIndex="6" GridPane.rowIndex="5" />
-            <Button fx:id="menuButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="5" />
-            <Button fx:id="resetButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="181.0" text="Сброс настроек" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="7" />
+            <Button fx:id="menuButton" mnemonicParsing="false" onAction="#setMenu" prefHeight="25.0" prefWidth="95.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="5" />
+            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#resetSensor" prefHeight="25.0" prefWidth="181.0" text="Сброс настроек" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="7" />
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="94.0" text="Тон:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <TextField fx:id="hueField" editable="false" mouseTransparent="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
          </children>
       </GridPane>
    </children>

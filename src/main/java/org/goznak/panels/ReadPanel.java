@@ -38,6 +38,8 @@ public class ReadPanel extends Parent implements Initializable {
     @FXML
     private TextField hbField;
     @FXML
+    private TextField hueField;
+    @FXML
     private TextField sField;
     @FXML
     private TextField lField;
@@ -49,8 +51,6 @@ public class ReadPanel extends Parent implements Initializable {
     private TextField zbField;
     @FXML
     private Rectangle colorRectangle;
-    @FXML
-    private Rectangle rect;
     @FXML
     Label colorTitle;
     @FXML
@@ -142,8 +142,7 @@ public class ReadPanel extends Parent implements Initializable {
         String fpMode = dataFromSensor.getFpMode();
         String expertMenu = dataFromSensor.getMenu();
         dataFromSensor.getQueryStatus();
-        colorRectangle.setFill(dataFromSensor.getPaintFromHSL());
-        rect.setFill(dataFromSensor.getPaintFromRGB());
+        colorRectangle.setFill(dataFromSensor.getPaintFromXYZ());
         if(!hsl[3].equals("NOK")){
             Color color = Integer.decode("0x" + hsl[4]) > 256? Color.BLACK: Color.WHITE;
             colorTitle.setTextFill(color);
@@ -162,8 +161,9 @@ public class ReadPanel extends Parent implements Initializable {
         hrField.setText(hsl[0]);
         hgField.setText(hsl[1]);
         hbField.setText(hsl[2]);
-        sField.setText(hsl[3]);
-        lField.setText(hsl[4]);
+        hueField.setText(hsl[3]);
+        sField.setText(hsl[4]);
+        lField.setText(hsl[5]);
         xrField.setText(xyz[0]);
         ygField.setText(xyz[1]);
         zbField.setText(xyz[2]);
@@ -199,6 +199,10 @@ public class ReadPanel extends Parent implements Initializable {
     @FXML
     public void setMenu(){
         dataFromSensor.setMenu(menuCombo.getValue());
+    }
+    @FXML
+    public void resetSensor(){
+        dataFromSensor.reset();
     }
     public void stopAllThreads(){
         executorService.shutdown();

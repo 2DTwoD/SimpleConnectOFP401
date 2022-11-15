@@ -32,6 +32,7 @@ public class DataFromSensor {
     }
     public void setData(RequestCommand command, String data){
         if(data.contains("NOK") || !checkSumOK(data) || data.length() != command.getLength() || !sensorData.containsKey(command)){
+            System.out.println(String.format("command: %s, data: %s", command.getCommand(), data));
             return;
         }
         sensorData.replace(command, data);
@@ -44,55 +45,33 @@ public class DataFromSensor {
         }
         return String.format("%02X", checkSum).equals(data.substring(lim, lim + 2));
     }
-    public String[] getSensorType(){
-        ///070Vaa:bbccqq.
-        String data = sensorData.get(CommandList.READ_SENSOR_VERSION);
-        String[] result = {"NOK", "NOK", "NOK"};
-        if(data.equals("NOK")){
-            return result;
+    private double getHueFromRGB(double red, double green, double blue){
+        double max = Math.max(Math.max(red, green), blue);
+        double min = Math.min(Math.min(red, green), blue);
+        if (max == min) {
+            return 0.0;
         }
-        //Software version
-        result[0] = data.substring(5, 7);
-        //Sensor group
-        result[1] = data.substring(8, 10);
-        //Sensor select
-        result[2] = data.substring(10, 12);
-        return result;
-    }
-    private double getHueFromHRGB(double hr, double hg, double hb){
-        //get hue from hueRGB
-        double h = 0.0;
-        double max = Math.max(hr, Math.max(hg, hb));
-        double min = Math.min(hr, Math.min(hg, hb));
+        double hue;
         double delta = max - min;
-        final double part1 = 1.0 / 6.0;
-        final double part2 = 1.0 / 3.0;
-        /*if(max == hr && hg >= hb){
-            h = part1 * (hg - hb) / delta;
-        } else if(max == hr && hg < hb){
-            h = part1 * (hg - hb) / delta + 1.0;
-        } else if(max == hg){
-            h = part1 * (hb - hr) / delta + part2;
-        } else if(max == hb){
-            h = part1 * (hr - hg) / delta + part1 * 4;
-        }*/
-        if(hr == max){
-            h = ((hg - hb) / delta) % 6;
-        } else if(hg == max){
-            h = (hb - hr) / delta + 2;
-        } else if (hb == max){
-            h = (hr - hg) / delta + 4;
+        if (max == red) {
+            hue = (green - blue) / delta;
+        } else if (max == green) {
+            hue = 2.0 + (blue - red) / delta;
+        } else {
+            hue = 4.0 + (red - green) / delta;
         }
-        h /= 6.0;
-         h +=1/6.0;
-        return h;
+        hue *= 1 / 6.0;
+        if (hue < 0) {
+            hue += 1.0;
+        }
+        return hue;
     }
-    private int[] hslToRGB(double hr, double hg, double hb, double s, double l){
+    private int[] hslToRGB(double red, double green, double blue, double s, double l){
+        //get hue from hueRGB
+        double h = getHueFromRGB(red, green, blue);
+        //get RGB from HSL
         final double range = 511.0;
         final double part = 1.0 / 3.0;
-        //get hue from hueRGB
-        double h = getHueFromHRGB(hr, hg, hb);
-        //get RGB from HSL
         double q;
         double p;
         double r;
@@ -156,22 +135,9 @@ public class DataFromSensor {
         return Color.rgb(rgb[0], rgb[1], rgb[2]);
     }
     public Paint getPaintFromXYZ(){
-        String data = sensorData.get(CommandList.READ_XYZ);
-        if(data.equals("NOK")){
-            return Color.BLACK;
-        }
-        //red
-        int red = Integer.decode("0x" + data.substring(9, 12));
-        red = red > 511? 255: red / 2;
-        //green
-        int green = Integer.decode("0x" + data.substring(12, 15));
-        green = green > 511? 255: green / 2;
-        //blue
-        int blue = Integer.decode("0x" + data.substring(15, 18));
-        blue = blue > 511? 255: blue / 2;
-        return Color.rgb(red, green, blue);
+        int[] rgb = getIntXYZ();
+        return Color.rgb(rgb[0] / 2, rgb[1] / 2, rgb[2] / 2);
     }
-
     public String[] getRGB(){
         ///SS0M0D0srrggbbqq.
         String data = sensorData.get(CommandList.READ_RGB);
@@ -187,6 +153,18 @@ public class DataFromSensor {
         result[2] = data.substring(13, 15);
         return result;
     }
+    public int[] getIntRGB(){
+        String[] rgb = getRGB();
+        int[] result = new int[3];
+        try {
+            result[0] = Math.min(Integer.decode("0x" + rgb[0]), 255);
+            result[1] = Math.min(Integer.decode("0x" + rgb[1]), 255);
+            result[2] = Math.min(Integer.decode("0x" + rgb[2]), 255);
+        }
+        catch (Exception ignored){
+        }
+        return result;
+    }
     public String[] getHSL(){
         ///SS0M0D0pHHHhhhHHHSSSLLLqq.
         String data = sensorData.get(CommandList.READ_HSL);
@@ -194,15 +172,14 @@ public class DataFromSensor {
         if(data.equals("NOK")){
             return result;
         }
-        double h = getHueFromHRGB(Integer.decode(String.format("0x%s", data.substring(9, 12))),
-                Integer.decode(String.format("0x%s", data.substring(12, 15))),
-                Integer.decode(String.format("0x%s", data.substring(15, 18))));
         //hueRed
         result[0] = data.substring(9, 12);
         //hueGreen
         result[1] = data.substring(12, 15);
         //hueBlue
         result[2] = data.substring(15, 18);
+        int[] rgb = getRGBFromHSL();
+        double h = getHueFromRGB(rgb[0], rgb[1], rgb[2]);
         result[3] = String.format("%d", (int) (h * 360));
         //saturation
         int s = (int)(Integer.decode("0x" + data.substring(18, 21)) / 511.0 * 100.0);
@@ -210,6 +187,21 @@ public class DataFromSensor {
         //lightness
         int l = (int)(Integer.decode("0x" + data.substring(21, 24)) / 511.0 * 100.0);
         result[5] = String.format("%d", l);
+        return result;
+    }
+    public int[] getIntHSL(){
+        String[] hsl = getHSL();
+        int[] result = new int[6];
+        try {
+            result[0] = Math.min(Integer.decode("0x" + hsl[0]), 511);
+            result[1] = Math.min(Integer.decode("0x" + hsl[1]), 511);
+            result[2] = Math.min(Integer.decode("0x" + hsl[2]), 511);
+            result[3] = Integer.parseInt(hsl[3]);
+            result[4] = Integer.parseInt(hsl[4]);
+            result[5] = Integer.parseInt(hsl[5]);
+        }
+        catch (Exception ignored) {
+        }
         return result;
     }
     public String[] getXYZ(){
@@ -227,6 +219,33 @@ public class DataFromSensor {
         result[2] = data.substring(15, 18);
         return result;
     }
+    public int[] getIntXYZ(){
+        String[] xyz = getXYZ();
+        int[] result = new int[3];
+        try {
+            result[0] = Math.min(Integer.decode("0x" + xyz[0]), 511);
+            result[1] = Math.min(Integer.decode("0x" + xyz[1]), 511);
+            result[2] = Math.min(Integer.decode("0x" + xyz[2]), 511);
+        }
+        catch (Exception ignored){
+        }
+        return result;
+    }
+    public String[] getSensorType(){
+        ///070Vaa:bbccqq.
+        String data = sensorData.get(CommandList.READ_SENSOR_VERSION);
+        String[] result = {"NOK", "NOK", "NOK"};
+        if(data.equals("NOK")){
+            return result;
+        }
+        //Software version
+        result[0] = data.substring(5, 7);
+        //Sensor group
+        result[1] = data.substring(8, 10);
+        //Sensor select
+        result[2] = data.substring(10, 12);
+        return result;
+    }
     public QueryStatus getQueryStatus(){
         // /SS0M0Wppppeeedqq.
         String data = sensorData.get(CommandList.READ_QUERY_STATUS);
@@ -234,7 +253,7 @@ public class DataFromSensor {
     }
     private String getListParameter(ObservableList<String> list, String data){
         try {
-            return list.get(Integer.parseInt(data.substring(8, 9)));
+            return list.get(Integer.decode("0x" + data.charAt(8)));
         }
         catch (Exception e){
             return "NOK";
@@ -268,7 +287,7 @@ public class DataFromSensor {
         if(!list.contains(value)){
             return;
         }
-        RequestCommand cmd = command.getCommand(new String[]{Integer.toString(list.indexOf(value))});
+        RequestCommand cmd = command.getCommand(new String[]{Integer.toHexString(list.indexOf(value)).toUpperCase()});
         CommandList.setWriteCommand(cmd);
     }
     public void setOpMode(String value){

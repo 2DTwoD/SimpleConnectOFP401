@@ -9,8 +9,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.goznak.models.DataFromSensor;
 import org.goznak.models.QueryStatus;
-import org.goznak.models.RequestCommand;
-import org.goznak.tools.CommandList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -76,6 +74,24 @@ public class ReadPanel extends Parent implements Initializable {
     @FXML
     ProgressBar blueProgress;
     @FXML
+    ProgressBar hueProgress;
+    @FXML
+    ProgressBar satProgress;
+    @FXML
+    ProgressBar lightProgress;
+    @FXML
+    ProgressBar redxProgress;
+    @FXML
+    ProgressBar greenyProgress;
+    @FXML
+    ProgressBar bluezProgress;
+    @FXML
+    ProgressBar redHueProgress;
+    @FXML
+    ProgressBar greenHueProgress;
+    @FXML
+    ProgressBar blueHueProgress;
+    @FXML
     Label opModeLabel;
     @FXML
     ComboBox<String> opModeCombo;
@@ -130,11 +146,13 @@ public class ReadPanel extends Parent implements Initializable {
         }, 0, 10, TimeUnit.MILLISECONDS);
     }
     private void runTime(){
-        int[] rgbFromHsl = dataFromSensor.getRGBFromHSL();
         QueryStatus sensorStatus = dataFromSensor.getQueryStatus();
         String[] rgb = dataFromSensor.getRGB();
         String[] hsl = dataFromSensor.getHSL();
         String[] xyz = dataFromSensor.getXYZ();
+        int[] rgbInt = dataFromSensor.getIntRGB();
+        int[] hslInt = dataFromSensor.getIntHSL();
+        int[] xyzInt = dataFromSensor.getIntXYZ();
         String[] sensorType = dataFromSensor.getSensorType();
         String opMode = dataFromSensor.getOpMode();
         String filterSize = dataFromSensor.getFilterSize();
@@ -170,9 +188,18 @@ public class ReadPanel extends Parent implements Initializable {
         softwareLabel.setText(sensorType[0]);
         groupLabel.setText(sensorType[1]);
         selectLabel.setText(sensorType[2]);
-        redProgress.setProgress(rgbFromHsl[0] / 255.0);
-        greenProgress.setProgress(rgbFromHsl[1] / 255.0);
-        blueProgress.setProgress(rgbFromHsl[2] / 255.0);
+        redProgress.setProgress(rgbInt[0] / 255.0);
+        greenProgress.setProgress(rgbInt[1] / 255.0);
+        blueProgress.setProgress(rgbInt[2] / 255.0);
+        redxProgress.setProgress(xyzInt[0] / 511.0);
+        greenyProgress.setProgress(xyzInt[1] / 511.0);
+        bluezProgress.setProgress(xyzInt[2] / 511.0);
+        redHueProgress.setProgress(hslInt[0] / 511.0);
+        greenHueProgress.setProgress(hslInt[1] / 511.0);
+        blueHueProgress.setProgress(hslInt[2] / 511.0);
+        hueProgress.setProgress(hslInt[3] / 360.0);
+        satProgress.setProgress(hslInt[4] / 100.0);
+        lightProgress.setProgress(hslInt[5] / 100.0);
         opModeLabel.setText(opMode);
         filterLabel.setText(filterSize);
         lightLabel.setText(emittedLight);

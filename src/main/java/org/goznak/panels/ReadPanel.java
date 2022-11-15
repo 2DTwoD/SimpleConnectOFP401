@@ -161,10 +161,8 @@ public class ReadPanel extends Parent implements Initializable {
         String expertMenu = dataFromSensor.getMenu();
         dataFromSensor.getQueryStatus();
         colorRectangle.setFill(dataFromSensor.getPaintFromXYZ());
-        if(!hsl[3].equals("NOK")){
-            Color color = Integer.decode("0x" + hsl[4]) > 256? Color.BLACK: Color.WHITE;
-            colorTitle.setTextFill(color);
-        }
+        Color clr = hslInt[5] > 50? Color.BLACK: Color.WHITE;
+        colorTitle.setTextFill(clr);
         statusField.setText(sensorStatus.getDirty());
         errorField.setText(sensorStatus.getError());
         String color = sensorStatus.isA1status()? "green": "lightgray";

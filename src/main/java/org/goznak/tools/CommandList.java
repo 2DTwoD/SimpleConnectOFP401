@@ -157,26 +157,24 @@ public class CommandList {
     private static int lastPriorityCur = 0;
 
     private static int countPriority = 0;
-    private static boolean writeFlag = false;
     private static RequestCommand writeCommandRetain;
 
     public static RequestCommand next(){
+        if (writeCommand != null) {
+            writeCommandRetain = writeCommand;
+            writeCommand = null;
+            return writeCommandRetain;
+        } else {
+            writeCommandRetain = null;
+        }
         countPriority = countPriority >= 2? 0: ++countPriority;
         if (countPriority == 1) {
-            if (writeCommand != null) {
-                writeCommandRetain = writeCommand;
-                writeCommand = null;
-                return writeCommandRetain;
-            } else {
-                writeCommandRetain = null;
-            }
             lastPriorityCur = lastPriorityCur >= lastPriority.length - 1 ? 0 : ++lastPriorityCur;
             return current();
         }
         firstPriorityCur = firstPriorityCur >= firstPriority.length - 1 ? 0 : ++firstPriorityCur;
         return current();
     }
-
     public static RequestCommand current(){
         if (writeCommandRetain != null){
             return writeCommandRetain;

@@ -32,7 +32,7 @@ public class DataFromSensor {
     }
     public void setData(RequestCommand command, String data){
         if(data.contains("NOK") || !checkSumOK(data) || data.length() != command.getLength() || !sensorData.containsKey(command)){
-            System.out.println(String.format("command: %s, data: %s", command.getCommand(), data));
+            //System.out.println(String.format("command: %s, data: %s", command.getCommand(), data));
             return;
         }
         sensorData.replace(command, data);

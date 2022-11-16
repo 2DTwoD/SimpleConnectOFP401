@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.goznak.panels.ChannelPanel">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="13.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="13.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="13.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="13.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="13.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="13.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="13.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="13.0" prefWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints maxHeight="220.0" minHeight="10.0" percentHeight="5.0" prefHeight="31.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="423.0" minHeight="10.0" percentHeight="5.0" prefHeight="419.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+      <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+      <RowConstraints maxHeight="30.0" minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" />
+   </rowConstraints>
+   <children>
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="190.0" text="Функция канала:" GridPane.rowIndex="1" />
+      <ComboBox fx:id="channelFunctionCombo" prefHeight="25.0" prefWidth="302.0" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="1" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="412.0" text="Сделать assigned teach" GridPane.columnSpan="4" GridPane.rowIndex="2" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Красный:" GridPane.rowIndex="5" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="107.0" text="Зелёный:" GridPane.rowIndex="6" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="99.0" text="Синий:" GridPane.rowIndex="7" />
+      <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+      <TextField GridPane.columnIndex="2" GridPane.rowIndex="5" />
+      <TextField GridPane.columnIndex="2" GridPane.rowIndex="6" />
+      <TextField GridPane.columnIndex="2" GridPane.rowIndex="7" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="408.0" text="Сделать window teach" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="2" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="205.0" text="Window teach OK" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="241.0" text="Window teach NOK" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Красный Hoff:" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="107.0" text="Красный Lon:" GridPane.columnIndex="4" GridPane.rowIndex="8" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="99.0" text="Красный Hon:" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Красный Loff:" GridPane.columnIndex="4" GridPane.rowIndex="9" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Зелёный Hoff:" GridPane.columnIndex="4" GridPane.rowIndex="10" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Зелёный Hon:" GridPane.columnIndex="4" GridPane.rowIndex="11" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Зелёный Lon:" GridPane.columnIndex="4" GridPane.rowIndex="12" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Зелёный Loff:" GridPane.columnIndex="4" GridPane.rowIndex="13" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Насыщ. Hoff:" GridPane.columnIndex="4" GridPane.rowIndex="18" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Синий Hoff:" GridPane.columnIndex="4" GridPane.rowIndex="14" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Синий Hon:" GridPane.columnIndex="4" GridPane.rowIndex="15" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Синий Lon:" GridPane.columnIndex="4" GridPane.rowIndex="16" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Синий Loff:" GridPane.columnIndex="4" GridPane.rowIndex="17" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Насыщ. Hon:" GridPane.columnIndex="4" GridPane.rowIndex="19" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Насыщ. Lon:" GridPane.columnIndex="4" GridPane.rowIndex="20" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Насыщ. Loff:" GridPane.columnIndex="4" GridPane.rowIndex="21" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Светлота Hoff:" GridPane.columnIndex="4" GridPane.rowIndex="22" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Светлота Hon:" GridPane.columnIndex="4" GridPane.rowIndex="23" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Светлота Lon:" GridPane.columnIndex="4" GridPane.rowIndex="24" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Светлота Loff:" GridPane.columnIndex="4" GridPane.rowIndex="25" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="6" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="7" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="8" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="9" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="10" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="11" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="12" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="13" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="14" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="15" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="16" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="17" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="18" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="19" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="20" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="21" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="22" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="23" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="24" />
+      <Label text="Label" GridPane.columnIndex="5" GridPane.rowIndex="25" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="12" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="6" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="7" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="8" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="9" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="10" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="11" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="13" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="14" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="15" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="16" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="17" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="18" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="19" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="20" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="21" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="22" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="23" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="24" />
+      <TextField GridPane.columnIndex="6" GridPane.rowIndex="25" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="25" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="6" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="7" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="8" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="9" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="10" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="11" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="12" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="13" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="14" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="15" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="16" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="17" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="18" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="19" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="20" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="21" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="22" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="23" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="24" />
+      <Label alignment="CENTER" prefHeight="17.0" prefWidth="420.0" text="Параметрирование размера окна:" GridPane.columnSpan="4" GridPane.rowIndex="8" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Общий:" GridPane.rowIndex="9" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Тон:" GridPane.rowIndex="10" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Насыщенность:" GridPane.rowIndex="11" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Светлота:" GridPane.rowIndex="12" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Красный:" GridPane.rowIndex="13" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Зеленый:" GridPane.rowIndex="14" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Синий:" GridPane.rowIndex="15" />
+      <TextField GridPane.columnIndex="2" GridPane.rowIndex="9" />
+      <TextField GridPane.columnIndex="2" GridPane.rowIndex="11" />
+      <TextField GridPane.columnIndex="2" GridPane.rowIndex="10" />
+      <TextField GridPane.columnIndex="2" GridPane.rowIndex="15" />
+      <TextField GridPane.columnIndex="2" GridPane.rowIndex="14" />
+      <TextField GridPane.columnIndex="2" GridPane.rowIndex="13" />
+      <TextField GridPane.columnIndex="2" GridPane.rowIndex="12" />
+      <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+      <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+      <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+      <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+      <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+      <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+      <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="15" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="14" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="13" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="12" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="11" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="10" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="9" />
+      <Label alignment="CENTER" prefHeight="17.0" prefWidth="450.0" text="Временные задержки" GridPane.columnSpan="4" GridPane.rowIndex="16" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Задержка вкл.:" GridPane.rowIndex="17" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Задержка выкл.:" GridPane.rowIndex="18" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Импульс:" GridPane.rowIndex="19" />
+      <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="17" />
+      <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="19" />
+      <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="18" />
+      <TextField GridPane.columnIndex="2" GridPane.rowIndex="19" />
+      <TextField GridPane.columnIndex="2" GridPane.rowIndex="18" />
+      <TextField GridPane.columnIndex="2" GridPane.rowIndex="17" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="19" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="18" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="17" />
+      <Label alignment="CENTER" prefHeight="17.0" prefWidth="450.0" text="Симуляция выходного сигнала" GridPane.columnSpan="4" GridPane.rowIndex="20" />
+      <CheckBox alignment="CENTER_RIGHT" mnemonicParsing="false" prefHeight="17.0" prefWidth="105.0" text="вкл. / выкл." GridPane.columnIndex="2" GridPane.rowIndex="21" />
+      <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Значение:" GridPane.rowIndex="21" />
+      <ComboBox prefHeight="25.0" prefWidth="91.0" GridPane.columnIndex="1" GridPane.rowIndex="21" />
+      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+      <Label prefWidth="313.0" text="Label" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" />
+   </children>
+</GridPane>

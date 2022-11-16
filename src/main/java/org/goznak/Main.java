@@ -7,10 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.goznak.config.AppConfig;
-import org.goznak.models.DataFromSensor;
 import org.goznak.panels.ConnectPanel;
 import org.goznak.panels.ReadPanel;
-import org.goznak.tools.ConnectTool;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.net.URL;
@@ -23,13 +21,13 @@ public class Main extends Application {
     private final ArrayList<Parent> panels = new ArrayList<>();
     public Parent connectPanel;
     public Parent readPanel;
+    public Parent choosePanel;
     @Override
     public void start(Stage stage) throws Exception {
         connectPanel = getPanelForMainScreen("ConnectPanel.fxml");
         readPanel = getPanelForMainScreen("ReadPanel.fxml");
-        //connectTool = new ConnectTool(this);
-        //connectTool.connect();
-        stage.setTitle("SimpleConnect for OFP401P0189!");
+        choosePanel = getPanelForMainScreen("ChooseChannelPanel.fxml");
+        stage.setTitle("SimpleConnect for OFP401P0189");
         stage.setScene(scene);
         root.getChildren().addAll(panels);
         stage.show();
@@ -45,14 +43,13 @@ public class Main extends Application {
         panels.add(loader.load());
         return loader.getController();
     }
-//    public static Parent getPanel(String name) throws Exception {
-//        URL url = Main.class.getResource("fxml/" + name);
-//        if(url == null) {
-//            throw new Exception("bad URL for .fxml");
-//        }
-//        FXMLLoader loader = new FXMLLoader(url);
-//        return loader.getController();
-//    }
+    public static FXMLLoader getPanel(String name) throws Exception {
+        URL url = Main.class.getResource("fxml/" + name);
+        if(url == null) {
+            throw new Exception("bad URL for .fxml");
+        }
+        return new FXMLLoader(url);
+    }
 
     @Override
     public void stop() throws Exception {

@@ -23,6 +23,14 @@ public class DataFromSensor {
     public static ObservableList<String> lightList = FXCollections.observableArrayList("OFF", "normal", "bright", "dark");
     public static ObservableList<String> fpModeList = FXCollections.observableArrayList("OFP", "FP");
     public static ObservableList<String> menuList = FXCollections.observableArrayList("OFF", "ON");
+    public static ObservableList<String> channelFunction = FXCollections.observableArrayList("Не задействован",
+            "Выход, NPN и NO", "Выход, PNP и NO", "Выход, PP и NO", "Выход, NPN и NC", "Выход, PNP и NC",
+            "Выход, PP и NC", "Ошибка, NPN и NO", "Ошибка, PNP и NO", "Ошибка, PP и NO", "Ошибка, NPN и NC",
+            "Ошибка, PNP и NC", "Ошибка, PP и NC",  "Загрязнение, NPN и NO", "Загрязнение, PNP и NO",
+            "Загрязнение, PP и NO", "Загрязнение, NPN и NC", "Загрязнение, PNP и NC", "Загрязнение, PP и NC",
+            "Излучаемый свет, Ub активно", "Излучаемый свет, Ub не активно",
+            "Внешнее обучение, Ub активно", "Внешнее обучение, Ub не активно",
+            "Вход триггера, Ub активно", "Вход триггера, Ub не активно");
 
 
     public DataFromSensor() {
@@ -46,6 +54,9 @@ public class DataFromSensor {
         return String.format("%02X", checkSum).equals(data.substring(lim, lim + 2));
     }
     private double getHueFromRGB(double red, double green, double blue){
+        red = Math.min(red, 511.0);
+        green = Math.min(green, 511.0);
+        blue = Math.min(blue, 511.0);
         double max = Math.max(Math.max(red, green), blue);
         double min = Math.min(Math.min(red, green), blue);
         if (max == min) {
@@ -178,8 +189,9 @@ public class DataFromSensor {
         result[1] = data.substring(12, 15);
         //hueBlue
         result[2] = data.substring(15, 18);
-        int[] rgb = getRGBFromHSL();
-        double h = getHueFromRGB(rgb[0], rgb[1], rgb[2]);
+        //int[] rgb = getIntXYZ();//getIntRGB();
+        double h = getHueFromRGB(Integer.decode("0x" + result[0]), Integer.decode("0x" + result[1]),
+                Integer.decode("0x" + result[2]));
         result[3] = String.format("%d", (int) (h * 360));
         //saturation
         int s = (int)(Integer.decode("0x" + data.substring(18, 21)) / 511.0 * 100.0);

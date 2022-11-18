@@ -16,7 +16,7 @@ import java.util.Map;
 public class DataFromSensor {
     @Autowired
     ConnectTool connectTool;
-    private Map<RequestCommand, String> sensorData = new HashMap<>();
+    private final Map<RequestCommand, String> sensorData = new HashMap<>();
     public static ObservableList<String> opModeList = FXCollections.observableArrayList("HSL", "assign", "RGB");
     public static ObservableList<String> filterList = FXCollections.observableArrayList("1", "2", "4", "8",
             "16", "32", "64", "128", "256", "512", "1024", "2048", "4096");
@@ -31,15 +31,15 @@ public class DataFromSensor {
             "Излучаемый свет, Ub активно", "Излучаемый свет, Ub не активно",
             "Внешнее обучение, Ub активно", "Внешнее обучение, Ub не активно",
             "Вход триггера, Ub активно", "Вход триггера, Ub не активно");
-
-
+    public static ObservableList<String> testOutputList = FXCollections.observableArrayList("Симуляция 0",
+            "Симуляция 1", "Симуляция выкл.");
     public DataFromSensor() {
         for(RequestCommand command: CommandList.getReadCommands()){
             sensorData.put(command, "NOK");
         }
     }
     public void setData(RequestCommand command, String data){
-        if(data.contains("NOK") || !checkSumOK(data) || data.length() != command.getLength() || !sensorData.containsKey(command)){
+        if(data.contains("NOK") || data.contains("NOk") ||!checkSumOK(data) || data.length() != command.getLength() || !sensorData.containsKey(command)){
             //System.out.println(String.format("command: %s, data: %s", command.getCommand(), data));
             return;
         }
@@ -291,10 +291,174 @@ public class DataFromSensor {
         // /SS0M0Ehhqq.
         return getListParameter(menuList, sensorData.get(CommandList.READ_EXPERT_MENU));
     }
-    public void getImpulse(){
-        System.out.println(sensorData.get(CommandList.READ_IMPULSE_PIN1));
+    public String getChannelFunction(int channel){
+        // /SS0M0P0ifqq.
+        String data = sensorData.get(CommandList.readPinFunction(channel));;
+        if(data.equals("NOK")){
+            return "NOK";
+        }
+        char c = data.charAt(9);
+        int shift;
+        if(c < 58){
+            shift = 48;
+        } else {
+            shift = 87;
+        }
+        return channelFunction.get(c - shift);
     }
-
+    private int getAssignedTeach(String data){
+        if(data.equals("NOK")){
+            return 0;
+        }
+        return Integer.decode("0x" + data.substring(11, 15));
+    }
+    public int getAssignedTeachRed(int channel){
+        // /SS0M0O0AiRrrrrqq.
+        String data = sensorData.get(CommandList.readAssignedTeachRed(channel));
+        return getAssignedTeach(data);
+    }
+    public int getAssignedTeachGreen(int channel){
+        // /SS0M0O0AiGggggqq.
+        String data = sensorData.get(CommandList.readAssignedTeachGreen(channel));
+        return getAssignedTeach(data);
+    }
+    public int getAssignedTeachBlue(int channel){
+        // /SS0M0O0AiBbbbbqq.
+        String data = sensorData.get(CommandList.readAssignedTeachBlue(channel));
+        return getAssignedTeach(data);
+    }
+    private int[] getSwitchingPoints(String  data){
+        int[] switchingPoints = new int[4];
+        if(data.equals("NOK")){
+            return switchingPoints;
+        }
+        //Hoff
+        switchingPoints[0] = Integer.decode("0x" + data.substring(11, 15));
+        //Hon
+        switchingPoints[1] = Integer.decode("0x" + data.substring(15, 19));
+        //Lon
+        switchingPoints[2] = Integer.decode("0x" + data.substring(19, 23));
+        //Loff
+        switchingPoints[3] = Integer.decode("0x" + data.substring(23, 27));
+        return switchingPoints;
+    }
+    public int[] getSwitchingPointsRed(int channel){
+        // /SS0M0O0aiRHoffHon_Lon_Loffqq.
+        String data = sensorData.get(CommandList.readSwitchingPointsRed(channel));
+        return getSwitchingPoints(data);
+    }
+    public int[] getSwitchingPointsGreen(int channel){
+        // /SS0M0O0aiGHoffHon_Lon_Loffqq.
+        String data = sensorData.get(CommandList.readSwitchingPointsGreen(channel));
+        return getSwitchingPoints(data);
+    }
+    public int[] getSwitchingPointsBlue(int channel){
+        // /SS0M0O0aiBHoffHon_Lon_Loffqq.
+        String data = sensorData.get(CommandList.readSwitchingPointsBlue(channel));
+        return getSwitchingPoints(data);
+    }
+    public int[] getSwitchingPointsSat(int channel){
+        // /SS0M0O0aiLHoffHon_Lon_Loffqq.
+        String data = sensorData.get(CommandList.readSwitchingPointsSat(channel));
+        return getSwitchingPoints(data);
+    }
+    public int[] getSwitchingPointsLight(int channel){
+        // /SS0M0O0aiLHoffHon_Lon_Loffqq.
+        String data = sensorData.get(CommandList.readSwitchingPointsLight(channel));
+        return getSwitchingPoints(data);
+    }
+    private int getWindowSize(String data, boolean aux){
+        if(data.equals("NOK")){
+            return 0;
+        }
+        if(aux) {
+            return Integer.decode("0x" + data.substring(11, 15));
+        } else {
+            return Integer.decode("0x" + data.substring(10, 14));
+        }
+    }
+    public int getWinSizeComm(int channel){
+        // /SS0M0O0bihhhhqq.
+        String data = sensorData.get(CommandList.readWindowSizeComm(channel));
+        return getWindowSize(data, false);
+    }
+    public int getWinSizeHue(int channel){
+        // /SS0M0O0bihhhhqq.
+        String data = sensorData.get(CommandList.readWindowSizeHue(channel));
+        return getWindowSize(data, false);
+    }
+    public int getWinSizeSat(int channel){
+        // /SS0M0O0bihhhhqq.
+        String data = sensorData.get(CommandList.readWindowSizeSat(channel));
+        return getWindowSize(data, false);
+    }
+    public int getWinSizeLight(int channel){
+        // /SS0M0O0bihhhhqq.
+        String data = sensorData.get(CommandList.readWindowSizeLight(channel));
+        return getWindowSize(data, false);
+    }
+    public int getWinSizeRed(int channel){
+        // /SS0M0O0biRhhhhqq.
+        String data = sensorData.get(CommandList.readWindowSizeRed(channel));
+        return getWindowSize(data, true);
+    }
+    public int getWinSizeGreen(int channel){
+        // /SS0M0O0biGhhhhqq.
+        String data = sensorData.get(CommandList.readWindowSizeGreen(channel));
+        return getWindowSize(data, true);
+    }
+    public int getWinSizeBlue(int channel){
+        // /SS0M0O0biBhhhhqq.
+        String data = sensorData.get(CommandList.readWindowSizeBlue(channel));
+        return getWindowSize(data, true);
+    }
+    private int getTimeParam(String data){
+        if(data.equals("NOK")){
+            return 0;
+        }
+        return Integer.decode("0x" + data.substring(10, 14));
+    }
+    public int getOnDelay(int channel){
+        // /SS0M0O0jihhhhqq.
+        String data = sensorData.get(CommandList.readOnDelay(channel));
+        return getTimeParam(data);
+    }
+    public int getOffDelay(int channel){
+        // /SS0M0O0kihhhhqq.
+        String data = sensorData.get(CommandList.readOffDelay(channel));
+        return getTimeParam(data);
+    }
+    public int getImpulse(int channel){
+        // /SS0M0O0lihhhhqq.
+        String data = sensorData.get(CommandList.readImpulse(channel));
+        return getTimeParam(data);
+    }
+    public String getTestOutput(int channel){
+        // /SS0M0t0isqq.
+        String data = sensorData.get(CommandList.readTestOutput(channel));
+        if(data.equals("NOK")){
+            return "NOK";
+        }
+        return testOutputList.get(Integer.parseInt(data.substring(9, 10)));
+    }
+    public void setPinFunction(int channel, String value){
+        int index  = channelFunction.indexOf(value);
+        if(index == -1){
+            return;
+        }
+        if(index < 10){
+            index += 48;
+        } else {
+            index += 87;
+        }
+        CommandList.setWriteCommand(CommandList.WRITE_PIN_FUNCTION.getCommand(new String[]{
+                String.valueOf(channel),
+                String.valueOf((char) index)
+        }));
+    }
+    public void makeAssignTeach(int channel){
+        CommandList.setWriteCommand(CommandList.MAKE_ASSIGNED_TEACH.getCommand(new String[]{String.valueOf(channel), "0"}));
+    }
     private void setOneValue(Command command, List<String> list, String value){
         if(!list.contains(value)){
             return;

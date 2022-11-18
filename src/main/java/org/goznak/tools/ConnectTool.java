@@ -1,8 +1,6 @@
 package org.goznak.tools;
 
-import javafx.scene.Parent;
 import jssc.*;
-import org.goznak.Main;
 import org.goznak.models.DataFromSensor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

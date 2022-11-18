@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import org.goznak.Main;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 @Component
@@ -21,35 +20,33 @@ public class ChooseChannelPanel extends Parent implements Initializable {
     Button channel2Button;
     @FXML
     Button channel3Button;
-    private final Stage stage1 = new Stage();
-    private final Stage stage2 = new Stage();
-    private final Stage stage3 = new Stage();
+    ChannelPanel channel1Panel;
+    ChannelPanel channel2Panel;
+    ChannelPanel channel3Panel;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            FXMLLoader loader1 = Main.getPanel("ChannelPanel.fxml");
-            FXMLLoader loader2 = Main.getPanel("ChannelPanel.fxml");
-            FXMLLoader loader3 = Main.getPanel("ChannelPanel.fxml");
-            newStage(stage1, loader1, 1);
-            newStage(stage2, loader2, 2);
-            newStage(stage3, loader3, 3);
-            channel1Button.setOnAction(event -> {
-                stage1.show();
-            });
-            channel2Button.setOnAction(event -> {
-                stage2.show();
-            });
-            channel3Button.setOnAction(event -> {
-                stage3.show();
-            });
+            channel1Panel = newChannelPanel(1, channel1Button);
+            channel2Panel = newChannelPanel(2, channel2Button);
+            channel3Panel = newChannelPanel(3, channel3Button);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-    private void newStage(Stage stage, FXMLLoader loader, int channel) throws IOException {
+    private ChannelPanel newChannelPanel(int channel, Button channelButton) throws Exception {
+        Stage stage = new Stage();
+        FXMLLoader loader = Main.getPanelLoader("ChannelPanel.fxml");
         Scene scene = new Scene(loader.load());
-        ((ChannelPanel) loader.getController()).setChannel(channel);
+        ChannelPanel controller = loader.getController();
+        controller.setChannel(channel);
         stage.setTitle("Канал " + channel);
         stage.setScene(scene);
+        channelButton.setOnAction(event ->stage.show());
+        return controller;
+    }
+    public void stopAllThreads(){
+        channel1Panel.stopAllThreads();
+        channel2Panel.stopAllThreads();
+        channel3Panel.stopAllThreads();
     }
 }

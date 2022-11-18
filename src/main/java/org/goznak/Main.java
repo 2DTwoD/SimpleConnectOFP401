@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.goznak.config.AppConfig;
+import org.goznak.panels.ChooseChannelPanel;
 import org.goznak.panels.ConnectPanel;
 import org.goznak.panels.ReadPanel;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -15,7 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class Main extends Application {
-    private final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+    private static final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
     public VBox root = new VBox();
     public Scene scene = new Scene(root, 800, 600);
     private final ArrayList<Parent> panels = new ArrayList<>();
@@ -34,26 +35,24 @@ public class Main extends Application {
     }
 
     private Parent getPanelForMainScreen(String name) throws Exception {
-        URL url = getClass().getResource("fxml/" + name);
+        FXMLLoader loader = getPanelLoader(name);
+        panels.add(loader.load());
+        return loader.getController();
+    }
+    public static FXMLLoader getPanelLoader(String name) throws Exception {
+        URL url = Main.class.getResource("fxml/" + name);
         if(url == null) {
             throw new Exception("bad URL for .fxml");
         }
         FXMLLoader loader = new FXMLLoader(url);
         loader.setControllerFactory(context::getBean);
-        panels.add(loader.load());
-        return loader.getController();
-    }
-    public static FXMLLoader getPanel(String name) throws Exception {
-        URL url = Main.class.getResource("fxml/" + name);
-        if(url == null) {
-            throw new Exception("bad URL for .fxml");
-        }
-        return new FXMLLoader(url);
+        return loader;
     }
 
     @Override
     public void stop() throws Exception {
         ((ReadPanel) readPanel).stopAllThreads();
+        ((ChooseChannelPanel) choosePanel).stopAllThreads();
         ((ConnectPanel) connectPanel).disconnect();
         super.stop();
     }

@@ -138,7 +138,146 @@ public class CommandList {
 
     private static int countPriority = 0;
     private static RequestCommand writeCommandRetain;
-
+    public static RequestCommand readPinFunction(int channel){
+        return switch (channel) {
+            case 1 -> READ_PIN1_FUNCTION;
+            case 2 -> READ_PIN2_FUNCTION;
+            default -> READ_PIN3_FUNCTION;
+        };
+    }
+    public static RequestCommand readAssignedTeachRed(int channel){
+        return switch (channel) {
+            case 1 -> READ_ASSIGNED_TEACH_RED_PIN1;
+            case 2 -> READ_ASSIGNED_TEACH_RED_PIN2;
+            default -> READ_ASSIGNED_TEACH_RED_PIN3;
+        };
+    }
+    public static RequestCommand readAssignedTeachGreen(int channel){
+        return switch (channel) {
+            case 1 -> READ_ASSIGNED_TEACH_GREEN_PIN1;
+            case 2 -> READ_ASSIGNED_TEACH_GREEN_PIN2;
+            default -> READ_ASSIGNED_TEACH_GREEN_PIN3;
+        };
+    }
+    public static RequestCommand readAssignedTeachBlue(int channel){
+        return switch (channel) {
+            case 1 -> READ_ASSIGNED_TEACH_BLUE_PIN1;
+            case 2 -> READ_ASSIGNED_TEACH_BLUE_PIN2;
+            default -> READ_ASSIGNED_TEACH_BLUE_PIN3;
+        };
+    }
+    public static RequestCommand readSwitchingPointsRed(int channel){
+        return switch (channel) {
+            case 1 -> READ_SWITCHING_POINTS_RED_PIN1;
+            case 2 -> READ_SWITCHING_POINTS_RED_PIN2;
+            default -> READ_SWITCHING_POINTS_RED_PIN3;
+        };
+    }
+    public static RequestCommand readSwitchingPointsGreen(int channel){
+        return switch (channel) {
+            case 1 -> READ_SWITCHING_POINTS_GREEN_PIN1;
+            case 2 -> READ_SWITCHING_POINTS_GREEN_PIN2;
+            default -> READ_SWITCHING_POINTS_GREEN_PIN3;
+        };
+    }
+    public static RequestCommand readSwitchingPointsBlue(int channel){
+        return switch (channel) {
+            case 1 -> READ_SWITCHING_POINTS_BLUE_PIN1;
+            case 2 -> READ_SWITCHING_POINTS_BLUE_PIN2;
+            default -> READ_SWITCHING_POINTS_BLUE_PIN3;
+        };
+    }
+    public static RequestCommand readSwitchingPointsSat(int channel){
+        return switch (channel) {
+            case 1 -> READ_SWITCHING_POINTS_SAT_PIN1;
+            case 2 -> READ_SWITCHING_POINTS_SAT_PIN2;
+            default -> READ_SWITCHING_POINTS_SAT_PIN3;
+        };
+    }
+    public static RequestCommand readSwitchingPointsLight(int channel){
+        return switch (channel) {
+            case 1 -> READ_SWITCHING_POINTS_LIGHT_PIN1;
+            case 2 -> READ_SWITCHING_POINTS_LIGHT_PIN2;
+            default -> READ_SWITCHING_POINTS_LIGHT_PIN3;
+        };
+    }
+    public static RequestCommand readWindowSizeComm(int channel){
+        return switch (channel) {
+            case 1 -> READ_WINDOW_SIZE_COMMON_PIN1;
+            case 2 -> READ_WINDOW_SIZE_COMMON_PIN2;
+            default -> READ_WINDOW_SIZE_COMMON_PIN3;
+        };
+    }
+    public static RequestCommand readWindowSizeHue(int channel){
+        return switch (channel) {
+            case 1 -> READ_WINDOW_SIZE_HUE_PIN1;
+            case 2 -> READ_WINDOW_SIZE_HUE_PIN2;
+            default -> READ_WINDOW_SIZE_HUE_PIN3;
+        };
+    }
+    public static RequestCommand readWindowSizeSat(int channel){
+        return switch (channel) {
+            case 1 -> READ_WINDOW_SIZE_SAT_PIN1;
+            case 2 -> READ_WINDOW_SIZE_SAT_PIN2;
+            default -> READ_WINDOW_SIZE_SAT_PIN3;
+        };
+    }
+    public static RequestCommand readWindowSizeLight(int channel){
+        return switch (channel) {
+            case 1 -> READ_WINDOW_SIZE_LIGHT_PIN1;
+            case 2 -> READ_WINDOW_SIZE_LIGHT_PIN2;
+            default -> READ_WINDOW_SIZE_LIGHT_PIN3;
+        };
+    }
+    public static RequestCommand readWindowSizeRed(int channel){
+        return switch (channel) {
+            case 1 -> READ_WINDOW_SIZE_AUX_RED_PIN1;
+            case 2 -> READ_WINDOW_SIZE_AUX_RED_PIN2;
+            default -> READ_WINDOW_SIZE_AUX_RED_PIN3;
+        };
+    }
+    public static RequestCommand readWindowSizeGreen(int channel){
+        return switch (channel) {
+            case 1 -> READ_WINDOW_SIZE_AUX_GREEN_PIN1;
+            case 2 -> READ_WINDOW_SIZE_AUX_GREEN_PIN2;
+            default -> READ_WINDOW_SIZE_AUX_GREEN_PIN3;
+        };
+    }
+    public static RequestCommand readWindowSizeBlue(int channel){
+        return switch (channel) {
+            case 1 -> READ_WINDOW_SIZE_AUX_BLUE_PIN1;
+            case 2 -> READ_WINDOW_SIZE_AUX_BLUE_PIN2;
+            default -> READ_WINDOW_SIZE_AUX_BLUE_PIN3;
+        };
+    }
+    public static RequestCommand readOnDelay(int channel){
+        return switch (channel) {
+            case 1 -> READ_ON_DELAY_PIN1;
+            case 2 -> READ_ON_DELAY_PIN2;
+            default -> READ_ON_DELAY_PIN3;
+        };
+    }
+    public static RequestCommand readOffDelay(int channel){
+        return switch (channel) {
+            case 1 -> READ_OFF_DELAY_PIN1;
+            case 2 -> READ_OFF_DELAY_PIN2;
+            default -> READ_OFF_DELAY_PIN3;
+        };
+    }
+    public static RequestCommand readImpulse(int channel){
+        return switch (channel) {
+            case 1 -> READ_IMPULSE_PIN1;
+            case 2 -> READ_IMPULSE_PIN2;
+            default -> READ_IMPULSE_PIN3;
+        };
+    }
+    public static RequestCommand readTestOutput(int channel){
+        return switch (channel) {
+            case 1 -> READ_TEST_OUTPUT_PIN1;
+            case 2 -> READ_TEST_OUTPUT_PIN2;
+            default -> READ_TEST_OUTPUT_PIN3;
+        };
+    }
     public static RequestCommand next(){
         if (writeCommand != null) {
             writeCommandRetain = writeCommand;

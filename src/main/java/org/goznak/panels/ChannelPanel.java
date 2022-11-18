@@ -1,17 +1,28 @@
 package org.goznak.panels;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import org.goznak.models.DataFromSensor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ChannelPanel extends Parent implements Initializable {
+    @Autowired
+    DataFromSensor dataFromSensor;
+    ScheduledExecutorService executorService;
     @FXML
     Label channelFunctionLabel;
     @FXML
@@ -228,16 +239,99 @@ public class ChannelPanel extends Parent implements Initializable {
     Button spLightLonButton;
     @FXML
     Button spLightLoffButton;
+    @FXML
+    Label testLabel;
     private int channel;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         channelFunctionCombo.setItems(DataFromSensor.channelFunction);
         channelFunctionCombo.setValue("?");
+        executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleAtFixedRate(() -> {
+            try {
+                Platform.runLater(this::runTime);
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+        }, 0, 50, TimeUnit.MILLISECONDS);
     }
     public void setChannel(int value){
         channel = value;
     }
-    public int getChannel() {
-        return channel;
+    private void runTime(){
+        String channelFunction = dataFromSensor.getChannelFunction(channel);
+        int assignedTechRed = dataFromSensor.getAssignedTeachRed(channel);
+        int assignedTechGreen = dataFromSensor.getAssignedTeachGreen(channel);
+        int assignedTechBlue = dataFromSensor.getAssignedTeachBlue(channel);
+        int[] switchingPointsRed = dataFromSensor.getSwitchingPointsRed(channel);
+        int[] switchingPointsGreen = dataFromSensor.getSwitchingPointsGreen(channel);
+        int[] switchingPointsBlue = dataFromSensor.getSwitchingPointsBlue(channel);
+        int[] switchingPointsSat = dataFromSensor.getSwitchingPointsSat(channel);
+        int[] switchingPointsLight = dataFromSensor.getSwitchingPointsLight(channel);
+        int winSizeComm = dataFromSensor.getWinSizeComm(channel);
+        int winSizeHue = dataFromSensor.getWinSizeHue(channel);
+        int winSizeSat = dataFromSensor.getWinSizeSat(channel);
+        int winSizeLight = dataFromSensor.getWinSizeLight(channel);
+        int winSizeRed = dataFromSensor.getWinSizeRed(channel);
+        int winSizeGreen = dataFromSensor.getWinSizeGreen(channel);
+        int winSizeBlue = dataFromSensor.getWinSizeBlue(channel);
+        int onDelay = dataFromSensor.getOnDelay(channel);
+        int offDelay = dataFromSensor.getOffDelay(channel);
+        int impulse = dataFromSensor.getImpulse(channel);
+        String testOutput = dataFromSensor.getTestOutput(channel);
+        channelFunctionLabel.setText(channelFunction);
+
+        assignRedLabel.setText(String.valueOf(assignedTechRed));
+        assignGreenLabel.setText(String.valueOf(assignedTechGreen));
+        assignBlueLabel.setText(String.valueOf(assignedTechBlue));
+
+        spRedHoffLabel.setText(String.valueOf(switchingPointsRed[0]));
+        spRedHonLabel.setText(String.valueOf(switchingPointsRed[1]));
+        spRedLonLabel.setText(String.valueOf(switchingPointsRed[2]));
+        spRedLoffLabel.setText(String.valueOf(switchingPointsRed[3]));
+
+        spGreenHoffLabel.setText(String.valueOf(switchingPointsGreen[0]));
+        spGreenHonLabel.setText(String.valueOf(switchingPointsGreen[1]));
+        spGreenLonLabel.setText(String.valueOf(switchingPointsGreen[2]));
+        spGreenLoffLabel.setText(String.valueOf(switchingPointsGreen[3]));
+
+        spBlueHoffLabel.setText(String.valueOf(switchingPointsBlue[0]));
+        spBlueHonLabel.setText(String.valueOf(switchingPointsBlue[1]));
+        spBlueLonLabel.setText(String.valueOf(switchingPointsBlue[2]));
+        spBlueLoffLabel.setText(String.valueOf(switchingPointsBlue[3]));
+
+        spSatHoffLabel.setText(String.valueOf(switchingPointsSat[0]));
+        spSatHonLabel.setText(String.valueOf(switchingPointsSat[1]));
+        spSatLonLabel.setText(String.valueOf(switchingPointsSat[2]));
+        spSatLoffLabel.setText(String.valueOf(switchingPointsSat[3]));
+
+        spLightHoffLabel.setText(String.valueOf(switchingPointsLight[0]));
+        spLightHonLabel.setText(String.valueOf(switchingPointsLight[1]));
+        spLightLonLabel.setText(String.valueOf(switchingPointsLight[2]));
+        spLightLoffLabel.setText(String.valueOf(switchingPointsLight[3]));
+
+        winCommLabel.setText(String.valueOf(winSizeComm));
+        winHueLabel.setText(String.valueOf(winSizeHue));
+        winSatLabel.setText(String.valueOf(winSizeSat));
+        winLightLabel.setText(String.valueOf(winSizeLight));
+        winRedLabel.setText(String.valueOf(winSizeRed));
+        winGreenLabel.setText(String.valueOf(winSizeGreen));
+        winBlueLabel.setText(String.valueOf(winSizeBlue));
+        onDelayLabel.setText(String.valueOf(onDelay));
+        offDelayLabel.setText(String.valueOf(offDelay));
+        impulseLabel.setText(String.valueOf(impulse));
+        testLabel.setText(String.valueOf(testOutput));
+    }
+    @FXML
+    public void setPinFunction(){
+        dataFromSensor.setPinFunction(channel, channelFunctionCombo.getValue());
+    }
+    @FXML
+    public void makeAssignedTeach(){
+        dataFromSensor.makeAssignTeach(channel);
+    }
+    public void stopAllThreads(){
+        executorService.shutdown();
     }
 }

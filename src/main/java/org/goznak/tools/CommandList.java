@@ -31,7 +31,7 @@ public class CommandList {
     public static final Command _READ_WINDOW_SIZE = new Command("030O0", 17);
     public static final Command _READ_WINDOW_SIZE_AUX = new Command("040O0c", 18);
     public static final Command _READ_DELAY = new Command("030O0", 17);
-    public static final Command _READ_IMPULSE = new Command("031O0l", 17);//031000F0O0l
+    public static final Command _READ_IMPULSE = new Command("031O0l", 17);
     public static final Command _READ_OPERATING_MODE = new Command("010M063", 12);
     public static final Command _READ_FILTER_SIZE = new Command("010F068", 12);
     public static final Command _READ_EMITTED_LIGHT = new Command("010L062", 12);
@@ -129,13 +129,12 @@ public class CommandList {
             READ_WINDOW_SIZE_AUX_GREEN_PIN3, READ_WINDOW_SIZE_AUX_BLUE_PIN1, READ_WINDOW_SIZE_AUX_BLUE_PIN2,
             READ_WINDOW_SIZE_AUX_BLUE_PIN3, READ_ON_DELAY_PIN1, READ_ON_DELAY_PIN2, READ_ON_DELAY_PIN3,
             READ_OFF_DELAY_PIN1, READ_OFF_DELAY_PIN2, READ_OFF_DELAY_PIN3, READ_OPERATING_MODE, READ_FILTER_SIZE,
-            READ_EMITTED_LIGHT, READ_SENSOR_SELECT, READ_TEST_OUTPUT_PIN1, READ_TEST_OUTPUT_PIN2,
-            READ_TEST_OUTPUT_PIN3, READ_EXPERT_MENU, READ_SENSOR_VERSION, READ_IMPULSE_PIN1,
-            READ_IMPULSE_PIN2, READ_IMPULSE_PIN3 };
+            READ_EMITTED_LIGHT, READ_SENSOR_SELECT, READ_EXPERT_MENU, READ_SENSOR_VERSION, READ_IMPULSE_PIN1,
+            READ_IMPULSE_PIN2, READ_IMPULSE_PIN3 ,READ_TEST_OUTPUT_PIN1, READ_TEST_OUTPUT_PIN2, READ_TEST_OUTPUT_PIN3};
+
     private static RequestCommand writeCommand;
     private static int firstPriorityCur = 0;
     private static int lastPriorityCur = 0;
-
     private static int countPriority = 0;
     private static RequestCommand writeCommandRetain;
     public static RequestCommand readPinFunction(int channel){

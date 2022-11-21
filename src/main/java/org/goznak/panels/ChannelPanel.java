@@ -1,10 +1,15 @@
 package org.goznak.panels;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import org.goznak.inputs.NumericTextField;
 import org.goznak.models.DataFromSensor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -44,11 +49,11 @@ public class ChannelPanel extends Parent implements Initializable {
     @FXML
     Label assignBlueLabel;
     @FXML
-    TextField assignRedField;
+    NumericTextField assignRedField;
     @FXML
-    TextField assignGreenField;
+    NumericTextField assignGreenField;
     @FXML
-    TextField assignBlueField;
+    NumericTextField assignBlueField;
     @FXML
     Button applyAssignRedButton;
     @FXML
@@ -70,19 +75,19 @@ public class ChannelPanel extends Parent implements Initializable {
     @FXML
     Label winBlueLabel;
     @FXML
-    TextField winCommField;
+    NumericTextField winCommField;
     @FXML
-    TextField winHueField;
+    NumericTextField winHueField;
     @FXML
-    TextField winSatField;
+    NumericTextField winSatField;
     @FXML
-    TextField winLightField;
+    NumericTextField winLightField;
     @FXML
-    TextField winRedField;
+    NumericTextField winRedField;
     @FXML
-    TextField winGreenField;
+    NumericTextField winGreenField;
     @FXML
-    TextField winBlueField;
+    NumericTextField winBlueField;
     @FXML
     Button applyWinCommButton;
     @FXML
@@ -104,11 +109,11 @@ public class ChannelPanel extends Parent implements Initializable {
     @FXML
     Label impulseLabel;
     @FXML
-    TextField onDelayField;
+    NumericTextField onDelayField;
     @FXML
-    TextField offDelayField;
+    NumericTextField offDelayField;
     @FXML
-    TextField impulseField;
+    NumericTextField impulseField;
     @FXML
     Button onDelayButton;
     @FXML
@@ -160,45 +165,45 @@ public class ChannelPanel extends Parent implements Initializable {
     @FXML
     Label spLightLoffLabel;
     @FXML
-    TextField spRedHoffField;
+    NumericTextField spRedHoffField;
     @FXML
-    TextField spRedHonField;
+    NumericTextField spRedHonField;
     @FXML
-    TextField spRedLonField;
+    NumericTextField spRedLonField;
     @FXML
-    TextField spRedLoffField;
+    NumericTextField spRedLoffField;
     @FXML
-    TextField spGreenHoffField;
+    NumericTextField spGreenHoffField;
     @FXML
-    TextField spGreenHonField;
+    NumericTextField spGreenHonField;
     @FXML
-    TextField spGreenLonField;
+    NumericTextField spGreenLonField;
     @FXML
-    TextField spGreenLoffField;
+    NumericTextField spGreenLoffField;
     @FXML
-    TextField spBlueHoffField;
+    NumericTextField spBlueHoffField;
     @FXML
-    TextField spBlueHonField;
+    NumericTextField spBlueHonField;
     @FXML
-    TextField spBlueLonField;
+    NumericTextField spBlueLonField;
     @FXML
-    TextField spBlueLoffField;
+    NumericTextField spBlueLoffField;
     @FXML
-    TextField spSatHoffField;
+    NumericTextField spSatHoffField;
     @FXML
-    TextField spSatHonField;
+    NumericTextField spSatHonField;
     @FXML
-    TextField spSatLonField;
+    NumericTextField spSatLonField;
     @FXML
-    TextField spSatLoffField;
+    NumericTextField spSatLoffField;
     @FXML
-    TextField spLightHoffField;
+    NumericTextField spLightHoffField;
     @FXML
-    TextField spLightHonField;
+    NumericTextField spLightHonField;
     @FXML
-    TextField spLightLonField;
+    NumericTextField spLightLonField;
     @FXML
-    TextField spLightLoffField;
+    NumericTextField spLightLoffField;
     @FXML
     Button spRedHoffButton;
     @FXML
@@ -246,6 +251,8 @@ public class ChannelPanel extends Parent implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         channelFunctionCombo.setItems(DataFromSensor.channelFunction);
         channelFunctionCombo.setValue("?");
+        testCombo.setItems(DataFromSensor.testOutputList);
+        testCombo.setValue(DataFromSensor.testOutputList.get(0));
         executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(() -> {
             try {
@@ -322,16 +329,73 @@ public class ChannelPanel extends Parent implements Initializable {
         offDelayLabel.setText(String.valueOf(offDelay));
         impulseLabel.setText(String.valueOf(impulse));
         testLabel.setText(String.valueOf(testOutput));
-    }
-    @FXML
-    public void setPinFunction(){
-        dataFromSensor.setPinFunction(channel, channelFunctionCombo.getValue());
-    }
-    @FXML
-    public void makeAssignedTeach(){
-        dataFromSensor.makeAssignTeach(channel);
+
+        applyChannelFunctionButton.setOnAction(e -> setPinFunction());
+        assignTeachButton.setOnAction(e -> makeAssignedTeach());
+        applyAssignRedButton.setOnAction(e -> setAssignTeach(assignRedField.getText(), "R"));
+        applyAssignGreenButton.setOnAction(e -> setAssignTeach(assignGreenField.getText(), "G"));
+        applyAssignBlueButton.setOnAction(e -> setAssignTeach(assignBlueField.getText(), "B"));
+        windowTeachButton.setOnAction(e -> makeWindowTeach("0"));
+        windowTeachOKButton.setOnAction(e -> makeWindowTeach("1"));
+        windowTeachNOKButton.setOnAction(e -> makeWindowTeach("2"));
+        spRedHoffButton.setOnAction(e -> setSwitchingPoints(spRedHoffField.getText(), "R", "Hoff"));
+        spRedHonButton.setOnAction(e -> setSwitchingPoints(spRedHonField.getText(), "R", "Hon"));
+        spRedLonButton.setOnAction(e -> setSwitchingPoints(spRedLonField.getText(), "R", "Lon"));
+        spRedLoffButton.setOnAction(e -> setSwitchingPoints(spRedLoffField.getText(), "R", "Loff"));
+        spGreenHoffButton.setOnAction(e -> setSwitchingPoints(spGreenHoffField.getText(), "G", "Hoff"));
+        spGreenHonButton.setOnAction(e -> setSwitchingPoints(spGreenHonField.getText(), "G", "Hon"));
+        spGreenLonButton.setOnAction(e -> setSwitchingPoints(spGreenLonField.getText(), "G", "Lon"));
+        spGreenLoffButton.setOnAction(e -> setSwitchingPoints(spGreenLoffField.getText(), "G", "Loff"));
+        spBlueHoffButton.setOnAction(e -> setSwitchingPoints(spBlueHoffField.getText(), "B", "Hoff"));
+        spBlueHonButton.setOnAction(e -> setSwitchingPoints(spBlueHonField.getText(), "B", "Hon"));
+        spBlueLonButton.setOnAction(e -> setSwitchingPoints(spBlueLonField.getText(), "B", "Lon"));
+        spBlueLoffButton.setOnAction(e -> setSwitchingPoints(spBlueLoffField.getText(), "B", "Loff"));
+        spSatHoffButton.setOnAction(e -> setSwitchingPoints(spSatHoffField.getText(), "S", "Hoff"));
+        spSatHonButton.setOnAction(e -> setSwitchingPoints(spSatHonField.getText(), "S", "Hon"));
+        spSatLonButton.setOnAction(e -> setSwitchingPoints(spSatLonField.getText(), "S", "Lon"));
+        spSatLoffButton.setOnAction(e -> setSwitchingPoints(spSatLoffField.getText(), "S", "Loff"));
+        spLightHoffButton.setOnAction(e -> setSwitchingPoints(spLightHoffField.getText(), "L", "Hoff"));
+        spLightHonButton.setOnAction(e -> setSwitchingPoints(spLightHonField.getText(), "L", "Hon"));
+        spLightLonButton.setOnAction(e -> setSwitchingPoints(spLightLonField.getText(), "L", "Lon"));
+        spLightLoffButton.setOnAction(e -> setSwitchingPoints(spLightLoffField.getText(), "L", "Loff"));
+        applyWinCommButton.setOnAction(e-> setWindowSize(winCommField.getText(), "b"));
+        applyWinHueButton.setOnAction(e-> setWindowSize(winHueField.getText(), "c"));
+        applyWinSatButton.setOnAction(e-> setWindowSize(winSatField.getText(), "d"));
+        applyWinLightButton.setOnAction(e-> setWindowSize(winLightField.getText(), "e"));
+        applyWinRedButton.setOnAction(e-> setWindowSize(winRedField.getText(), "R"));
+        applyWinGreenButton.setOnAction(e-> setWindowSize(winGreenField.getText(), "G"));
+        applyWinBlueButton.setOnAction(e-> setWindowSize(winBlueField.getText(), "B"));
+        onDelayButton.setOnAction(e-> setDelayImpulse(onDelayField.getText(), "j"));
+        offDelayButton.setOnAction(e-> setDelayImpulse(offDelayField.getText(), "k"));
+        impulseButton.setOnAction(e-> setDelayImpulse(impulseField.getText(), "l"));
+        testCombo.setOnAction(e -> setTestOutput());
+        testCheckBox.setOnAction(e -> setTestOutput());
     }
     public void stopAllThreads(){
         executorService.shutdown();
+    }
+    private void setPinFunction(){
+        dataFromSensor.setPinFunction(channel, channelFunctionCombo.getValue());
+    }
+    private void makeAssignedTeach(){
+        dataFromSensor.makeAssignTeach(channel);
+    }
+    private void setAssignTeach(String value, String color) {
+        dataFromSensor.setAssignedTeach(channel, value, color);
+    }
+    private void makeWindowTeach(String function){
+        dataFromSensor.makeWindowTeach(channel, function);
+    }
+    private void setSwitchingPoints(String value, String function, String target){
+        dataFromSensor.setSwitchingPoints(channel, value, function, target);
+    }
+    private void setWindowSize(String value, String function){
+        dataFromSensor.setWindowSize(channel, value, function);
+    }
+    private void setDelayImpulse(String value, String function){
+        dataFromSensor.setDelayImpulse(channel, value, function);
+    }
+    private void setTestOutput(){
+        dataFromSensor.setTestOutput(channel, testCheckBox.isSelected(), testCombo.getValue());
     }
 }

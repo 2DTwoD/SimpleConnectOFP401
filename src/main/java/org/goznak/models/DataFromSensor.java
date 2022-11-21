@@ -31,8 +31,8 @@ public class DataFromSensor {
             "Излучаемый свет, Ub активно", "Излучаемый свет, Ub не активно",
             "Внешнее обучение, Ub активно", "Внешнее обучение, Ub не активно",
             "Вход триггера, Ub активно", "Вход триггера, Ub не активно");
-    public static ObservableList<String> testOutputList = FXCollections.observableArrayList("Симуляция 0",
-            "Симуляция 1", "Симуляция выкл.");
+    public static ObservableList<String> testOutputList = FXCollections.observableArrayList("0",
+            "1");
     public DataFromSensor() {
         for(RequestCommand command: CommandList.getReadCommands()){
             sensorData.put(command, "NOK");
@@ -40,7 +40,7 @@ public class DataFromSensor {
     }
     public void setData(RequestCommand command, String data){
         if(data.contains("NOK") || data.contains("NOk") ||!checkSumOK(data) || data.length() != command.getLength() || !sensorData.containsKey(command)){
-            //System.out.println(String.format("command: %s, data: %s", command.getCommand(), data));
+            System.out.println(String.format("command: %s, data: %s", command.getCommand(), data));
             return;
         }
         sensorData.replace(command, data);
@@ -441,24 +441,6 @@ public class DataFromSensor {
         }
         return testOutputList.get(Integer.parseInt(data.substring(9, 10)));
     }
-    public void setPinFunction(int channel, String value){
-        int index  = channelFunction.indexOf(value);
-        if(index == -1){
-            return;
-        }
-        if(index < 10){
-            index += 48;
-        } else {
-            index += 87;
-        }
-        CommandList.setWriteCommand(CommandList.WRITE_PIN_FUNCTION.getCommand(new String[]{
-                String.valueOf(channel),
-                String.valueOf((char) index)
-        }));
-    }
-    public void makeAssignTeach(int channel){
-        CommandList.setWriteCommand(CommandList.MAKE_ASSIGNED_TEACH.getCommand(new String[]{String.valueOf(channel), "0"}));
-    }
     private void setOneValue(Command command, List<String> list, String value){
         if(!list.contains(value)){
             return;
@@ -483,5 +465,108 @@ public class DataFromSensor {
     }
     public void reset(){
         CommandList.setWriteCommand(CommandList.RESET_SENSOR.getCommand());
+    }
+    public void setPinFunction(int channel, String value){
+        int index  = channelFunction.indexOf(value);
+        if(index == -1){
+            return;
+        }
+        if(index < 10){
+            index += 48;
+        } else {
+            index += 87;
+        }
+        CommandList.setWriteCommand(CommandList.WRITE_PIN_FUNCTION.getCommand(new String[]{
+                String.valueOf(channel),
+                String.valueOf((char) index)
+        }));
+    }
+    public void makeAssignTeach(int channel){
+        CommandList.setWriteCommand(CommandList.MAKE_ASSIGNED_TEACH.getCommand(new String[]{String.valueOf(channel), "0"}));
+    }
+    private String getLimitedHex(String value, int limit){
+        int numericValue;
+        try{
+            numericValue = Integer.parseInt(value);
+            numericValue = Math.min(numericValue, limit);
+        }
+        catch (Exception ignored){
+            return null;
+        }
+        return String.format("%04X", numericValue);
+    }
+    public void setAssignedTeach(int channel, String value, String color){
+        String hexValue = getLimitedHex(value, 511);
+        if(hexValue == null){
+            return;
+        }
+        CommandList.setWriteCommand(CommandList.WRITE_ASSIGNED_TEACH.getCommand(new String[]{String.valueOf(channel), color,
+        hexValue}));
+    }
+    public void makeWindowTeach(int channel, String function){
+        CommandList.setWriteCommand(CommandList.MAKE_WINDOW_TEACH.getCommand(new String[]{String.valueOf(channel), function}));
+    }
+    public void setSwitchingPoints(int channel, String value, String function, String target){
+        int decimalValue;
+        try {
+            decimalValue = Integer.parseInt(value);
+            decimalValue = Math.min(decimalValue, 65535);
+        }
+        catch (Exception ignored){
+            return;
+        }
+        int[] sp;
+        switch(function){
+            case "R" -> sp = getSwitchingPointsRed(channel);
+            case "G" -> sp = getSwitchingPointsGreen(channel);
+            case "B" -> sp = getSwitchingPointsBlue(channel);
+            case "S" -> sp = getSwitchingPointsSat(channel);
+            default ->  sp = getSwitchingPointsLight(channel);
+        }
+        int index;
+        switch(target){
+            case "Hoff" -> index = 0;
+            case "Hon" -> index = 1;
+            case "Lon" -> index = 2;
+            default ->  index = 3;
+        }
+        sp[index] = decimalValue;
+        String result = "";
+        for(int i: sp){
+            result += String.format("%04X", i);
+        }
+        CommandList.setWriteCommand(CommandList.WRITE_SWITCHING_POINTS.getCommand(new String[]{String.valueOf(channel),
+                function, result}));
+    }
+    public void setWindowSize(int channel, String value, String function){
+        String hexValue = getLimitedHex(value, 255);
+        if(hexValue == null){
+            return;
+        }
+        if("RGB".contains(function)){
+            CommandList.setWriteCommand(CommandList.WRITE_WINDOW_SIZE_AUX.getCommand(new String[]{String.valueOf(channel),
+                    function, hexValue}));
+            return;
+        }
+        CommandList.setWriteCommand(CommandList.WRITE_WINDOW_SIZE.getCommand(new String[]{function,
+                String.valueOf(channel), hexValue}));
+    }
+    public void setDelayImpulse(int channel, String value, String function){
+        String hexValue = getLimitedHex(value, 10000);
+        if(hexValue == null){
+            return;
+        }
+        CommandList.setWriteCommand(CommandList.WRITE_DELAY_IMPULSE.getCommand(new String[]{function,
+                String.valueOf(channel), hexValue}));
+    }
+    public void setTestOutput(int channel, boolean onOff, String value){
+        if(!onOff){
+            CommandList.setWriteCommand(CommandList.WRITE_TEST_OUTPUT.getCommand(new String[]{String.valueOf(channel),
+                    "2"}));
+        } else {
+            int index = testOutputList.indexOf(value);
+            CommandList.setWriteCommand(CommandList.WRITE_TEST_OUTPUT.getCommand(new String[]{String.valueOf(channel),
+                    String.valueOf(index)}));
+        }
     }
 }

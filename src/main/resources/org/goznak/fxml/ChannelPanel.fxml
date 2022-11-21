@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import org.goznak.inputs.NumericTextField?>
 <GridPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.goznak.panels.ChannelPanel">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="13.0" prefWidth="100.0" />
@@ -45,16 +46,16 @@
    <children>
       <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="190.0" text="Функция канала:" GridPane.rowIndex="1" />
       <ComboBox fx:id="channelFunctionCombo" prefHeight="25.0" prefWidth="302.0" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="1" />
-      <Button fx:id="assignTeachButton" onAction="#makeAssignedTeach" mnemonicParsing="false" prefHeight="25.0" prefWidth="412.0" text="Сделать assigned teach" GridPane.columnSpan="4" GridPane.rowIndex="2" />
+      <Button fx:id="assignTeachButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="412.0" text="Сделать assigned teach" GridPane.columnSpan="4" GridPane.rowIndex="2" />
       <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Красный:" GridPane.rowIndex="5" />
       <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="107.0" text="Зелёный:" GridPane.rowIndex="6" />
       <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="99.0" text="Синий:" GridPane.rowIndex="7" />
       <Label fx:id="assignRedLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
       <Label fx:id="assignGreenLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
       <Label fx:id="assignBlueLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-      <TextField fx:id="assignRedField" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-      <TextField fx:id="assignGreenField" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-      <TextField fx:id="assignBlueField" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+      <NumericTextField fx:id="assignRedField" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+      <NumericTextField fx:id="assignGreenField" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+      <NumericTextField fx:id="assignBlueField" GridPane.columnIndex="2" GridPane.rowIndex="7" />
       <Button fx:id="applyAssignRedButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="5" />
       <Button fx:id="applyAssignGreenButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="6" />
       <Button fx:id="applyAssignBlueButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="7" />
@@ -101,26 +102,26 @@
       <Label fx:id="spLightHonLabel" text="Label" GridPane.columnIndex="5" GridPane.rowIndex="23" />
       <Label fx:id="spLightLonLabel" text="Label" GridPane.columnIndex="5" GridPane.rowIndex="24" />
       <Label fx:id="spLightLoffLabel" text="Label" GridPane.columnIndex="5" GridPane.rowIndex="25" />
-      <TextField fx:id="spRedHoffField" GridPane.columnIndex="6" GridPane.rowIndex="6" />
-      <TextField fx:id="spRedHonField" GridPane.columnIndex="6" GridPane.rowIndex="7" />
-      <TextField fx:id="spRedLonField" GridPane.columnIndex="6" GridPane.rowIndex="8" />
-      <TextField fx:id="spRedLoffField" GridPane.columnIndex="6" GridPane.rowIndex="9" />
-      <TextField fx:id="spGreenHoffField" GridPane.columnIndex="6" GridPane.rowIndex="10" />
-      <TextField fx:id="spGreenHonField" GridPane.columnIndex="6" GridPane.rowIndex="11" />
-      <TextField fx:id="spGreenLonField" GridPane.columnIndex="6" GridPane.rowIndex="12" />
-      <TextField fx:id="spGreenLoffField" GridPane.columnIndex="6" GridPane.rowIndex="13" />
-      <TextField fx:id="spBlueHoffField" GridPane.columnIndex="6" GridPane.rowIndex="14" />
-      <TextField fx:id="spBlueHonField" GridPane.columnIndex="6" GridPane.rowIndex="15" />
-      <TextField fx:id="spBlueLonField" GridPane.columnIndex="6" GridPane.rowIndex="16" />
-      <TextField fx:id="spBlueLoffField" GridPane.columnIndex="6" GridPane.rowIndex="17" />
-      <TextField fx:id="spSatHoffField" GridPane.columnIndex="6" GridPane.rowIndex="18" />
-      <TextField fx:id="spSatHonField" GridPane.columnIndex="6" GridPane.rowIndex="19" />
-      <TextField fx:id="spSatLonField" GridPane.columnIndex="6" GridPane.rowIndex="20" />
-      <TextField fx:id="spSatLoffField" GridPane.columnIndex="6" GridPane.rowIndex="21" />
-      <TextField fx:id="spLightHoffField" GridPane.columnIndex="6" GridPane.rowIndex="22" />
-      <TextField fx:id="spLightHonField" GridPane.columnIndex="6" GridPane.rowIndex="23" />
-      <TextField fx:id="spLightLonField" GridPane.columnIndex="6" GridPane.rowIndex="24" />
-      <TextField fx:id="spLightLoffField" GridPane.columnIndex="6" GridPane.rowIndex="25" />
+      <NumericTextField fx:id="spRedHoffField" GridPane.columnIndex="6" GridPane.rowIndex="6" />
+      <NumericTextField fx:id="spRedHonField" GridPane.columnIndex="6" GridPane.rowIndex="7" />
+      <NumericTextField fx:id="spRedLonField" GridPane.columnIndex="6" GridPane.rowIndex="8" />
+      <NumericTextField fx:id="spRedLoffField" GridPane.columnIndex="6" GridPane.rowIndex="9" />
+      <NumericTextField fx:id="spGreenHoffField" GridPane.columnIndex="6" GridPane.rowIndex="10" />
+      <NumericTextField fx:id="spGreenHonField" GridPane.columnIndex="6" GridPane.rowIndex="11" />
+      <NumericTextField fx:id="spGreenLonField" GridPane.columnIndex="6" GridPane.rowIndex="12" />
+      <NumericTextField fx:id="spGreenLoffField" GridPane.columnIndex="6" GridPane.rowIndex="13" />
+      <NumericTextField fx:id="spBlueHoffField" GridPane.columnIndex="6" GridPane.rowIndex="14" />
+      <NumericTextField fx:id="spBlueHonField" GridPane.columnIndex="6" GridPane.rowIndex="15" />
+      <NumericTextField fx:id="spBlueLonField" GridPane.columnIndex="6" GridPane.rowIndex="16" />
+      <NumericTextField fx:id="spBlueLoffField" GridPane.columnIndex="6" GridPane.rowIndex="17" />
+      <NumericTextField fx:id="spSatHoffField" GridPane.columnIndex="6" GridPane.rowIndex="18" />
+      <NumericTextField fx:id="spSatHonField" GridPane.columnIndex="6" GridPane.rowIndex="19" />
+      <NumericTextField fx:id="spSatLonField" GridPane.columnIndex="6" GridPane.rowIndex="20" />
+      <NumericTextField fx:id="spSatLoffField" GridPane.columnIndex="6" GridPane.rowIndex="21" />
+      <NumericTextField fx:id="spLightHoffField" GridPane.columnIndex="6" GridPane.rowIndex="22" />
+      <NumericTextField fx:id="spLightHonField" GridPane.columnIndex="6" GridPane.rowIndex="23" />
+      <NumericTextField fx:id="spLightLonField" GridPane.columnIndex="6" GridPane.rowIndex="24" />
+      <NumericTextField fx:id="spLightLoffField" GridPane.columnIndex="6" GridPane.rowIndex="25" />
       <Button fx:id="spRedHoffButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="6" />
       <Button fx:id="spRedHonButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="7" />
       <Button fx:id="spRedLonButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="8" />
@@ -149,13 +150,13 @@
       <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Красный:" GridPane.rowIndex="13" />
       <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Зеленый:" GridPane.rowIndex="14" />
       <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Синий:" GridPane.rowIndex="15" />
-      <TextField fx:id="winCommField" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-      <TextField fx:id="winHueField" GridPane.columnIndex="2" GridPane.rowIndex="10" />
-      <TextField fx:id="winSatField" GridPane.columnIndex="2" GridPane.rowIndex="11" />
-      <TextField fx:id="winLightField" GridPane.columnIndex="2" GridPane.rowIndex="12" />
-      <TextField fx:id="winRedField" GridPane.columnIndex="2" GridPane.rowIndex="13" />
-      <TextField fx:id="winGreenField" GridPane.columnIndex="2" GridPane.rowIndex="14" />
-      <TextField fx:id="winBlueField" GridPane.columnIndex="2" GridPane.rowIndex="15" />
+      <NumericTextField fx:id="winCommField" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+      <NumericTextField fx:id="winHueField" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+      <NumericTextField fx:id="winSatField" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+      <NumericTextField fx:id="winLightField" GridPane.columnIndex="2" GridPane.rowIndex="12" />
+      <NumericTextField fx:id="winRedField" GridPane.columnIndex="2" GridPane.rowIndex="13" />
+      <NumericTextField fx:id="winGreenField" GridPane.columnIndex="2" GridPane.rowIndex="14" />
+      <NumericTextField fx:id="winBlueField" GridPane.columnIndex="2" GridPane.rowIndex="15" />
       <Label fx:id="winCommLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="9" />
       <Label fx:id="winHueLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="10" />
       <Label fx:id="winSatLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="11" />
@@ -177,9 +178,9 @@
       <Label fx:id="onDelayLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="17" />
       <Label fx:id="offDelayLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="18" />
       <Label fx:id="impulseLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="19" />
-      <TextField fx:id="onDelayField" GridPane.columnIndex="2" GridPane.rowIndex="17" />
-      <TextField fx:id="offDelayField" GridPane.columnIndex="2" GridPane.rowIndex="18" />
-      <TextField fx:id="impulseField" GridPane.columnIndex="2" GridPane.rowIndex="19" />
+      <NumericTextField fx:id="onDelayField" GridPane.columnIndex="2" GridPane.rowIndex="17" />
+      <NumericTextField fx:id="offDelayField" GridPane.columnIndex="2" GridPane.rowIndex="18" />
+      <NumericTextField fx:id="impulseField" GridPane.columnIndex="2" GridPane.rowIndex="19" />
       <Button fx:id="onDelayButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="17" />
       <Button fx:id="offDelayButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="18" />
       <Button fx:id="impulseButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Применить" GridPane.columnIndex="3" GridPane.rowIndex="19" />
@@ -187,7 +188,7 @@
       <CheckBox fx:id="testCheckBox" alignment="CENTER_RIGHT" mnemonicParsing="false" prefHeight="17.0" prefWidth="105.0" text="вкл. / выкл." GridPane.columnIndex="3" GridPane.rowIndex="21" />
       <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Значение:" GridPane.rowIndex="21" />
       <ComboBox fx:id="testCombo" prefHeight="25.0" prefWidth="91.0" GridPane.columnIndex="2" GridPane.rowIndex="21" />
-      <Button fx:id="applyChannelFunctionButton" mnemonicParsing="false" onAction="#setPinFunction" prefHeight="25.0" prefWidth="110.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+      <Button fx:id="applyChannelFunctionButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Применить" GridPane.columnIndex="7" GridPane.rowIndex="1" />
       <Label fx:id="channelFunctionLabel" prefWidth="313.0" text="Label" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" />
       <Label fx:id="testLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="21" />
    </children>

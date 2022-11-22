@@ -1,10 +1,6 @@
 package org.goznak.panels;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -244,8 +240,6 @@ public class ChannelPanel extends Parent implements Initializable {
     Button spLightLonButton;
     @FXML
     Button spLightLoffButton;
-    @FXML
-    Label testLabel;
     private int channel;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -286,7 +280,6 @@ public class ChannelPanel extends Parent implements Initializable {
         int onDelay = dataFromSensor.getOnDelay(channel);
         int offDelay = dataFromSensor.getOffDelay(channel);
         int impulse = dataFromSensor.getImpulse(channel);
-        String testOutput = dataFromSensor.getTestOutput(channel);
         channelFunctionLabel.setText(channelFunction);
 
         assignRedLabel.setText(String.valueOf(assignedTechRed));
@@ -328,7 +321,6 @@ public class ChannelPanel extends Parent implements Initializable {
         onDelayLabel.setText(String.valueOf(onDelay));
         offDelayLabel.setText(String.valueOf(offDelay));
         impulseLabel.setText(String.valueOf(impulse));
-        testLabel.setText(String.valueOf(testOutput));
 
         applyChannelFunctionButton.setOnAction(e -> setPinFunction());
         assignTeachButton.setOnAction(e -> makeAssignedTeach());

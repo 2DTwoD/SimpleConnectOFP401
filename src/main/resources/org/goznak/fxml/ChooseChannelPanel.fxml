@@ -6,19 +6,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.goznak.panels.ChooseChannelPanel">
    <children>
-      <Label alignment="CENTER" prefHeight="20.0" prefWidth="312.0" text="Настройки каналов:">
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="799.0" style="-fx-background-color: Lavender;" text="Настройки каналов:">
          <font>
-            <Font size="14.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <FlowPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="800.0">
+      <FlowPane alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="800.0">
          <children>
-            <Button fx:id="channel1Button" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Канал 1" />
-            <Button fx:id="channel2Button" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Канал 2" />
-            <Button fx:id="channel3Button" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Канал 3" />
+            <Button fx:id="channel1Button" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Канал A1" />
+            <Button fx:id="channel2Button" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Канал A2" />
+            <Button fx:id="channel3Button" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Канал A3" />
          </children>
       </FlowPane>
    </children>

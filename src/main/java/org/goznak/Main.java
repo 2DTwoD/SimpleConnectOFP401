@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class Main extends Application {
     private static final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
     public VBox root = new VBox();
-    public Scene scene = new Scene(root, 800, 600);
+    public Scene scene = new Scene(root, 800, 420);
     private final ArrayList<Parent> panels = new ArrayList<>();
     public Parent connectPanel;
     public Parent readPanel;
@@ -30,6 +30,7 @@ public class Main extends Application {
         choosePanel = getPanelForMainScreen("ChooseChannelPanel.fxml");
         stage.setTitle("SimpleConnect for OFP401P0189");
         stage.setScene(scene);
+        stage.setResizable(false);
         root.getChildren().addAll(panels);
         stage.show();
     }
@@ -53,6 +54,7 @@ public class Main extends Application {
     public void stop() throws Exception {
         ((ReadPanel) readPanel).stopAllThreads();
         ((ChooseChannelPanel) choosePanel).stopAllThreads();
+        ((ConnectPanel) connectPanel).stopAllThreads();
         ((ConnectPanel) connectPanel).disconnect();
         super.stop();
     }

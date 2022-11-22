@@ -41,6 +41,7 @@ public class ChooseChannelPanel extends Parent implements Initializable {
         controller.setChannel(channel);
         stage.setTitle("Канал " + channel);
         stage.setScene(scene);
+        stage.setResizable(false);
         channelButton.setOnAction(event ->stage.show());
         return controller;
     }

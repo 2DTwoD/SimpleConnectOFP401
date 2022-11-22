@@ -1,5 +1,6 @@
 package org.goznak.tools;
 
+import javafx.application.Platform;
 import jssc.*;
 import org.goznak.models.DataFromSensor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,15 +8,27 @@ import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 @Component
 public class ConnectTool {
     @Autowired
     DataFromSensor dataFromSensor;
     SerialPort serialPort;
-    ExecutorService executor;
-    String comPort = "COM1";
+    WatchDog watchDog = new WatchDog();
+    ScheduledExecutorService executorService;
+    String comPort;
     int baudRate = 38400;
     public void connect(){
+        executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleAtFixedRate(() -> {
+            if(!watchDog.isOk()){
+                disconnect();
+            }
+            watchDog.setOk(false);
+        },2 , 2, TimeUnit.SECONDS);
             serialPort = new SerialPort(comPort);
             try {
                 serialPort.openPort();
@@ -23,8 +36,9 @@ public class ConnectTool {
                         SerialPort.DATABITS_8,
                         SerialPort.STOPBITS_1,
                         SerialPort.PARITY_NONE);
-                serialPort.addEventListener(new PortReader(serialPort, dataFromSensor), SerialPort.MASK_RXCHAR);
+                serialPort.addEventListener(new PortReader(serialPort, dataFromSensor, watchDog), SerialPort.MASK_RXCHAR);
                 serialPort.writeBytes(CommandList.current().getCommand().getBytes(StandardCharsets.US_ASCII));
+
             }
             catch (SerialPortException ex) {
                 System.out.println(ex.getMessage());
@@ -38,25 +52,36 @@ public class ConnectTool {
     }
     public void disconnect(){
         try {
+            watchDog.setOk(false);
+            executorService.shutdown();
             serialPort.closePort();
         } catch (SerialPortException e) {
             throw new RuntimeException(e);
         }
     }
+    public boolean connected(){
+        if(serialPort == null){
+            return false;
+        }
+        return serialPort.isOpened() && watchDog.isOk();
+    }
 }
 class PortReader implements SerialPortEventListener {
+    WatchDog watchDog;
     private final SerialPort serialPort;
     DataFromSensor dataFromSensor;
     String currentResult;
     private boolean startFlag = false;
-    public PortReader(SerialPort serialPort, DataFromSensor dataFromSensor) {
+    public PortReader(SerialPort serialPort, DataFromSensor dataFromSensor, WatchDog watchDog) {
         this.serialPort = serialPort;
         this.dataFromSensor = dataFromSensor;
+        this.watchDog = watchDog;
     }
     @Override
     public void serialEvent(SerialPortEvent event) {
         if(event.isRXCHAR() && event.getEventValue() > 0){
             try {
+                watchDog.setOk(true);
                 int start;
                 int end;
                 String data = serialPort.readString();

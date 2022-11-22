@@ -40,7 +40,7 @@ public class DataFromSensor {
     }
     public void setData(RequestCommand command, String data){
         if(data.contains("NOK") || data.contains("NOk") ||!checkSumOK(data) || data.length() != command.getLength() || !sensorData.containsKey(command)){
-            System.out.println(String.format("command: %s, data: %s", command.getCommand(), data));
+            //System.out.println(String.format("command: %s, data: %s", command.getCommand(), data));
             return;
         }
         sensorData.replace(command, data);
@@ -53,10 +53,100 @@ public class DataFromSensor {
         }
         return String.format("%02X", checkSum).equals(data.substring(lim, lim + 2));
     }
+    public String[] getRGB(){
+        ///SS0M0D0srrggbbqq.
+        String data = sensorData.get(CommandList.READ_RGB);
+        String[] result = {"NOK", "NOK", "NOK"};
+        if(data.equals("NOK")){
+            return result;
+        }
+        //red
+        result[0] = data.substring(9, 11);
+        //green
+        result[1] = data.substring(11, 13);
+        //blue
+        result[2] = data.substring(13, 15);
+        return result;
+    }
+    public int[] getIntRGB(){
+        String[] rgb = getRGB();
+        int[] result = new int[3];
+        try {
+            result[0] = Math.min(Integer.decode("0x" + rgb[0]), 255);
+            result[1] = Math.min(Integer.decode("0x" + rgb[1]), 255);
+            result[2] = Math.min(Integer.decode("0x" + rgb[2]), 255);
+        }
+        catch (Exception ignored){
+        }
+        return result;
+    }
+    public String[] getHSL(){
+        ///SS0M0D0pHHHhhhHHHSSSLLLqq.
+        String data = sensorData.get(CommandList.READ_HSL);
+        String[] result = {"NOK", "NOK", "NOK", "NOK", "NOK", "NOK"};
+        if(data.equals("NOK")){
+            return result;
+        }
+        //hueRed
+        result[0] = data.substring(9, 12);
+        //hueGreen
+        result[1] = data.substring(12, 15);
+        //hueBlue
+        result[2] = data.substring(15, 18);
+        int[] rgb = getIntRGB();//getIntXYZ()
+        double h = getHueFromRGB(rgb[0], rgb[1], rgb[2]);//Integer.decode("0x" + result[0]), Integer.decode("0x" + result[1]),Integer.decode("0x" + result[2])
+        result[3] = String.format("%d", (int) (h * 360));
+        //saturation
+        int s = (int)(Integer.decode("0x" + data.substring(18, 21)) / 511.0 * 100.0);
+        result[4] = String.format("%d", s);
+        //lightness
+        int l = (int)(Integer.decode("0x" + data.substring(21, 24)) / 511.0 * 100.0);
+        result[5] = String.format("%d", l);
+        return result;
+    }
+    public int[] getIntHSL(){
+        String[] hsl = getHSL();
+        int[] result = new int[6];
+        try {
+            result[0] = Math.min(Integer.decode("0x" + hsl[0]), 511);
+            result[1] = Math.min(Integer.decode("0x" + hsl[1]), 511);
+            result[2] = Math.min(Integer.decode("0x" + hsl[2]), 511);
+            result[3] = Integer.parseInt(hsl[3]);
+            result[4] = Integer.parseInt(hsl[4]);
+            result[5] = Integer.parseInt(hsl[5]);
+        }
+        catch (Exception ignored) {
+        }
+        return result;
+    }
+    public String[] getXYZ(){
+        // /SS0M0D0rxxxyyyzzzqq.
+        String data = sensorData.get(CommandList.READ_XYZ);
+        String[] result = {"NOK", "NOK", "NOK"};
+        if(data.equals("NOK")){
+            return result;
+        }
+        //red
+        result[0] = data.substring(9, 12);
+        //green
+        result[1] = data.substring(12, 15);
+        //blue
+        result[2] = data.substring(15, 18);
+        return result;
+    }
+    public int[] getIntXYZ(){
+        String[] xyz = getXYZ();
+        int[] result = new int[3];
+        try {
+            result[0] = Math.min(Integer.decode("0x" + xyz[0]), 511);
+            result[1] = Math.min(Integer.decode("0x" + xyz[1]), 511);
+            result[2] = Math.min(Integer.decode("0x" + xyz[2]), 511);
+        }
+        catch (Exception ignored){
+        }
+        return result;
+    }
     private double getHueFromRGB(double red, double green, double blue){
-        red = Math.min(red, 511.0);
-        green = Math.min(green, 511.0);
-        blue = Math.min(blue, 511.0);
         double max = Math.max(Math.max(red, green), blue);
         double min = Math.min(Math.min(red, green), blue);
         if (max == min) {
@@ -81,7 +171,7 @@ public class DataFromSensor {
         //get hue from hueRGB
         double h = getHueFromRGB(red, green, blue);
         //get RGB from HSL
-        final double range = 511.0;
+        final double range = 512.0;
         final double part = 1.0 / 3.0;
         double q;
         double p;
@@ -148,100 +238,6 @@ public class DataFromSensor {
     public Paint getPaintFromXYZ(){
         int[] rgb = getIntXYZ();
         return Color.rgb(rgb[0] / 2, rgb[1] / 2, rgb[2] / 2);
-    }
-    public String[] getRGB(){
-        ///SS0M0D0srrggbbqq.
-        String data = sensorData.get(CommandList.READ_RGB);
-        String[] result = {"NOK", "NOK", "NOK"};
-        if(data.equals("NOK")){
-            return result;
-        }
-        //red
-        result[0] = data.substring(9, 11);
-        //green
-        result[1] = data.substring(11, 13);
-        //blue
-        result[2] = data.substring(13, 15);
-        return result;
-    }
-    public int[] getIntRGB(){
-        String[] rgb = getRGB();
-        int[] result = new int[3];
-        try {
-            result[0] = Math.min(Integer.decode("0x" + rgb[0]), 255);
-            result[1] = Math.min(Integer.decode("0x" + rgb[1]), 255);
-            result[2] = Math.min(Integer.decode("0x" + rgb[2]), 255);
-        }
-        catch (Exception ignored){
-        }
-        return result;
-    }
-    public String[] getHSL(){
-        ///SS0M0D0pHHHhhhHHHSSSLLLqq.
-        String data = sensorData.get(CommandList.READ_HSL);
-        String[] result = {"NOK", "NOK", "NOK", "NOK", "NOK", "NOK"};
-        if(data.equals("NOK")){
-            return result;
-        }
-        //hueRed
-        result[0] = data.substring(9, 12);
-        //hueGreen
-        result[1] = data.substring(12, 15);
-        //hueBlue
-        result[2] = data.substring(15, 18);
-        //int[] rgb = getIntXYZ();//getIntRGB();
-        double h = getHueFromRGB(Integer.decode("0x" + result[0]), Integer.decode("0x" + result[1]),
-                Integer.decode("0x" + result[2]));
-        result[3] = String.format("%d", (int) (h * 360));
-        //saturation
-        int s = (int)(Integer.decode("0x" + data.substring(18, 21)) / 511.0 * 100.0);
-        result[4] = String.format("%d", s);
-        //lightness
-        int l = (int)(Integer.decode("0x" + data.substring(21, 24)) / 511.0 * 100.0);
-        result[5] = String.format("%d", l);
-        return result;
-    }
-    public int[] getIntHSL(){
-        String[] hsl = getHSL();
-        int[] result = new int[6];
-        try {
-            result[0] = Math.min(Integer.decode("0x" + hsl[0]), 511);
-            result[1] = Math.min(Integer.decode("0x" + hsl[1]), 511);
-            result[2] = Math.min(Integer.decode("0x" + hsl[2]), 511);
-            result[3] = Integer.parseInt(hsl[3]);
-            result[4] = Integer.parseInt(hsl[4]);
-            result[5] = Integer.parseInt(hsl[5]);
-        }
-        catch (Exception ignored) {
-        }
-        return result;
-    }
-    public String[] getXYZ(){
-        // /SS0M0D0rxxxyyyzzzqq.
-        String data = sensorData.get(CommandList.READ_XYZ);
-        String[] result = {"NOK", "NOK", "NOK"};
-        if(data.equals("NOK")){
-            return result;
-        }
-        //red
-        result[0] = data.substring(9, 12);
-        //green
-        result[1] = data.substring(12, 15);
-        //blue
-        result[2] = data.substring(15, 18);
-        return result;
-    }
-    public int[] getIntXYZ(){
-        String[] xyz = getXYZ();
-        int[] result = new int[3];
-        try {
-            result[0] = Math.min(Integer.decode("0x" + xyz[0]), 511);
-            result[1] = Math.min(Integer.decode("0x" + xyz[1]), 511);
-            result[2] = Math.min(Integer.decode("0x" + xyz[2]), 511);
-        }
-        catch (Exception ignored){
-        }
-        return result;
     }
     public String[] getSensorType(){
         ///070Vaa:bbccqq.

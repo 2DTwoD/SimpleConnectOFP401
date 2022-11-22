@@ -48,10 +48,6 @@ public class ReadPanel extends Parent implements Initializable {
     @FXML
     private TextField zbField;
     @FXML
-    private Rectangle colorRectangle;
-    @FXML
-    Label colorTitle;
-    @FXML
     Label statusField;
     @FXML
     Label errorField;
@@ -123,6 +119,18 @@ public class ReadPanel extends Parent implements Initializable {
     Button menuButton;
     @FXML
     Button resetButton;
+    @FXML
+    Rectangle rgbRectangle;
+    @FXML
+    Rectangle hslRectangle;
+    @FXML
+    Rectangle xyzRectangle;
+    @FXML
+    Label rgbLabel;
+    @FXML
+    Label hslLabel;
+    @FXML
+    Label xyzLabel;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         opModeCombo.setItems(DataFromSensor.opModeList);
@@ -147,9 +155,7 @@ public class ReadPanel extends Parent implements Initializable {
     }
     private void runTime(){
         QueryStatus sensorStatus = dataFromSensor.getQueryStatus();
-        String[] rgb = dataFromSensor.getRGB();
         String[] hsl = dataFromSensor.getHSL();
-        String[] xyz = dataFromSensor.getXYZ();
         int[] rgbInt = dataFromSensor.getIntRGB();
         int[] hslInt = dataFromSensor.getIntHSL();
         int[] xyzInt = dataFromSensor.getIntXYZ();
@@ -160,9 +166,6 @@ public class ReadPanel extends Parent implements Initializable {
         String fpMode = dataFromSensor.getFpMode();
         String expertMenu = dataFromSensor.getMenu();
         dataFromSensor.getQueryStatus();
-        colorRectangle.setFill(dataFromSensor.getPaintFromXYZ());
-        Color clr = hslInt[5] > 50? Color.BLACK: Color.WHITE;
-        colorTitle.setTextFill(clr);
         statusField.setText(sensorStatus.getDirty());
         errorField.setText(sensorStatus.getError());
         String color = sensorStatus.isA1status()? "green": "lightgray";
@@ -203,7 +206,13 @@ public class ReadPanel extends Parent implements Initializable {
         lightLabel.setText(emittedLight);
         fpModeLabel.setText(fpMode);
         menuLabel.setText(expertMenu);
-        //dataFromSensor.getImpulse();
+        rgbRectangle.setFill(dataFromSensor.getPaintFromRGB());
+        hslRectangle.setFill(dataFromSensor.getPaintFromHSL());
+        xyzRectangle.setFill(dataFromSensor.getPaintFromXYZ());
+        Color clr = hslInt[5] > 50? Color.BLACK: Color.WHITE;
+        rgbLabel.setTextFill(clr);
+        hslLabel.setTextFill(clr);
+        xyzLabel.setTextFill(clr);
     }
     @FXML
     public void setOpMode(){

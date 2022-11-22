@@ -1,5 +1,6 @@
 package org.goznak.panels;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,12 +17,17 @@ import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 @Component
 public class ConnectPanel extends Parent implements Initializable {
     @Autowired
     ConnectTool connectTool;
     @Autowired
     DataFromSensor dataFromSensor;
+    ScheduledExecutorService executorService;
     ObservableList<String> comList = FXCollections.observableArrayList(SerialPortList.getPortNames());
     ObservableList<Integer> baudRateList = FXCollections.observableArrayList(4800, 9600, 19200, 38400, 57600, 115200);
     @FXML
@@ -36,21 +42,44 @@ public class ConnectPanel extends Parent implements Initializable {
     public Button connectButton;
     @FXML
     public Button disconnectButton;
-    public String getPort(){
-        return comCombo.getValue();
-    }
-    public Integer getBaudRate(){
-        return baudRateCombo.getValue();
-    }
+    @FXML
+    Label statusLabel;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         comCombo.setItems(comList);
-        comCombo.setValue("COM4");//comList.get(0)
+        if(!comList.isEmpty()) {
+            comCombo.setValue(comList.get(1));
+        } else {
+            comCombo.setValue("Нет портов для подключения");
+        }
         baudRateCombo.setItems(baudRateList);
         baudRateCombo.setValue(baudRateList.get(3));
         setComPort();
         setBaudRate();
-        connectTool.connect();
+        comCombo.setOnAction(e -> setComPort());
+        baudRateCombo.setOnAction(e -> setBaudRate());
+        connectButton.setOnAction(e -> connect());
+        disconnectButton.setOnAction(e -> disconnect());
+        executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleAtFixedRate(() -> {
+            try {
+                Platform.runLater(this::runTime);
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+        }, 0, 50, TimeUnit.MILLISECONDS);
+    }
+    private void runTime(){
+        String status = connectTool.connected()? "Подключено": "Не подключено";
+        statusLabel.setText(status);
+        String color = connectTool.connected()? "green": "red";
+        statusLabel.setStyle("-fx-background-color: " + color);
+        boolean connected = connectTool.connected();
+        connectButton.setDisable(connected);
+        disconnectButton.setDisable(!connected);
+        comCombo.setDisable(connected);
+        baudRateCombo.setDisable(connected);
     }
     private void setComPort(){
         connectTool.setComPort(comCombo.getValue());
@@ -58,7 +87,17 @@ public class ConnectPanel extends Parent implements Initializable {
     private void setBaudRate(){
         connectTool.setBaudRate(baudRateCombo.getValue());
     }
+    public void connect(){
+        if(!connectTool.connected()) {
+            connectTool.connect();
+        }
+    }
     public void disconnect(){
-        connectTool.disconnect();
+        if(connectTool.connected()) {
+            connectTool.disconnect();
+        }
+    }
+    public void stopAllThreads(){
+        executorService.shutdown();
     }
 }

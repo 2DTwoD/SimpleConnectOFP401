@@ -17,12 +17,12 @@ public class DataFromSensor {
     @Autowired
     ConnectTool connectTool;
     private final Map<RequestCommand, String> sensorData = new HashMap<>();
-    public static ObservableList<String> opModeList = FXCollections.observableArrayList("HSL", "assign", "RGB");
+    public static ObservableList<String> opModeList = FXCollections.observableArrayList("HSL", "По назначению", "RGB");
     public static ObservableList<String> filterList = FXCollections.observableArrayList("1", "2", "4", "8",
             "16", "32", "64", "128", "256", "512", "1024", "2048", "4096");
-    public static ObservableList<String> lightList = FXCollections.observableArrayList("OFF", "normal", "bright", "dark");
+    public static ObservableList<String> lightList = FXCollections.observableArrayList("Выкл.", "Норма", "Ярко", "Тускло");
     public static ObservableList<String> fpModeList = FXCollections.observableArrayList("OFP", "FP");
-    public static ObservableList<String> menuList = FXCollections.observableArrayList("OFF", "ON");
+    public static ObservableList<String> menuList = FXCollections.observableArrayList("Выкл.", "Вкл.");
     public static ObservableList<String> channelFunction = FXCollections.observableArrayList("Не задействован",
             "Выход, NPN и NO", "Выход, PNP и NO", "Выход, PP и NO", "Выход, NPN и NC", "Выход, PNP и NC",
             "Выход, PP и NC", "Ошибка, NPN и NO", "Ошибка, PNP и NO", "Ошибка, PP и NO", "Ошибка, NPN и NC",
@@ -33,9 +33,10 @@ public class DataFromSensor {
             "Вход триггера, Ub активно", "Вход триггера, Ub не активно");
     public static ObservableList<String> testOutputList = FXCollections.observableArrayList("0",
             "1");
+    public static final String UNKNOWN_SYMBOL = "?";
     public DataFromSensor() {
         for(RequestCommand command: CommandList.getReadCommands()){
-            sensorData.put(command, "NOK");
+            sensorData.put(command, UNKNOWN_SYMBOL);
         }
     }
     public void setData(RequestCommand command, String data){
@@ -56,8 +57,8 @@ public class DataFromSensor {
     public String[] getRGB(){
         ///SS0M0D0srrggbbqq.
         String data = sensorData.get(CommandList.READ_RGB);
-        String[] result = {"NOK", "NOK", "NOK"};
-        if(data.equals("NOK")){
+        String[] result = {UNKNOWN_SYMBOL, UNKNOWN_SYMBOL, UNKNOWN_SYMBOL};
+        if(data.equals(UNKNOWN_SYMBOL)){
             return result;
         }
         //red
@@ -83,8 +84,8 @@ public class DataFromSensor {
     public String[] getHSL(){
         ///SS0M0D0pHHHhhhHHHSSSLLLqq.
         String data = sensorData.get(CommandList.READ_HSL);
-        String[] result = {"NOK", "NOK", "NOK", "NOK", "NOK", "NOK"};
-        if(data.equals("NOK")){
+        String[] result = {UNKNOWN_SYMBOL, UNKNOWN_SYMBOL, UNKNOWN_SYMBOL, UNKNOWN_SYMBOL, UNKNOWN_SYMBOL, UNKNOWN_SYMBOL};
+        if(data.equals(UNKNOWN_SYMBOL)){
             return result;
         }
         //hueRed
@@ -108,9 +109,9 @@ public class DataFromSensor {
         String[] hsl = getHSL();
         int[] result = new int[6];
         try {
-            result[0] = Math.min(Integer.decode("0x" + hsl[0]), 511);
-            result[1] = Math.min(Integer.decode("0x" + hsl[1]), 511);
-            result[2] = Math.min(Integer.decode("0x" + hsl[2]), 511);
+            result[0] = Math.min(Integer.decode("0x" + hsl[0]), 512);
+            result[1] = Math.min(Integer.decode("0x" + hsl[1]), 512);
+            result[2] = Math.min(Integer.decode("0x" + hsl[2]), 512);
             result[3] = Integer.parseInt(hsl[3]);
             result[4] = Integer.parseInt(hsl[4]);
             result[5] = Integer.parseInt(hsl[5]);
@@ -122,8 +123,8 @@ public class DataFromSensor {
     public String[] getXYZ(){
         // /SS0M0D0rxxxyyyzzzqq.
         String data = sensorData.get(CommandList.READ_XYZ);
-        String[] result = {"NOK", "NOK", "NOK"};
-        if(data.equals("NOK")){
+        String[] result = {UNKNOWN_SYMBOL, UNKNOWN_SYMBOL, UNKNOWN_SYMBOL};
+        if(data.equals(UNKNOWN_SYMBOL)){
             return result;
         }
         //red
@@ -138,9 +139,9 @@ public class DataFromSensor {
         String[] xyz = getXYZ();
         int[] result = new int[3];
         try {
-            result[0] = Math.min(Integer.decode("0x" + xyz[0]), 511);
-            result[1] = Math.min(Integer.decode("0x" + xyz[1]), 511);
-            result[2] = Math.min(Integer.decode("0x" + xyz[2]), 511);
+            result[0] = Math.min(Integer.decode("0x" + xyz[0]), 512);
+            result[1] = Math.min(Integer.decode("0x" + xyz[1]), 512);
+            result[2] = Math.min(Integer.decode("0x" + xyz[2]), 512);
         }
         catch (Exception ignored){
         }
@@ -214,7 +215,7 @@ public class DataFromSensor {
     public int[] getRGBFromHSL(){
         ///SS0M0D0pHHHhhhHHHSSSLLLqq.
         String data = sensorData.get(CommandList.READ_HSL);
-        if(data.equals("NOK")){
+        if(data.equals(UNKNOWN_SYMBOL)){
             return new int[]{0, 0, 0};
         }
         int hred = Integer.decode(String.format("0x%s", data.substring(9, 12)));
@@ -226,7 +227,7 @@ public class DataFromSensor {
     }
     public Paint getPaintFromRGB(){
         String data = sensorData.get(CommandList.READ_RGB);
-        if(data.equals("NOK")){
+        if(data.equals(UNKNOWN_SYMBOL)){
             return Color.BLACK;
         }
         return Paint.valueOf(data.substring(9, 15));
@@ -242,8 +243,8 @@ public class DataFromSensor {
     public String[] getSensorType(){
         ///070Vaa:bbccqq.
         String data = sensorData.get(CommandList.READ_SENSOR_VERSION);
-        String[] result = {"NOK", "NOK", "NOK"};
-        if(data.equals("NOK")){
+        String[] result = {UNKNOWN_SYMBOL, UNKNOWN_SYMBOL, UNKNOWN_SYMBOL};
+        if(data.equals(UNKNOWN_SYMBOL)){
             return result;
         }
         //Software version
@@ -264,7 +265,7 @@ public class DataFromSensor {
             return list.get(Integer.decode("0x" + data.charAt(8)));
         }
         catch (Exception e){
-            return "NOK";
+            return UNKNOWN_SYMBOL;
         }
     }
     public String getOpMode(){
@@ -289,9 +290,9 @@ public class DataFromSensor {
     }
     public String getChannelFunction(int channel){
         // /SS0M0P0ifqq.
-        String data = sensorData.get(CommandList.readPinFunction(channel));;
-        if(data.equals("NOK")){
-            return "NOK";
+        String data = sensorData.get(CommandList.readPinFunction(channel));
+        if(data.equals(UNKNOWN_SYMBOL)){
+            return UNKNOWN_SYMBOL;
         }
         char c = data.charAt(9);
         int shift;
@@ -303,7 +304,7 @@ public class DataFromSensor {
         return channelFunction.get(c - shift);
     }
     private int getAssignedTeach(String data){
-        if(data.equals("NOK")){
+        if(data.equals(UNKNOWN_SYMBOL)){
             return 0;
         }
         return Integer.decode("0x" + data.substring(11, 15));
@@ -325,7 +326,7 @@ public class DataFromSensor {
     }
     private int[] getSwitchingPoints(String  data){
         int[] switchingPoints = new int[4];
-        if(data.equals("NOK")){
+        if(data.equals(UNKNOWN_SYMBOL)){
             return switchingPoints;
         }
         //Hoff
@@ -364,7 +365,7 @@ public class DataFromSensor {
         return getSwitchingPoints(data);
     }
     private int getWindowSize(String data, boolean aux){
-        if(data.equals("NOK")){
+        if(data.equals(UNKNOWN_SYMBOL)){
             return 0;
         }
         if(aux) {
@@ -409,7 +410,7 @@ public class DataFromSensor {
         return getWindowSize(data, true);
     }
     private int getTimeParam(String data){
-        if(data.equals("NOK")){
+        if(data.equals(UNKNOWN_SYMBOL)){
             return 0;
         }
         return Integer.decode("0x" + data.substring(10, 14));
@@ -432,8 +433,8 @@ public class DataFromSensor {
     public String getTestOutput(int channel){
         // /SS0M0t0isqq.
         String data = sensorData.get(CommandList.readTestOutput(channel));
-        if(data.equals("NOK")){
-            return "NOK";
+        if(data.equals(UNKNOWN_SYMBOL)){
+            return UNKNOWN_SYMBOL;
         }
         return testOutputList.get(Integer.parseInt(data.substring(9, 10)));
     }

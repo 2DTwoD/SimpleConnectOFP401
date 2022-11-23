@@ -155,7 +155,6 @@ public class ReadPanel extends Parent implements Initializable {
     }
     private void runTime(){
         QueryStatus sensorStatus = dataFromSensor.getQueryStatus();
-        String[] hsl = dataFromSensor.getHSL();
         int[] rgbInt = dataFromSensor.getIntRGB();
         int[] hslInt = dataFromSensor.getIntHSL();
         int[] xyzInt = dataFromSensor.getIntXYZ();
@@ -180,9 +179,9 @@ public class ReadPanel extends Parent implements Initializable {
         hrField.setText(String.valueOf(hslInt[0]));
         hgField.setText(String.valueOf(hslInt[1]));
         hbField.setText(String.valueOf(hslInt[2]));
-        hueField.setText(hsl[3]);
-        sField.setText(hsl[4]);
-        lField.setText(hsl[5]);
+        hueField.setText(String.valueOf(hslInt[3]));
+        sField.setText(String.valueOf(hslInt[4]));
+        lField.setText(String.valueOf(hslInt[5]));
         xrField.setText(String.valueOf(xyzInt[0]));
         ygField.setText(String.valueOf(xyzInt[1]));
         zbField.setText(String.valueOf(xyzInt[2]));

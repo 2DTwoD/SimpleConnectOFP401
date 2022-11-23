@@ -23,23 +23,28 @@ public class ChooseChannelPanel extends Parent implements Initializable {
     ChannelPanel channel1Panel;
     ChannelPanel channel2Panel;
     ChannelPanel channel3Panel;
+    Stage channel1Stage;
+    Stage channel2Stage;
+    Stage channel3Stage;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            channel1Panel = newChannelPanel(1, channel1Button);
-            channel2Panel = newChannelPanel(2, channel2Button);
-            channel3Panel = newChannelPanel(3, channel3Button);
+            channel1Stage = new Stage();
+            channel2Stage = new Stage();
+            channel3Stage = new Stage();
+            channel1Panel = newChannelPanel(1, channel1Button, channel1Stage);
+            channel2Panel = newChannelPanel(2, channel2Button, channel2Stage);
+            channel3Panel = newChannelPanel(3, channel3Button, channel3Stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-    private ChannelPanel newChannelPanel(int channel, Button channelButton) throws Exception {
-        Stage stage = new Stage();
+    private ChannelPanel newChannelPanel(int channel, Button channelButton, Stage stage) throws Exception {
         FXMLLoader loader = Main.getPanelLoader("ChannelPanel.fxml");
         Scene scene = new Scene(loader.load());
         ChannelPanel controller = loader.getController();
         controller.setChannel(channel);
-        stage.setTitle("Канал " + channel);
+        stage.setTitle("Канал A" + channel);
         stage.setScene(scene);
         stage.setResizable(false);
         channelButton.setOnAction(event ->stage.show());
@@ -49,5 +54,10 @@ public class ChooseChannelPanel extends Parent implements Initializable {
         channel1Panel.stopAllThreads();
         channel2Panel.stopAllThreads();
         channel3Panel.stopAllThreads();
+    }
+    public void closeAllWindows(){
+        channel1Stage.close();
+        channel2Stage.close();
+        channel3Stage.close();
     }
 }

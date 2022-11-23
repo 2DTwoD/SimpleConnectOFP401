@@ -10,6 +10,7 @@ import org.goznak.config.AppConfig;
 import org.goznak.panels.ChooseChannelPanel;
 import org.goznak.panels.ConnectPanel;
 import org.goznak.panels.ReadPanel;
+import org.goznak.tools.Dialog;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.net.URL;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 public class Main extends Application {
     private static final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
     public VBox root = new VBox();
-    public Scene scene = new Scene(root, 800, 420);
+    public Scene scene = new Scene(root, 800, 440);
     private final ArrayList<Parent> panels = new ArrayList<>();
     public Parent connectPanel;
     public Parent readPanel;
@@ -32,6 +33,8 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         root.getChildren().addAll(panels);
+        stage.setOnCloseRequest(e -> ((ChooseChannelPanel)choosePanel).closeAllWindows());
+        Dialog.getInformation("1111");
         stage.show();
     }
 
@@ -57,6 +60,10 @@ public class Main extends Application {
         ((ConnectPanel) connectPanel).stopAllThreads();
         ((ConnectPanel) connectPanel).disconnect();
         super.stop();
+    }
+
+    public static AnnotationConfigApplicationContext getContext(){
+        return context;
     }
 
     public static void main(String[] args) {

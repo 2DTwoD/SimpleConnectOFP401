@@ -30,6 +30,7 @@ public class ConnectPanel extends Parent implements Initializable {
     ScheduledExecutorService executorService;
     ObservableList<String> comList = FXCollections.observableArrayList(SerialPortList.getPortNames());
     ObservableList<Integer> baudRateList = FXCollections.observableArrayList(4800, 9600, 19200, 38400, 57600, 115200);
+    boolean connectedAux = false;
     @FXML
     public Label comLabel;
     @FXML
@@ -71,15 +72,16 @@ public class ConnectPanel extends Parent implements Initializable {
         }, 0, 50, TimeUnit.MILLISECONDS);
     }
     private void runTime(){
-        String status = connectTool.connected()? "Подключено": "Не подключено";
+        boolean connected = connectTool.connected() || connectedAux;
+        String status = connected? "Подключено": "Не подключено";
         statusLabel.setText(status);
-        String color = connectTool.connected()? "green": "red";
+        String color = connected? "green": "red";
         statusLabel.setStyle("-fx-background-color: " + color);
-        boolean connected = connectTool.connected();
         connectButton.setDisable(connected);
         disconnectButton.setDisable(!connected);
         comCombo.setDisable(connected);
         baudRateCombo.setDisable(connected);
+        connectedAux = connectTool.connected();
     }
     private void setComPort(){
         connectTool.setComPort(comCombo.getValue());

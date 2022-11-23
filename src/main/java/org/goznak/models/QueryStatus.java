@@ -9,9 +9,9 @@ public class QueryStatus {
 
     public QueryStatus(String data) {
         ///SS0M0Wppppeeedqq.
-        if(data.equals("NOK")){
-            error = "?";
-            dirty = "?";
+        if(data.equals(DataFromSensor.UNKNOWN_SYMBOL)){
+            error = DataFromSensor.UNKNOWN_SYMBOL;
+            dirty = DataFromSensor.UNKNOWN_SYMBOL;
         } else {
             A3status = Integer.parseInt(data.substring(8, 9)) == 1;
             A2status = Integer.parseInt(data.substring(9, 10)) == 1;

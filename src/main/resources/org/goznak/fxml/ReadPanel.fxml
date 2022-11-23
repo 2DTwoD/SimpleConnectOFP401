@@ -131,52 +131,61 @@
             </Label>
          </children>
       </GridPane>
-      <GridPane>
+      <GridPane prefHeight="205.0" prefWidth="800.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="93.0" minWidth="10.0" prefWidth="77.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="74.0" minWidth="10.0" prefWidth="45.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="122.0" minWidth="10.0" prefWidth="91.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="106.0" minWidth="10.0" prefWidth="88.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="132.0" minWidth="10.0" prefWidth="49.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="106.0" minWidth="10.0" prefWidth="94.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="132.0" minWidth="10.0" prefWidth="46.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="118.0" minWidth="10.0" prefWidth="92.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="123.0" minWidth="10.0" prefWidth="112.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="91.0" minWidth="10.0" prefWidth="57.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="123.0" minWidth="10.0" prefWidth="94.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="91.0" minWidth="10.0" prefWidth="76.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="107.0" minWidth="10.0" prefWidth="93.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="79.0" />
             <ColumnConstraints />
             <ColumnConstraints />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints maxHeight="27.0" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="44.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="55.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="46.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="44.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="27.0" minHeight="10.0" percentHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="44.0" minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="47.0" minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="55.0" minHeight="10.0" percentHeight="15.0" prefHeight="29.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="46.0" minHeight="10.0" percentHeight="15.0" prefHeight="27.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="44.0" minHeight="10.0" percentHeight="15.0" prefHeight="33.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="30.0" minHeight="0.0" prefHeight="0.0" />
-            <RowConstraints maxHeight="30.0" minHeight="0.0" prefHeight="30.0" />
+            <RowConstraints maxHeight="30.0" minHeight="0.0" percentHeight="15.0" prefHeight="28.0" />
         </rowConstraints>
          <children>
             <ProgressBar fx:id="hueProgress" prefHeight="32.0" prefWidth="101.0" progress="0.0" style="-fx-accent: black;" GridPane.columnIndex="5" GridPane.rowIndex="4" />
-            <ProgressBar fx:id="satProgress" prefHeight="46.0" prefWidth="99.0" progress="0.0" style="-fx-accent: black;" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+            <ProgressBar fx:id="satProgress" prefHeight="29.0" prefWidth="96.0" progress="0.0" style="-fx-accent: black;" GridPane.columnIndex="5" GridPane.rowIndex="5" />
             <ProgressBar fx:id="lightProgress" prefHeight="30.0" prefWidth="114.0" progress="0.0" style="-fx-accent: black;" GridPane.columnIndex="5" GridPane.rowIndex="7" />
             <ProgressBar fx:id="greenProgress" prefHeight="36.0" prefWidth="93.0" progress="0.0" style="-fx-accent: #32c832;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <ProgressBar fx:id="blueProgress" prefHeight="30.0" prefWidth="257.0" progress="0.0" style="-fx-accent: blue;" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="130.0" text="Красный:" textFill="RED" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="130.0" text="Красный(R):" textFill="RED" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="169.0" text="Зелёный:" textFill="#32c832" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="169.0" text="Зелёный(G):" textFill="#32c832" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="97.0" text="Синий:" textFill="BLUE" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="97.0" text="Синий(B):" textFill="BLUE" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <TextField fx:id="rField" editable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="gField" editable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="bField" editable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="rField" editable="false" mouseTransparent="true" prefHeight="32.0" prefWidth="47.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <TextField fx:id="gField" editable="false" mouseTransparent="true" prefHeight="38.0" prefWidth="47.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <TextField fx:id="bField" editable="false" mouseTransparent="true" prefHeight="34.0" prefWidth="47.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="153.0" text="Тон красного:" textFill="RED" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -189,19 +198,34 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="114.0" text="Насыщенность:" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="114.0" text="Насыщ.(S):" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="123.0" text="Светлота:" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="123.0" text="Светлота(L):" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <TextField fx:id="hrField" editable="false" mouseTransparent="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <TextField fx:id="hgField" editable="false" mouseTransparent="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-            <TextField fx:id="hbField" editable="false" mouseTransparent="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-            <TextField fx:id="sField" editable="false" mouseTransparent="true" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-            <TextField fx:id="lField" editable="false" mouseTransparent="true" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+            <TextField fx:id="hrField" editable="false" mouseTransparent="true" prefHeight="30.0" prefWidth="47.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <TextField fx:id="hgField" editable="false" mouseTransparent="true" prefHeight="33.0" prefWidth="47.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <TextField fx:id="hbField" editable="false" mouseTransparent="true" prefHeight="42.0" prefWidth="47.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <TextField fx:id="sField" editable="false" mouseTransparent="true" prefHeight="32.0" prefWidth="47.0" GridPane.columnIndex="4" GridPane.rowIndex="5">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <TextField fx:id="lField" editable="false" mouseTransparent="true" prefHeight="31.0" prefWidth="47.0" GridPane.columnIndex="4" GridPane.rowIndex="7">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="129.0" text="Красный (X):" textFill="RED" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -214,9 +238,18 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <TextField editable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="4" fx:id="xrField" />
-            <TextField fx:id="ygField" editable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField fx:id="zbField" editable="false" mouseTransparent="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <TextField editable="false" mouseTransparent="true" prefHeight="33.0" prefWidth="47.0" GridPane.columnIndex="1" GridPane.rowIndex="4" fx:id="xrField">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <TextField fx:id="ygField" editable="false" mouseTransparent="true" prefHeight="35.0" prefWidth="47.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <TextField fx:id="zbField" editable="false" mouseTransparent="true" prefHeight="32.0" prefWidth="47.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="457.0" style="-fx-background-color: Lavender;" text="Параметры цвета:" GridPane.columnSpan="6" GridPane.halignment="CENTER">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -230,60 +263,60 @@
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <Label fx:id="opModeLabel" prefHeight="17.0" prefWidth="70.0" text="?" GridPane.columnIndex="7" GridPane.halignment="LEFT" GridPane.rowIndex="1">
-               <font>
-                  <Font size="14.0" />
-               </font></Label>
+            <Label fx:id="opModeLabel" prefHeight="30.0" prefWidth="82.0" text="?" GridPane.columnIndex="7" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
             <ComboBox fx:id="opModeCombo" prefHeight="31.0" prefWidth="94.0" GridPane.columnIndex="8" GridPane.rowIndex="1" />
-            <Button fx:id="opModeButton" mnemonicParsing="false" onAction="#setOpMode" prefHeight="25.0" prefWidth="99.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="1" />
+            <Button fx:id="opModeButton" mnemonicParsing="false" onAction="#setOpMode" prefHeight="30.0" prefWidth="81.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="1" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="98.0" text="Фильтр:" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <Label fx:id="filterLabel" prefHeight="17.0" prefWidth="81.0" text="?" GridPane.columnIndex="7" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+            <Label fx:id="filterLabel" prefHeight="31.0" prefWidth="82.0" text="?" GridPane.columnIndex="7" GridPane.halignment="LEFT" GridPane.rowIndex="2">
                <font>
                   <Font size="14.0" />
                </font></Label>
-            <Button fx:id="filterButton" mnemonicParsing="false" onAction="#setFilter" prefHeight="25.0" prefWidth="106.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="2" />
+            <Button fx:id="filterButton" mnemonicParsing="false" onAction="#setFilter" prefHeight="31.0" prefWidth="81.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="2" />
             <ComboBox fx:id="filterCombo" prefHeight="33.0" prefWidth="94.0" GridPane.columnIndex="8" GridPane.rowIndex="2" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="102.0" text="Излуч. свет:" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <Label fx:id="lightLabel" prefHeight="17.0" prefWidth="158.0" text="?" GridPane.columnIndex="7" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+            <Label fx:id="lightLabel" prefHeight="31.0" prefWidth="77.0" text="?" GridPane.columnIndex="7" GridPane.halignment="LEFT" GridPane.rowIndex="3">
                <font>
                   <Font size="14.0" />
                </font></Label>
             <ComboBox fx:id="lightCombo" prefHeight="32.0" prefWidth="94.0" GridPane.columnIndex="8" GridPane.rowIndex="3" />
-            <Button fx:id="lightButton" mnemonicParsing="false" onAction="#setLight" prefHeight="25.0" prefWidth="100.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="3" />
+            <Button fx:id="lightButton" mnemonicParsing="false" onAction="#setLight" prefHeight="37.0" prefWidth="81.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="3" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="96.0" text="FP/OFP:" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <Label fx:id="fpModeLabel" prefHeight="17.0" prefWidth="90.0" text="?" GridPane.columnIndex="7" GridPane.halignment="LEFT" GridPane.rowIndex="4">
+            <Label fx:id="fpModeLabel" prefHeight="31.0" prefWidth="86.0" text="?" GridPane.columnIndex="7" GridPane.halignment="LEFT" GridPane.rowIndex="4">
                <font>
                   <Font size="14.0" />
                </font></Label>
             <ComboBox fx:id="fpModeCombo" prefHeight="30.0" prefWidth="94.0" GridPane.columnIndex="8" GridPane.rowIndex="4" />
-            <Button fx:id="fpModeButton" mnemonicParsing="false" onAction="#setFpMode" prefHeight="25.0" prefWidth="93.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="4" />
+            <Button fx:id="fpModeButton" mnemonicParsing="false" onAction="#setFpMode" prefHeight="34.0" prefWidth="81.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="4" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="151.0" text="Эксперт. меню:" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <Label fx:id="menuLabel" prefHeight="17.0" prefWidth="76.0" text="?" GridPane.columnIndex="7" GridPane.halignment="LEFT" GridPane.rowIndex="5">
+            <Label fx:id="menuLabel" prefHeight="30.0" prefWidth="84.0" text="?" GridPane.columnIndex="7" GridPane.halignment="LEFT" GridPane.rowIndex="5">
                <font>
                   <Font size="14.0" />
                </font></Label>
             <ComboBox fx:id="menuCombo" prefHeight="33.0" prefWidth="94.0" GridPane.columnIndex="8" GridPane.rowIndex="5" />
-            <Button fx:id="menuButton" mnemonicParsing="false" onAction="#setMenu" prefHeight="25.0" prefWidth="95.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="5" />
+            <Button fx:id="menuButton" mnemonicParsing="false" onAction="#setMenu" prefHeight="32.0" prefWidth="81.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="5" />
             <Button fx:id="resetButton" mnemonicParsing="false" onAction="#resetSensor" prefHeight="25.0" prefWidth="181.0" text="Сброс настроек" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="7" />
-            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="94.0" text="Тон:" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="94.0" text="Тон(H~расчет):" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
-            <TextField fx:id="hueField" editable="false" mouseTransparent="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+            <TextField fx:id="hueField" editable="false" mouseTransparent="true" prefHeight="32.0" prefWidth="47.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
             <ProgressBar fx:id="redxProgress" prefHeight="36.0" prefWidth="92.0" progress="0.0" style="-fx-accent: red;" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <ProgressBar fx:id="greenyProgress" prefHeight="46.0" prefWidth="92.0" progress="0.0" style="-fx-accent: #32c832;" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <ProgressBar fx:id="greenyProgress" prefHeight="30.0" prefWidth="92.0" progress="0.0" style="-fx-accent: #32c832;" GridPane.columnIndex="2" GridPane.rowIndex="5" />
             <ProgressBar fx:id="bluezProgress" prefHeight="53.0" prefWidth="92.0" progress="0.0" style="-fx-accent: blue;" GridPane.columnIndex="2" GridPane.rowIndex="7" />
             <ProgressBar fx:id="redHueProgress" prefHeight="31.0" prefWidth="108.0" progress="0.0" style="-fx-accent: red;" GridPane.columnIndex="5" GridPane.rowIndex="1" />
             <ProgressBar fx:id="greenHueProgress" prefHeight="35.0" prefWidth="108.0" progress="0.0" style="-fx-accent: #32c832;" GridPane.columnIndex="5" GridPane.rowIndex="2" />

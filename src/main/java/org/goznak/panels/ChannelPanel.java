@@ -240,6 +240,8 @@ public class ChannelPanel extends Parent implements Initializable {
     Button spLightLonButton;
     @FXML
     Button spLightLoffButton;
+    @FXML
+    Label titleLabel;
     private int channel;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -259,6 +261,7 @@ public class ChannelPanel extends Parent implements Initializable {
     }
     public void setChannel(int value){
         channel = value;
+        titleLabel.setText("Настройки канала A" + channel + ":");
     }
     private void runTime(){
         String channelFunction = dataFromSensor.getChannelFunction(channel);

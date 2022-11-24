@@ -13,9 +13,13 @@ public class QueryStatus {
             error = DataFromSensor.UNKNOWN_SYMBOL;
             dirty = DataFromSensor.UNKNOWN_SYMBOL;
         } else {
-            A3status = Integer.parseInt(data.substring(8, 9)) == 1;
-            A2status = Integer.parseInt(data.substring(9, 10)) == 1;
-            A1status = Integer.parseInt(data.substring(10, 11)) == 1;
+            try {
+                A3status = Integer.parseInt(data.substring(8, 9)) == 1;
+                A2status = Integer.parseInt(data.substring(9, 10)) == 1;
+                A1status = Integer.parseInt(data.substring(10, 11)) == 1;
+            }
+            catch(Exception ignored){
+            }
             error = getTrueError(data.substring(11, 14));
             dirty = !error.equals("OK") ? getTrueStatus("error") : getTrueStatus(data.substring(14, 15));
         }

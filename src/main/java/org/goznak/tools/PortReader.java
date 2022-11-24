@@ -62,8 +62,8 @@ public class PortReader implements SerialPortEventListener {
                     }
                 }
             }
-            catch (SerialPortException ex) {
-                System.out.println(ex.getMessage());
+            catch (SerialPortException e) {
+                Dialog.getFullError(e);
                 connectTool.disconnect();
             }
         }

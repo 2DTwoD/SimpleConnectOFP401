@@ -1,6 +1,7 @@
 package org.goznak;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,8 +34,13 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         root.getChildren().addAll(panels);
-        stage.setOnCloseRequest(e -> ((ChooseChannelPanel)choosePanel).closeAllWindows());
-        Dialog.getInformation("1111");
+        stage.setOnCloseRequest(e -> {
+            if(!Dialog.getConfirm("Вы действительно хотите закрыть программу?")){
+                e.consume();
+                return;
+            }
+            ((ChooseChannelPanel)choosePanel).closeAllWindows();
+        });
         stage.show();
     }
 
@@ -46,7 +52,9 @@ public class Main extends Application {
     public static FXMLLoader getPanelLoader(String name) throws Exception {
         URL url = Main.class.getResource("fxml/" + name);
         if(url == null) {
-            throw new Exception("bad URL for .fxml");
+            Exception e = new Exception("Неправильный путь до файла .fxml");
+            Dialog.getFullError(e);
+            throw e;
         }
         FXMLLoader loader = new FXMLLoader(url);
         loader.setControllerFactory(context::getBean);

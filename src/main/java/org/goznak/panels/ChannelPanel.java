@@ -7,6 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import org.goznak.inputs.NumericTextField;
 import org.goznak.models.DataFromSensor;
+import org.goznak.tools.ConnectTool;
+import org.goznak.tools.Dialog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -23,6 +25,8 @@ import java.util.concurrent.TimeUnit;
 public class ChannelPanel extends Parent implements Initializable {
     @Autowired
     DataFromSensor dataFromSensor;
+    @Autowired
+    ConnectTool connectTool;
     ScheduledExecutorService executorService;
     @FXML
     Label channelFunctionLabel;
@@ -255,7 +259,7 @@ public class ChannelPanel extends Parent implements Initializable {
                 Platform.runLater(this::runTime);
             }
             catch(Exception e){
-                System.out.println(e.getMessage());
+                Platform.runLater(() -> Dialog.getFullError(e));
             }
         }, 0, 50, TimeUnit.MILLISECONDS);
     }
@@ -283,6 +287,52 @@ public class ChannelPanel extends Parent implements Initializable {
         int onDelay = dataFromSensor.getOnDelay(channel);
         int offDelay = dataFromSensor.getOffDelay(channel);
         int impulse = dataFromSensor.getImpulse(channel);
+        boolean notConnected = !connectTool.connected();
+        boolean modeHSL = !dataFromSensor.getOpMode().equals(DataFromSensor.opModeList.get(0)) || notConnected;
+        boolean modeAssign = !dataFromSensor.getOpMode().equals(DataFromSensor.opModeList.get(1)) || notConnected;
+        boolean modeRGB = !dataFromSensor.getOpMode().equals(DataFromSensor.opModeList.get(2)) || notConnected;
+        boolean modeHSLRGB = !modeAssign || notConnected;
+
+        applyChannelFunctionButton.setDisable(notConnected);
+        assignTeachButton.setDisable(modeAssign);
+        disableNodes(assignRedField, applyAssignRedButton, modeAssign);
+        disableNodes(assignGreenField, applyAssignGreenButton, modeAssign);
+        disableNodes(assignBlueField, applyAssignBlueButton, modeAssign);
+        windowTeachButton.setDisable(modeHSLRGB);
+        windowTeachOKButton.setDisable(modeHSLRGB);
+        windowTeachNOKButton.setDisable(modeHSLRGB);
+        disableNodes(winRedField, applyWinRedButton, modeRGB);
+        disableNodes(winGreenField, applyWinGreenButton, modeRGB);
+        disableNodes(winBlueField, applyWinBlueButton, modeRGB);
+        disableNodes(winHueField, applyWinHueButton, modeHSL);
+        disableNodes(winSatField, applyWinSatButton, modeHSL);
+        disableNodes(winLightField, applyWinLightButton, modeHSL);
+        disableNodes(winCommField, applyWinCommButton, modeHSLRGB);
+        disableNodes(spRedHoffField, spRedHoffButton, modeHSLRGB);
+        disableNodes(spRedHonField, spRedHonButton, modeHSLRGB);
+        disableNodes(spRedLonField, spRedLonButton, modeHSLRGB);
+        disableNodes(spRedLoffField, spRedLoffButton, modeHSLRGB);
+        disableNodes(spGreenHoffField, spGreenHoffButton, modeHSLRGB);
+        disableNodes(spGreenHonField, spGreenHonButton, modeHSLRGB);
+        disableNodes(spGreenLonField, spGreenLonButton, modeHSLRGB);
+        disableNodes(spGreenLoffField, spGreenLoffButton, modeHSLRGB);
+        disableNodes(spBlueHoffField, spBlueHoffButton, modeHSLRGB);
+        disableNodes(spBlueHonField, spBlueHonButton, modeHSLRGB);
+        disableNodes(spBlueLonField, spBlueLonButton, modeHSLRGB);
+        disableNodes(spBlueLoffField, spBlueLoffButton, modeHSLRGB);
+        disableNodes(spSatHoffField, spSatHoffButton, modeHSLRGB);
+        disableNodes(spSatHonField, spSatHonButton, modeHSLRGB);
+        disableNodes(spSatLonField, spSatLonButton, modeHSLRGB);
+        disableNodes(spSatLoffField, spSatLoffButton, modeHSLRGB);
+        disableNodes(spLightHoffField, spLightHoffButton, modeHSLRGB);
+        disableNodes(spLightHonField, spLightHonButton, modeHSLRGB);
+        disableNodes(spLightLonField, spLightLonButton, modeHSLRGB);
+        disableNodes(spLightLoffField, spLightLoffButton, modeHSLRGB);
+        disableNodes(onDelayField, onDelayButton, notConnected);
+        disableNodes(offDelayField, offDelayButton, notConnected);
+        disableNodes(impulseField, impulseButton, notConnected);
+        testCheckBox.setDisable(notConnected);
+
         channelFunctionLabel.setText(channelFunction);
 
         assignRedLabel.setText(String.valueOf(assignedTechRed));
@@ -363,34 +413,87 @@ public class ChannelPanel extends Parent implements Initializable {
         onDelayButton.setOnAction(e-> setDelayImpulse(onDelayField.getText(), "j"));
         offDelayButton.setOnAction(e-> setDelayImpulse(offDelayField.getText(), "k"));
         impulseButton.setOnAction(e-> setDelayImpulse(impulseField.getText(), "l"));
-        testCombo.setOnAction(e -> setTestOutput());
+        testCombo.setOnAction(e -> changeTestOutput());
         testCheckBox.setOnAction(e -> setTestOutput());
     }
     public void stopAllThreads(){
         executorService.shutdown();
     }
     private void setPinFunction(){
+        String value = channelFunctionCombo.getValue();
+        if(badFirstConditionDialog(value, "Изменить функцию канала A" + channel + "?")){
+            return;
+        }
         dataFromSensor.setPinFunction(channel, channelFunctionCombo.getValue());
     }
     private void makeAssignedTeach(){
+        if(!connectTool.connected() || !Dialog.getConfirm("Сделать обучение по назначению для канала A" + channel + "?")){
+            return;
+        }
         dataFromSensor.makeAssignTeach(channel);
     }
     private void setAssignTeach(String value, String color) {
+        if(badFirstConditionDialog(value, "Применить значение %s?")){
+            return;
+        }
         dataFromSensor.setAssignedTeach(channel, value, color);
     }
     private void makeWindowTeach(String function){
+        if(!connectTool.connected() || !Dialog.getConfirm("Сделать обучение по окну для канала A" + channel + "?")){
+            return;
+        }
         dataFromSensor.makeWindowTeach(channel, function);
     }
     private void setSwitchingPoints(String value, String function, String target){
+        if(badFirstConditionDialog(value, "Применить значение %s?")){
+            return;
+        }
         dataFromSensor.setSwitchingPoints(channel, value, function, target);
     }
     private void setWindowSize(String value, String function){
+        if(badFirstConditionDialog(value, "Применить значение %s?")){
+            return;
+        }
         dataFromSensor.setWindowSize(channel, value, function);
     }
     private void setDelayImpulse(String value, String function){
+        if(badFirstConditionDialog(value, "Применить значение %s?")){
+            return;
+        }
         dataFromSensor.setDelayImpulse(channel, value, function);
     }
     private void setTestOutput(){
+        if(!connectTool.connected() || testCheckBox.isSelected() && !Dialog.getConfirm("Включить симуляцию выходного сигнала канала А" + channel + "?")){
+            testCheckBox.setSelected(false);
+            return;
+        }
+        changeTestOutput();
+    }
+    private void changeTestOutput(){
+        if(!connectTool.connected()){
+            return;
+        }
         dataFromSensor.setTestOutput(channel, testCheckBox.isSelected(), testCombo.getValue());
+    }
+    private boolean badFirstConditionDialog(String value, String message){
+        if(!connectTool.connected()){
+            return true;
+        }
+        if(value.equals(DataFromSensor.UNKNOWN_SYMBOL)){
+            Dialog.getInformation("Выберите значение прежде чем применять");
+            return true;
+        }
+        if(value.isEmpty()){
+            Dialog.getInformation("Введите значение прежде чем применять");
+            return true;
+        }
+        if(!Dialog.getConfirm(String.format(message, value))){
+            return true;
+        }
+        return false;
+    }
+    private void disableNodes(TextField textField, Button button, boolean value){
+        textField.setDisable(value);
+        button.setDisable(value);
     }
 }

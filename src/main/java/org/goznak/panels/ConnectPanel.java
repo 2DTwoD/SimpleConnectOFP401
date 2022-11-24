@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import jssc.SerialPortList;
 import org.goznak.models.DataFromSensor;
 import org.goznak.tools.ConnectTool;
+import org.goznak.tools.Dialog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -67,7 +68,7 @@ public class ConnectPanel extends Parent implements Initializable {
                 Platform.runLater(this::runTime);
             }
             catch(Exception e){
-                System.out.println(e.getMessage());
+                Platform.runLater(() -> Dialog.getFullError(e));
             }
         }, 0, 50, TimeUnit.MILLISECONDS);
     }

@@ -9,6 +9,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.goznak.models.DataFromSensor;
 import org.goznak.models.QueryStatus;
+import org.goznak.tools.ConnectTool;
+import org.goznak.tools.Dialog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +24,8 @@ import java.util.concurrent.TimeUnit;
 public class ReadPanel extends Parent implements Initializable {
     @Autowired
     DataFromSensor dataFromSensor;
+    @Autowired
+    ConnectTool connectTool;
     ScheduledExecutorService executorService;
     @FXML
     private TextField rField;
@@ -149,7 +153,7 @@ public class ReadPanel extends Parent implements Initializable {
                 Platform.runLater(this::runTime);
             }
             catch(Exception e){
-                System.out.println(e.getMessage());
+                Platform.runLater(() -> Dialog.getFullError(e));
             }
         }, 0, 10, TimeUnit.MILLISECONDS);
     }
@@ -215,27 +219,66 @@ public class ReadPanel extends Parent implements Initializable {
     }
     @FXML
     public void setOpMode(){
-        dataFromSensor.setOpMode(opModeCombo.getValue());
+        String value = opModeCombo.getValue();
+        if(badFirstConditionDialog(value, "Изменить режим работы датчика на значение '"+ value + "'?")){
+            return;
+        }
+        dataFromSensor.setOpMode(value);
     }
     @FXML
     public void setFilter(){
-        dataFromSensor.setFilter(filterCombo.getValue());
+        String value = filterCombo.getValue();
+        if(badFirstConditionDialog(value, "Изменить фильтрацию сигнала датчика на значение '"+ value + "'?")){
+            return;
+        }
+        dataFromSensor.setFilter(value);
     }
     @FXML
     public void setLight(){
-        dataFromSensor.setLight(lightCombo.getValue());
+        String value = lightCombo.getValue();
+        if(badFirstConditionDialog(value, "Изменить излучение датчика на значение '"+ value + "'?")){
+            return;
+        }
+        dataFromSensor.setLight(value);
     }
     @FXML
     public void setFpMode(){
+        String value = fpModeCombo.getValue();
+        if(badFirstConditionDialog(value, "Изменить тип датчика на значение '"+ value + "'?")){
+            return;
+        }
         dataFromSensor.setFpMode(fpModeCombo.getValue());
     }
     @FXML
     public void setMenu(){
+        String value = menuCombo.getValue();
+        String experMenu = value.equals(DataFromSensor.menuList.get(0))?
+                "Выключить экспертное меню датчика?":
+                "Включить экспертное меню датчика?";
+        if(badFirstConditionDialog(value, experMenu)){
+            return;
+        }
         dataFromSensor.setMenu(menuCombo.getValue());
     }
     @FXML
     public void resetSensor(){
+        if(!connectTool.connected() || !Dialog.getConfirm("Произвести сброс настроек датчика?")){
+            return;
+        }
         dataFromSensor.reset();
+    }
+    private boolean badFirstConditionDialog(String value, String message){
+        if(!connectTool.connected()){
+            return true;
+        }
+        if(value.equals(DataFromSensor.UNKNOWN_SYMBOL)){
+            Dialog.getInformation("Выберите значение прежде чем применять");
+            return true;
+        }
+        if(!Dialog.getConfirm(message)){
+            return true;
+        }
+        return false;
     }
     public void stopAllThreads(){
         executorService.shutdown();

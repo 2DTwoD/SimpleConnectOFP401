@@ -1,5 +1,6 @@
 package org.goznak.tools;
 
+import javafx.application.Platform;
 import jssc.*;
 import org.goznak.Main;
 import org.goznak.models.DataFromSensor;
@@ -29,33 +30,34 @@ public class ConnectTool {
             try {
                 serialPort.closePort();
             } catch (SerialPortException e) {
+                Platform.runLater(() -> Dialog.getFullError(e));
                 throw new RuntimeException(e);
             }
         }
         executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(() -> {
             if(!watchDog.isOk()){
-                System.out.println("Нет связи с датчиком");
+                Platform.runLater(() -> Dialog.getWarning("Нет связи с датчиком"));
                 disconnect();
             }
             watchDog.setOk(false);
         },2 , 2, TimeUnit.SECONDS);
-            serialPort = new SerialPort(comPort);
-            try {
-                serialPort.openPort();
-                serialPort.setParams(baudRate,
-                        SerialPort.DATABITS_8,
-                        SerialPort.STOPBITS_1,
-                        SerialPort.PARITY_NONE);
+        serialPort = new SerialPort(comPort);
+        try {
+            serialPort.openPort();
+            serialPort.setParams(baudRate,
+                    SerialPort.DATABITS_8,
+                    SerialPort.STOPBITS_1,
+                    SerialPort.PARITY_NONE);
 
-                PortReader portReader = (PortReader) Main.getContext().getBean("portReader", serialPort);
-                serialPort.addEventListener(portReader, SerialPort.MASK_RXCHAR);
-                serialPort.writeBytes(CommandList.current().getCommand().getBytes(StandardCharsets.US_ASCII));
-            }
-            catch (SerialPortException ex) {
-                System.out.println(ex.getMessage());
-                disconnect();
-            }
+            PortReader portReader = (PortReader) Main.getContext().getBean("portReader", serialPort);
+            serialPort.addEventListener(portReader, SerialPort.MASK_RXCHAR);
+            serialPort.writeBytes(CommandList.current().getCommand().getBytes(StandardCharsets.US_ASCII));
+        }
+        catch (SerialPortException e) {
+            Dialog.getFullError(e);
+            disconnect();
+        }
     }
     public void disconnect(){
         try {
@@ -65,6 +67,7 @@ public class ConnectTool {
                 serialPort.closePort();
             }
         } catch (SerialPortException e) {
+            Dialog.getFullError(e);
             throw new RuntimeException(e);
         }
     }

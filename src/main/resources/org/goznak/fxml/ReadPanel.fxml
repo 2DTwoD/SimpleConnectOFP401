@@ -306,7 +306,7 @@
                </font></Label>
             <ComboBox fx:id="menuCombo" prefHeight="33.0" prefWidth="94.0" GridPane.columnIndex="8" GridPane.rowIndex="5" />
             <Button fx:id="menuButton" mnemonicParsing="false" onAction="#setMenu" prefHeight="32.0" prefWidth="81.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="5" />
-            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#resetSensor" prefHeight="25.0" prefWidth="181.0" text="Сброс настроек" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="7" />
+            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#resetSensor" prefHeight="30.0" prefWidth="174.0" text="Сброс настроек" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="7" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="94.0" text="Тон(H~расчет):" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -321,6 +321,7 @@
             <ProgressBar fx:id="redHueProgress" prefHeight="31.0" prefWidth="108.0" progress="0.0" style="-fx-accent: red;" GridPane.columnIndex="5" GridPane.rowIndex="1" />
             <ProgressBar fx:id="greenHueProgress" prefHeight="35.0" prefWidth="108.0" progress="0.0" style="-fx-accent: #32c832;" GridPane.columnIndex="5" GridPane.rowIndex="2" />
             <ProgressBar fx:id="blueHueProgress" prefHeight="41.0" prefWidth="108.0" progress="0.0" style="-fx-accent: blue;" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+            <Button fx:id="helpButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="173.0" text="Помощь" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="7" />
          </children>
       </GridPane>
       <GridPane>

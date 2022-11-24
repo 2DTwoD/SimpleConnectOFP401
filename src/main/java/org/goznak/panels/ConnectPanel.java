@@ -68,7 +68,7 @@ public class ConnectPanel extends Parent implements Initializable {
                 Platform.runLater(this::runTime);
             }
             catch(Exception e){
-                Platform.runLater(() -> Dialog.getFullError(e));
+                Platform.runLater(() -> Dialog.getError(e));
             }
         }, 0, 50, TimeUnit.MILLISECONDS);
     }

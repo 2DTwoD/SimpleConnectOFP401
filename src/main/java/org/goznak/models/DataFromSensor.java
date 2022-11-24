@@ -40,9 +40,17 @@ public class DataFromSensor {
         }
     }
     public void setData(RequestCommand command, String data){
-        if(data.contains("NOK") || data.contains("NOk") ||!checkSumOK(data) || data.length() != command.getLength() || !sensorData.containsKey(command)){
+        if(data.contains("NOK") || data.contains("NOk") ||!checkSumOK(data) || data.length() != command.getLength()){
             //System.out.println(String.format("command: %s, data: %s", command.getCommand(), data));
             return;
+        }
+        if(!sensorData.containsKey(command)){
+            //System.out.println(String.format("command: %s, data: %s", command.getCommand(), data));
+            if(command.getReferenceCommand() != null){
+                command = command.getReferenceCommand();
+            } else {
+                return;
+            }
         }
         sensorData.replace(command, data);
     }
@@ -438,27 +446,27 @@ public class DataFromSensor {
         }
         return testOutputList.get(Integer.parseInt(data.substring(9, 10)));
     }
-    private void setOneValue(Command command, List<String> list, String value){
+    private void setOneValue(Command command, List<String> list, String value, RequestCommand referenceCommand){
         if(!list.contains(value)){
             return;
         }
-        RequestCommand cmd = command.getCommand(new String[]{Integer.toHexString(list.indexOf(value)).toUpperCase()});
+        RequestCommand cmd = command.getCommand(new String[]{Integer.toHexString(list.indexOf(value)).toUpperCase()}, referenceCommand);
         CommandList.setWriteCommand(cmd);
     }
     public void setOpMode(String value){
-        setOneValue(CommandList.WRITE_OPERATING_MODE, opModeList, value);
+        setOneValue(CommandList.WRITE_OPERATING_MODE, opModeList, value, CommandList.READ_OPERATING_MODE);
     }
     public void setFilter(String value){
-        setOneValue(CommandList.WRITE_FILTER_SIZE, filterList, value);
+        setOneValue(CommandList.WRITE_FILTER_SIZE, filterList, value, CommandList.READ_FILTER_SIZE);
     }
     public void setLight(String value){
-        setOneValue(CommandList.WRITE_EMITTED_LIGHT, lightList, value);
+        setOneValue(CommandList.WRITE_EMITTED_LIGHT, lightList, value, CommandList.READ_EMITTED_LIGHT);
     }
     public void setFpMode(String value){
-        setOneValue(CommandList.WRITE_SENSOR_SELECT, fpModeList, value);
+        setOneValue(CommandList.WRITE_SENSOR_SELECT, fpModeList, value, CommandList.READ_SENSOR_SELECT);
     }
     public void setMenu(String value){
-        setOneValue(CommandList.WRITE_EXPERT_MENU, menuList, value);
+        setOneValue(CommandList.WRITE_EXPERT_MENU, menuList, value, CommandList.READ_EXPERT_MENU);
     }
     public void reset(){
         CommandList.setWriteCommand(CommandList.RESET_SENSOR.getCommand());
@@ -473,10 +481,11 @@ public class DataFromSensor {
         } else {
             index += 87;
         }
+        RequestCommand referenceCommand = CommandList.readPinFunction(channel);
         CommandList.setWriteCommand(CommandList.WRITE_PIN_FUNCTION.getCommand(new String[]{
                 String.valueOf(channel),
                 String.valueOf((char) index)
-        }));
+        }, referenceCommand));
     }
     public void makeAssignTeach(int channel){
         CommandList.setWriteCommand(CommandList.MAKE_ASSIGNED_TEACH.getCommand(new String[]{String.valueOf(channel), "0"}));
@@ -497,8 +506,13 @@ public class DataFromSensor {
         if(hexValue == null){
             return;
         }
+        RequestCommand referenceCommand = switch (color){
+            case "R" -> CommandList.readAssignedTeachRed(channel);
+            case "G" -> CommandList.readAssignedTeachGreen(channel);
+            default -> CommandList.readAssignedTeachBlue(channel);
+        };
         CommandList.setWriteCommand(CommandList.WRITE_ASSIGNED_TEACH.getCommand(new String[]{String.valueOf(channel), color,
-        hexValue}));
+        hexValue}, referenceCommand));
     }
     public void makeWindowTeach(int channel, String function){
         CommandList.setWriteCommand(CommandList.MAKE_WINDOW_TEACH.getCommand(new String[]{String.valueOf(channel), function}));
@@ -512,58 +526,78 @@ public class DataFromSensor {
         catch (Exception ignored){
             return;
         }
-        int[] sp;
-        switch(function){
-            case "R" -> sp = getSwitchingPointsRed(channel);
-            case "G" -> sp = getSwitchingPointsGreen(channel);
-            case "B" -> sp = getSwitchingPointsBlue(channel);
-            case "S" -> sp = getSwitchingPointsSat(channel);
-            default ->  sp = getSwitchingPointsLight(channel);
-        }
-        int index;
-        switch(target){
-            case "Hoff" -> index = 0;
-            case "Hon" -> index = 1;
-            case "Lon" -> index = 2;
-            default ->  index = 3;
-        }
+        int[] sp = switch(function){
+            case "R" -> getSwitchingPointsRed(channel);
+            case "G" -> getSwitchingPointsGreen(channel);
+            case "B" -> getSwitchingPointsBlue(channel);
+            case "S" -> getSwitchingPointsSat(channel);
+            default -> getSwitchingPointsLight(channel);
+        };
+        RequestCommand referenceCommand = switch(function){
+            case "R" -> CommandList.readSwitchingPointsRed(channel);
+            case "G" -> CommandList.readSwitchingPointsGreen(channel);
+            case "B" -> CommandList.readSwitchingPointsBlue(channel);
+            case "S" -> CommandList.readSwitchingPointsSat(channel);
+            default -> CommandList.readSwitchingPointsLight(channel);
+        };
+        int index = switch(target){
+            case "Hoff" -> 0;
+            case "Hon" -> 1;
+            case "Lon" -> 2;
+            default -> 3;
+        };
         sp[index] = decimalValue;
         String result = "";
         for(int i: sp){
             result += String.format("%04X", i);
         }
         CommandList.setWriteCommand(CommandList.WRITE_SWITCHING_POINTS.getCommand(new String[]{String.valueOf(channel),
-                function, result}));
+                function, result}, referenceCommand));
     }
     public void setWindowSize(int channel, String value, String function){
         String hexValue = getLimitedHex(value, 255);
         if(hexValue == null){
             return;
         }
+        RequestCommand referenceCommand = switch(function){
+            case "b" -> CommandList.readWindowSizeComm(channel);
+            case "c" -> CommandList.readWindowSizeHue(channel);
+            case "d" -> CommandList.readWindowSizeSat(channel);
+            case "e" -> CommandList.readWindowSizeLight(channel);
+            case "R" -> CommandList.readWindowSizeRed(channel);
+            case "G" -> CommandList.readWindowSizeGreen(channel);
+            default -> CommandList.readWindowSizeBlue(channel);
+        };
         if("RGB".contains(function)){
             CommandList.setWriteCommand(CommandList.WRITE_WINDOW_SIZE_AUX.getCommand(new String[]{String.valueOf(channel),
-                    function, hexValue}));
+                    function, hexValue}, referenceCommand));
             return;
         }
         CommandList.setWriteCommand(CommandList.WRITE_WINDOW_SIZE.getCommand(new String[]{function,
-                String.valueOf(channel), hexValue}));
+                String.valueOf(channel), hexValue}, referenceCommand));
     }
     public void setDelayImpulse(int channel, String value, String function){
         String hexValue = getLimitedHex(value, 10000);
         if(hexValue == null){
             return;
         }
+        RequestCommand referenceCommand = switch(function){
+            case "j" -> CommandList.readOnDelay(channel);
+            case "k" -> CommandList.readOffDelay(channel);
+            default -> CommandList.readImpulse(channel);
+        };
         CommandList.setWriteCommand(CommandList.WRITE_DELAY_IMPULSE.getCommand(new String[]{function,
-                String.valueOf(channel), hexValue}));
+                String.valueOf(channel), hexValue}, referenceCommand));
     }
     public void setTestOutput(int channel, boolean onOff, String value){
+        RequestCommand referenceCommand = CommandList.readTestOutput(channel);
         if(!onOff){
             CommandList.setWriteCommand(CommandList.WRITE_TEST_OUTPUT.getCommand(new String[]{String.valueOf(channel),
-                    "2"}));
+                    "2"}, referenceCommand));
         } else {
             int index = testOutputList.indexOf(value);
             CommandList.setWriteCommand(CommandList.WRITE_TEST_OUTPUT.getCommand(new String[]{String.valueOf(channel),
-                    String.valueOf(index)}));
+                    String.valueOf(index)}, referenceCommand));
         }
     }
 }

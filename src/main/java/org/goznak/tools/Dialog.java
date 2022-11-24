@@ -19,6 +19,20 @@ public class Dialog {
         alert.setContentText(text);
         alert.showAndWait();
     }
+    public static void getHelp(){
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Информация");
+        alert.setHeaderText("Спасибо, что используете наше программное обеспечение");
+        alert.setContentText("Данная программа используется для подключению к датчику Wenglor OFP401P0189 по интерфейсу RS232\n" +
+                "Распиновка:\n" +
+                "Датчик ---- Dsub DB9\n" +
+                "3 ------------- 5 (0V)\n" +
+                "4 ------------- 2\n" +
+                "5 ------------- 3\n" +
+                "1 ------------- 24VDC\n" +
+                "Автор: Демьяненко Дмитрий Сергеевич");
+        alert.showAndWait();
+    }
     public static void getWarning(String text){
         try {
             alert = new Alert(Alert.AlertType.WARNING);
@@ -38,14 +52,7 @@ public class Dialog {
         alert.setContentText(text);
         return alert.showAndWait().get() == ButtonType.OK;
     }
-    public static void getError(String text){
-        alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Ошибка");
-        alert.setHeaderText(null);
-        alert.setContentText(text);
-        alert.showAndWait();
-    }
-    public static void getFullError(Exception e){
+    public static void getError(Exception e){
         alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Произошло исключение");
         alert.setHeaderText(null);

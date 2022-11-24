@@ -135,6 +135,8 @@ public class ReadPanel extends Parent implements Initializable {
     Label hslLabel;
     @FXML
     Label xyzLabel;
+    @FXML
+    Button helpButton;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         opModeCombo.setItems(DataFromSensor.opModeList);
@@ -148,12 +150,13 @@ public class ReadPanel extends Parent implements Initializable {
         fpModeCombo.setValue("?");
         menuCombo.setValue("?");
         executorService = Executors.newSingleThreadScheduledExecutor();
+        helpButton.setOnAction(e -> Dialog.getHelp());
         executorService.scheduleAtFixedRate(() -> {
             try {
                 Platform.runLater(this::runTime);
             }
             catch(Exception e){
-                Platform.runLater(() -> Dialog.getFullError(e));
+                Platform.runLater(() -> Dialog.getError(e));
             }
         }, 0, 10, TimeUnit.MILLISECONDS);
     }

@@ -131,7 +131,6 @@ public class CommandList {
             READ_OFF_DELAY_PIN1, READ_OFF_DELAY_PIN2, READ_OFF_DELAY_PIN3, READ_OPERATING_MODE, READ_FILTER_SIZE,
             READ_EMITTED_LIGHT, READ_SENSOR_SELECT, READ_EXPERT_MENU, READ_SENSOR_VERSION, READ_IMPULSE_PIN1,
             READ_IMPULSE_PIN2, READ_IMPULSE_PIN3};// ,READ_TEST_OUTPUT_PIN1, READ_TEST_OUTPUT_PIN2, READ_TEST_OUTPUT_PIN3
-
     private static RequestCommand writeCommand;
     private static int firstPriorityCur = 0;
     private static int lastPriorityCur = 0;

@@ -30,7 +30,7 @@ public class ConnectTool {
             try {
                 serialPort.closePort();
             } catch (SerialPortException e) {
-                Platform.runLater(() -> Dialog.getFullError(e));
+                Platform.runLater(() -> Dialog.getError(e));
                 throw new RuntimeException(e);
             }
         }
@@ -55,7 +55,7 @@ public class ConnectTool {
             serialPort.writeBytes(CommandList.current().getCommand().getBytes(StandardCharsets.US_ASCII));
         }
         catch (SerialPortException e) {
-            Dialog.getFullError(e);
+            Dialog.getError(e);
             disconnect();
         }
     }
@@ -67,7 +67,7 @@ public class ConnectTool {
                 serialPort.closePort();
             }
         } catch (SerialPortException e) {
-            Dialog.getFullError(e);
+            Dialog.getError(e);
             throw new RuntimeException(e);
         }
     }

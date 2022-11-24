@@ -1,7 +1,6 @@
 package org.goznak;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -53,7 +52,7 @@ public class Main extends Application {
         URL url = Main.class.getResource("fxml/" + name);
         if(url == null) {
             Exception e = new Exception("Неправильный путь до файла .fxml");
-            Dialog.getFullError(e);
+            Dialog.getError(e);
             throw e;
         }
         FXMLLoader loader = new FXMLLoader(url);

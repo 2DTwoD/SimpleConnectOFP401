@@ -47,7 +47,11 @@ public class ChooseChannelPanel extends Parent implements Initializable {
         stage.setTitle("Канал A" + channel);
         stage.setScene(scene);
         stage.setResizable(false);
-        channelButton.setOnAction(event ->stage.show());
+        channelButton.setOnAction(event ->{
+            stage.show();
+            stage.toFront();
+        }
+        );
         return controller;
     }
     public void stopAllThreads(){

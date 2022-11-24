@@ -247,6 +247,7 @@ public class ChannelPanel extends Parent implements Initializable {
     @FXML
     Label titleLabel;
     private int channel;
+    boolean connectedAux;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         channelFunctionCombo.setItems(DataFromSensor.channelFunction);
@@ -259,7 +260,7 @@ public class ChannelPanel extends Parent implements Initializable {
                 Platform.runLater(this::runTime);
             }
             catch(Exception e){
-                Platform.runLater(() -> Dialog.getFullError(e));
+                Platform.runLater(() -> Dialog.getError(e));
             }
         }, 0, 50, TimeUnit.MILLISECONDS);
     }
@@ -287,14 +288,16 @@ public class ChannelPanel extends Parent implements Initializable {
         int onDelay = dataFromSensor.getOnDelay(channel);
         int offDelay = dataFromSensor.getOffDelay(channel);
         int impulse = dataFromSensor.getImpulse(channel);
-        boolean notConnected = !connectTool.connected();
-        boolean modeHSL = !dataFromSensor.getOpMode().equals(DataFromSensor.opModeList.get(0)) || notConnected;
-        boolean modeAssign = !dataFromSensor.getOpMode().equals(DataFromSensor.opModeList.get(1)) || notConnected;
-        boolean modeRGB = !dataFromSensor.getOpMode().equals(DataFromSensor.opModeList.get(2)) || notConnected;
-        boolean modeHSLRGB = !modeAssign || notConnected;
+        boolean connected = connectTool.connected() || connectedAux;
+        boolean modeHSL = !dataFromSensor.getOpMode().equals(DataFromSensor.opModeList.get(0)) || !connected;
+        boolean modeAssign = !dataFromSensor.getOpMode().equals(DataFromSensor.opModeList.get(1)) || !connected;
+        boolean modeRGB = !dataFromSensor.getOpMode().equals(DataFromSensor.opModeList.get(2)) || !connected;
+        boolean modeHSLRGB = !modeAssign || !connected;
+        connectedAux = connectTool.connected();
 
-        applyChannelFunctionButton.setDisable(notConnected);
+        applyChannelFunctionButton.setDisable(!connected);
         assignTeachButton.setDisable(modeAssign);
+
         disableNodes(assignRedField, applyAssignRedButton, modeAssign);
         disableNodes(assignGreenField, applyAssignGreenButton, modeAssign);
         disableNodes(assignBlueField, applyAssignBlueButton, modeAssign);
@@ -328,42 +331,35 @@ public class ChannelPanel extends Parent implements Initializable {
         disableNodes(spLightHonField, spLightHonButton, modeHSLRGB);
         disableNodes(spLightLonField, spLightLonButton, modeHSLRGB);
         disableNodes(spLightLoffField, spLightLoffButton, modeHSLRGB);
-        disableNodes(onDelayField, onDelayButton, notConnected);
-        disableNodes(offDelayField, offDelayButton, notConnected);
-        disableNodes(impulseField, impulseButton, notConnected);
-        testCheckBox.setDisable(notConnected);
+        disableNodes(onDelayField, onDelayButton, !connected);
+        disableNodes(offDelayField, offDelayButton, !connected);
+        disableNodes(impulseField, impulseButton, !connected);
+        testCheckBox.setDisable(!connected);
 
         channelFunctionLabel.setText(channelFunction);
-
         assignRedLabel.setText(String.valueOf(assignedTechRed));
         assignGreenLabel.setText(String.valueOf(assignedTechGreen));
         assignBlueLabel.setText(String.valueOf(assignedTechBlue));
-
         spRedHoffLabel.setText(String.valueOf(switchingPointsRed[0]));
         spRedHonLabel.setText(String.valueOf(switchingPointsRed[1]));
         spRedLonLabel.setText(String.valueOf(switchingPointsRed[2]));
         spRedLoffLabel.setText(String.valueOf(switchingPointsRed[3]));
-
         spGreenHoffLabel.setText(String.valueOf(switchingPointsGreen[0]));
         spGreenHonLabel.setText(String.valueOf(switchingPointsGreen[1]));
         spGreenLonLabel.setText(String.valueOf(switchingPointsGreen[2]));
         spGreenLoffLabel.setText(String.valueOf(switchingPointsGreen[3]));
-
         spBlueHoffLabel.setText(String.valueOf(switchingPointsBlue[0]));
         spBlueHonLabel.setText(String.valueOf(switchingPointsBlue[1]));
         spBlueLonLabel.setText(String.valueOf(switchingPointsBlue[2]));
         spBlueLoffLabel.setText(String.valueOf(switchingPointsBlue[3]));
-
         spSatHoffLabel.setText(String.valueOf(switchingPointsSat[0]));
         spSatHonLabel.setText(String.valueOf(switchingPointsSat[1]));
         spSatLonLabel.setText(String.valueOf(switchingPointsSat[2]));
         spSatLoffLabel.setText(String.valueOf(switchingPointsSat[3]));
-
         spLightHoffLabel.setText(String.valueOf(switchingPointsLight[0]));
         spLightHonLabel.setText(String.valueOf(switchingPointsLight[1]));
         spLightLonLabel.setText(String.valueOf(switchingPointsLight[2]));
         spLightLoffLabel.setText(String.valueOf(switchingPointsLight[3]));
-
         winCommLabel.setText(String.valueOf(winSizeComm));
         winHueLabel.setText(String.valueOf(winSizeHue));
         winSatLabel.setText(String.valueOf(winSizeSat));

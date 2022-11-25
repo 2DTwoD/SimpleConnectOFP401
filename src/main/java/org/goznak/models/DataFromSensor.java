@@ -17,13 +17,13 @@ public class DataFromSensor {
     @Autowired
     ConnectTool connectTool;
     private final Map<RequestCommand, String> sensorData = new HashMap<>();
-    public static ObservableList<String> opModeList = FXCollections.observableArrayList("HSL", "По назначению", "RGB");
-    public static ObservableList<String> filterList = FXCollections.observableArrayList("1", "2", "4", "8",
+    private final static ObservableList<String> opModeList = FXCollections.observableArrayList("HSL", "По назначению", "RGB");
+    private final static ObservableList<String> filterList = FXCollections.observableArrayList("1", "2", "4", "8",
             "16", "32", "64", "128", "256", "512", "1024", "2048", "4096");
-    public static ObservableList<String> lightList = FXCollections.observableArrayList("Выкл.", "Норма", "Ярко", "Тускло");
-    public static ObservableList<String> fpModeList = FXCollections.observableArrayList("OFP", "FP");
-    public static ObservableList<String> menuList = FXCollections.observableArrayList("Выкл.", "Вкл.");
-    public static ObservableList<String> channelFunction = FXCollections.observableArrayList("Не задействован",
+    private final static ObservableList<String> lightList = FXCollections.observableArrayList("Выкл.", "Норма", "Ярко", "Тускло");
+    private final static ObservableList<String> fpModeList = FXCollections.observableArrayList("OFP", "FP");
+    private final static ObservableList<String> menuList = FXCollections.observableArrayList("Выкл.", "Вкл.");
+    private final static ObservableList<String> channelFunctionList = FXCollections.observableArrayList("Не задействован",
             "Выход, NPN и NO", "Выход, PNP и NO", "Выход, PP и NO", "Выход, NPN и NC", "Выход, PNP и NC",
             "Выход, PP и NC", "Ошибка, NPN и NO", "Ошибка, PNP и NO", "Ошибка, PP и NO", "Ошибка, NPN и NC",
             "Ошибка, PNP и NC", "Ошибка, PP и NC",  "Загрязнение, NPN и NO", "Загрязнение, PNP и NO",
@@ -31,13 +31,38 @@ public class DataFromSensor {
             "Излучаемый свет, Ub активно", "Излучаемый свет, Ub не активно",
             "Внешнее обучение, Ub активно", "Внешнее обучение, Ub не активно",
             "Вход триггера, Ub активно", "Вход триггера, Ub не активно");
-    public static ObservableList<String> testOutputList = FXCollections.observableArrayList("0",
-            "1");
+    private final static ObservableList<String> testOutputList = FXCollections.observableArrayList("0",
+            "1", "Симул. выкл.");
     public static final String UNKNOWN_SYMBOL = "?";
     public DataFromSensor() {
         for(RequestCommand command: CommandList.getReadCommands()){
             sensorData.put(command, UNKNOWN_SYMBOL);
         }
+    }
+    public static ObservableList<String> getOpModeList(){
+        return opModeList;
+    }
+    public static ObservableList<String> getFilterList(){
+        return filterList;
+    }
+    public static ObservableList<String> getLightList(){
+        return lightList;
+    }
+
+    public static ObservableList<String> getFpModeList(){
+        return fpModeList;
+    }
+    public static ObservableList<String> getMenuList(){
+        return menuList;
+    }
+    public static ObservableList<String> getChannelFunctionList(int channel){
+        if(channel == 3) {
+            return channelFunctionList;
+        }
+        return FXCollections.observableArrayList(channelFunctionList.subList(0, 19));
+    }
+    public static ObservableList<String> getTestOutputListCut(){
+        return FXCollections.observableArrayList(testOutputList.subList(0, 2));
     }
     public void setData(RequestCommand command, String data){
         if(data.contains("NOK") || data.contains("NOk") ||!checkSumOK(data) || data.length() != command.getLength()){
@@ -266,7 +291,11 @@ public class DataFromSensor {
     public QueryStatus getQueryStatus(){
         // /SS0M0Wppppeeedqq.
         String data = sensorData.get(CommandList.READ_QUERY_STATUS);
-        return new QueryStatus(data);
+        int[] channelFunctions = new int[3];
+        for(int i = 0; i < channelFunctions.length; i++){
+            channelFunctions[i] = channelFunctionList.indexOf(getChannelFunction(i + 1));
+        }
+        return new QueryStatus(data, channelFunctions);
     }
     private String getListParameter(ObservableList<String> list, String data){
         try {
@@ -309,7 +338,7 @@ public class DataFromSensor {
         } else {
             shift = 87;
         }
-        return channelFunction.get(c - shift);
+        return channelFunctionList.get(c - shift);
     }
     private int getAssignedTeach(String data){
         if(data.equals(UNKNOWN_SYMBOL)){
@@ -472,7 +501,7 @@ public class DataFromSensor {
         CommandList.setWriteCommand(CommandList.RESET_SENSOR.getCommand());
     }
     public void setPinFunction(int channel, String value){
-        int index  = channelFunction.indexOf(value);
+        int index  = channelFunctionList.indexOf(value);
         if(index == -1){
             return;
         }

@@ -1,6 +1,7 @@
 package org.goznak.panels;
 
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -15,6 +16,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -246,14 +249,16 @@ public class ChannelPanel extends Parent implements Initializable {
     Button spLightLoffButton;
     @FXML
     Label titleLabel;
+    @FXML
+    Label testLabel;
     private int channel;
     boolean connectedAux;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        channelFunctionCombo.setItems(DataFromSensor.channelFunction);
         channelFunctionCombo.setValue("?");
-        testCombo.setItems(DataFromSensor.testOutputList);
-        testCombo.setValue(DataFromSensor.testOutputList.get(0));
+        ObservableList<String> testList = DataFromSensor.getTestOutputListCut();
+        testCombo.setItems(testList);
+        testCombo.setValue(testList.get(0));
         executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(() -> {
             try {
@@ -267,9 +272,11 @@ public class ChannelPanel extends Parent implements Initializable {
     public void setChannel(int value){
         channel = value;
         titleLabel.setText("Настройки канала A" + channel + ":");
+        channelFunctionCombo.setItems(DataFromSensor.getChannelFunctionList(channel));
     }
     private void runTime(){
         String channelFunction = dataFromSensor.getChannelFunction(channel);
+        int channelFunctionIndex = DataFromSensor.getChannelFunctionList(channel).indexOf(channelFunction);
         int assignedTechRed = dataFromSensor.getAssignedTeachRed(channel);
         int assignedTechGreen = dataFromSensor.getAssignedTeachGreen(channel);
         int assignedTechBlue = dataFromSensor.getAssignedTeachBlue(channel);
@@ -288,11 +295,14 @@ public class ChannelPanel extends Parent implements Initializable {
         int onDelay = dataFromSensor.getOnDelay(channel);
         int offDelay = dataFromSensor.getOffDelay(channel);
         int impulse = dataFromSensor.getImpulse(channel);
+        String testOutput = dataFromSensor.getTestOutput(channel);
+        boolean badFunction = channelFunctionIndex > 6 || channelFunctionIndex == 0;
         boolean connected = connectTool.connected() || connectedAux;
-        boolean modeHSL = !dataFromSensor.getOpMode().equals(DataFromSensor.opModeList.get(0)) || !connected;
-        boolean modeAssign = !dataFromSensor.getOpMode().equals(DataFromSensor.opModeList.get(1)) || !connected;
-        boolean modeRGB = !dataFromSensor.getOpMode().equals(DataFromSensor.opModeList.get(2)) || !connected;
-        boolean modeHSLRGB = !modeAssign || !connected;
+        ObservableList<String> opModeList = DataFromSensor.getOpModeList();
+        boolean modeHSL = !dataFromSensor.getOpMode().equals(opModeList.get(0)) || !connected || badFunction;
+        boolean modeAssign = !dataFromSensor.getOpMode().equals(opModeList.get(1)) || !connected || badFunction;
+        boolean modeRGB = !dataFromSensor.getOpMode().equals(opModeList.get(2)) || !connected || badFunction;
+        boolean modeHSLRGB = !modeAssign || !connected || badFunction;
         connectedAux = connectTool.connected();
 
         applyChannelFunctionButton.setDisable(!connected);
@@ -331,10 +341,10 @@ public class ChannelPanel extends Parent implements Initializable {
         disableNodes(spLightHonField, spLightHonButton, modeHSLRGB);
         disableNodes(spLightLonField, spLightLonButton, modeHSLRGB);
         disableNodes(spLightLoffField, spLightLoffButton, modeHSLRGB);
-        disableNodes(onDelayField, onDelayButton, !connected);
-        disableNodes(offDelayField, offDelayButton, !connected);
-        disableNodes(impulseField, impulseButton, !connected);
-        testCheckBox.setDisable(!connected);
+        disableNodes(onDelayField, onDelayButton, !connected || badFunction);
+        disableNodes(offDelayField, offDelayButton, !connected || badFunction);
+        disableNodes(impulseField, impulseButton, !connected || badFunction);
+        testCheckBox.setDisable(!connected || badFunction);
 
         channelFunctionLabel.setText(channelFunction);
         assignRedLabel.setText(String.valueOf(assignedTechRed));
@@ -370,6 +380,7 @@ public class ChannelPanel extends Parent implements Initializable {
         onDelayLabel.setText(String.valueOf(onDelay));
         offDelayLabel.setText(String.valueOf(offDelay));
         impulseLabel.setText(String.valueOf(impulse));
+        testLabel.setText(testOutput);
 
         applyChannelFunctionButton.setOnAction(e -> setPinFunction());
         assignTeachButton.setOnAction(e -> makeAssignedTeach());

@@ -139,11 +139,11 @@ public class ReadPanel extends Parent implements Initializable {
     Button helpButton;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        opModeCombo.setItems(DataFromSensor.opModeList);
-        filterCombo.setItems(DataFromSensor.filterList);
-        lightCombo.setItems(DataFromSensor.lightList);
-        fpModeCombo.setItems(DataFromSensor.fpModeList);
-        menuCombo.setItems(DataFromSensor.menuList);
+        opModeCombo.setItems(DataFromSensor.getOpModeList());
+        filterCombo.setItems(DataFromSensor.getFilterList());
+        lightCombo.setItems(DataFromSensor.getLightList());
+        fpModeCombo.setItems(DataFromSensor.getFpModeList());
+        menuCombo.setItems(DataFromSensor.getMenuList());
         opModeCombo.setValue("?");
         filterCombo.setValue("?");
         lightCombo.setValue("?");
@@ -255,7 +255,7 @@ public class ReadPanel extends Parent implements Initializable {
     @FXML
     public void setMenu(){
         String value = menuCombo.getValue();
-        String experMenu = value.equals(DataFromSensor.menuList.get(0))?
+        String experMenu = value.equals(DataFromSensor.getMenuList().get(0))?
                 "Выключить экспертное меню датчика?":
                 "Включить экспертное меню датчика?";
         if(badFirstConditionDialog(value, experMenu)){

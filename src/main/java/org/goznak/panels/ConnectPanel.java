@@ -50,9 +50,9 @@ public class ConnectPanel extends Parent implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         comCombo.setItems(comList);
         if(!comList.isEmpty()) {
-            comCombo.setValue(comList.get(1));
+            comCombo.setValue(comList.get(0));
         } else {
-            comCombo.setValue("Нет портов для подключения");
+            comCombo.setValue(ConnectTool.NO_PORTS);
         }
         baudRateCombo.setItems(baudRateList);
         baudRateCombo.setValue(baudRateList.get(3));

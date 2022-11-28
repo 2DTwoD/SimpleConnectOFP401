@@ -7,7 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import org.goznak.Main;
+import org.goznak.App;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
@@ -36,11 +36,12 @@ public class ChooseChannelPanel extends Parent implements Initializable {
             channel2Panel = newChannelPanel(2, channel2Button, channel2Stage);
             channel3Panel = newChannelPanel(3, channel3Button, channel3Stage);
         } catch (Exception e) {
+            App.LOGGER.error(e.getMessage());
             throw new RuntimeException(e);
         }
     }
     private ChannelPanel newChannelPanel(int channel, Button channelButton, Stage stage) throws Exception {
-        FXMLLoader loader = Main.getPanelLoader("ChannelPanel.fxml");
+        FXMLLoader loader = App.getPanelLoader("ChannelPanel.fxml");
         Scene scene = new Scene(loader.load());
         ChannelPanel controller = loader.getController();
         controller.setChannel(channel);
@@ -48,10 +49,11 @@ public class ChooseChannelPanel extends Parent implements Initializable {
         stage.setScene(scene);
         stage.setResizable(false);
         channelButton.setOnAction(event ->{
+            App.LOGGER.info("Открыто окно канала A" + channel);
             stage.show();
             stage.toFront();
-        }
-        );
+        });
+        stage.setOnCloseRequest(e -> App.LOGGER.info("Закрыто окно канала A" + channel));
         return controller;
     }
     public void stopAllThreads(){

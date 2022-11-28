@@ -16,8 +16,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -296,55 +294,57 @@ public class ChannelPanel extends Parent implements Initializable {
         int offDelay = dataFromSensor.getOffDelay(channel);
         int impulse = dataFromSensor.getImpulse(channel);
         String testOutput = dataFromSensor.getTestOutput(channel);
-        boolean badFunction = channelFunctionIndex > 6 || channelFunctionIndex == 0;
+        boolean withoutOptionFunction = channelFunctionIndex > 18 || channelFunctionIndex == 0;
+        boolean disableOffDelay = impulse > 0;
         boolean connected = connectTool.connected() || connectedAux;
         ObservableList<String> opModeList = DataFromSensor.getOpModeList();
-        boolean modeHSL = !dataFromSensor.getOpMode().equals(opModeList.get(0)) || !connected || badFunction;
-        boolean modeAssign = !dataFromSensor.getOpMode().equals(opModeList.get(1)) || !connected || badFunction;
-        boolean modeRGB = !dataFromSensor.getOpMode().equals(opModeList.get(2)) || !connected || badFunction;
-        boolean modeHSLRGB = !modeAssign || !connected || badFunction;
+        boolean modeHSL = !dataFromSensor.getOpMode().equals(opModeList.get(0)) || !connected || withoutOptionFunction;
+        boolean modeAssign = !dataFromSensor.getOpMode().equals(opModeList.get(1)) || !connected || withoutOptionFunction;
+        boolean modeRGB = !dataFromSensor.getOpMode().equals(opModeList.get(2)) || !connected || withoutOptionFunction;
+        boolean modeHSLRGB = !modeAssign || !connected || withoutOptionFunction;
         connectedAux = connectTool.connected();
 
         applyChannelFunctionButton.setDisable(!connected);
         assignTeachButton.setDisable(modeAssign);
 
-        disableNodes(assignRedField, applyAssignRedButton, modeAssign);
-        disableNodes(assignGreenField, applyAssignGreenButton, modeAssign);
-        disableNodes(assignBlueField, applyAssignBlueButton, modeAssign);
+        disableNodes(assignRedLabel, assignRedField, applyAssignRedButton, modeAssign);
+        disableNodes(assignGreenLabel, assignGreenField, applyAssignGreenButton, modeAssign);
+        disableNodes(assignBlueLabel, assignBlueField, applyAssignBlueButton, modeAssign);
         windowTeachButton.setDisable(modeHSLRGB);
         windowTeachOKButton.setDisable(modeHSLRGB);
         windowTeachNOKButton.setDisable(modeHSLRGB);
-        disableNodes(winRedField, applyWinRedButton, modeRGB);
-        disableNodes(winGreenField, applyWinGreenButton, modeRGB);
-        disableNodes(winBlueField, applyWinBlueButton, modeRGB);
-        disableNodes(winHueField, applyWinHueButton, modeHSL);
-        disableNodes(winSatField, applyWinSatButton, modeHSL);
-        disableNodes(winLightField, applyWinLightButton, modeHSL);
-        disableNodes(winCommField, applyWinCommButton, modeHSLRGB);
-        disableNodes(spRedHoffField, spRedHoffButton, modeHSLRGB);
-        disableNodes(spRedHonField, spRedHonButton, modeHSLRGB);
-        disableNodes(spRedLonField, spRedLonButton, modeHSLRGB);
-        disableNodes(spRedLoffField, spRedLoffButton, modeHSLRGB);
-        disableNodes(spGreenHoffField, spGreenHoffButton, modeHSLRGB);
-        disableNodes(spGreenHonField, spGreenHonButton, modeHSLRGB);
-        disableNodes(spGreenLonField, spGreenLonButton, modeHSLRGB);
-        disableNodes(spGreenLoffField, spGreenLoffButton, modeHSLRGB);
-        disableNodes(spBlueHoffField, spBlueHoffButton, modeHSLRGB);
-        disableNodes(spBlueHonField, spBlueHonButton, modeHSLRGB);
-        disableNodes(spBlueLonField, spBlueLonButton, modeHSLRGB);
-        disableNodes(spBlueLoffField, spBlueLoffButton, modeHSLRGB);
-        disableNodes(spSatHoffField, spSatHoffButton, modeHSLRGB);
-        disableNodes(spSatHonField, spSatHonButton, modeHSLRGB);
-        disableNodes(spSatLonField, spSatLonButton, modeHSLRGB);
-        disableNodes(spSatLoffField, spSatLoffButton, modeHSLRGB);
-        disableNodes(spLightHoffField, spLightHoffButton, modeHSLRGB);
-        disableNodes(spLightHonField, spLightHonButton, modeHSLRGB);
-        disableNodes(spLightLonField, spLightLonButton, modeHSLRGB);
-        disableNodes(spLightLoffField, spLightLoffButton, modeHSLRGB);
-        disableNodes(onDelayField, onDelayButton, !connected || badFunction);
-        disableNodes(offDelayField, offDelayButton, !connected || badFunction);
-        disableNodes(impulseField, impulseButton, !connected || badFunction);
-        testCheckBox.setDisable(!connected || badFunction);
+        disableNodes(winCommLabel, winCommField, applyWinCommButton, modeHSLRGB);
+        disableNodes(winRedLabel, winRedField, applyWinRedButton, modeRGB);
+        disableNodes(winGreenLabel, winGreenField, applyWinGreenButton, modeRGB);
+        disableNodes(winBlueLabel, winBlueField, applyWinBlueButton, modeRGB);
+        disableNodes(winHueLabel, winHueField, applyWinHueButton, modeHSL);
+        disableNodes(winSatLabel, winSatField, applyWinSatButton, modeHSL);
+        disableNodes(winLightLabel, winLightField, applyWinLightButton, modeHSL);
+        disableNodes(spRedHoffLabel, spRedHoffField, spRedHoffButton, modeHSLRGB);
+        disableNodes(spRedHonLabel, spRedHonField, spRedHonButton, modeHSLRGB);
+        disableNodes(spRedLonLabel, spRedLonField, spRedLonButton, modeHSLRGB);
+        disableNodes(spRedLoffLabel, spRedLoffField, spRedLoffButton, modeHSLRGB);
+        disableNodes(spGreenHoffLabel, spGreenHoffField, spGreenHoffButton, modeHSLRGB);
+        disableNodes(spGreenHonLabel, spGreenHonField, spGreenHonButton, modeHSLRGB);
+        disableNodes(spGreenLonLabel, spGreenLonField, spGreenLonButton, modeHSLRGB);
+        disableNodes(spGreenLoffLabel, spGreenLoffField, spGreenLoffButton, modeHSLRGB);
+        disableNodes(spBlueHoffLabel, spBlueHoffField, spBlueHoffButton, modeHSLRGB);
+        disableNodes(spBlueHonLabel, spBlueHonField, spBlueHonButton, modeHSLRGB);
+        disableNodes(spBlueLonLabel, spBlueLonField, spBlueLonButton, modeHSLRGB);
+        disableNodes(spBlueLoffLabel, spBlueLoffField, spBlueLoffButton, modeHSLRGB);
+        disableNodes(spSatHoffLabel, spSatHoffField, spSatHoffButton, modeHSLRGB);
+        disableNodes(spSatHonLabel, spSatHonField, spSatHonButton, modeHSLRGB);
+        disableNodes(spSatLonLabel, spSatLonField, spSatLonButton, modeHSLRGB);
+        disableNodes(spSatLoffLabel, spSatLoffField, spSatLoffButton, modeHSLRGB);
+        disableNodes(spLightHoffLabel, spLightHoffField, spLightHoffButton, modeHSLRGB);
+        disableNodes(spLightHonLabel, spLightHonField, spLightHonButton, modeHSLRGB);
+        disableNodes(spLightLonLabel, spLightLonField, spLightLonButton, modeHSLRGB);
+        disableNodes(spLightLoffLabel, spLightLoffField, spLightLoffButton, modeHSLRGB);
+        disableNodes(onDelayLabel, onDelayField, onDelayButton, !connected || withoutOptionFunction);
+        disableNodes(offDelayLabel, offDelayField, offDelayButton, !connected || withoutOptionFunction || disableOffDelay);
+        disableNodes(impulseLabel, impulseField, impulseButton, !connected || withoutOptionFunction);
+        testCheckBox.setDisable(!connected || withoutOptionFunction);
+        testLabel.setDisable(!connected || withoutOptionFunction);
 
         channelFunctionLabel.setText(channelFunction);
         assignRedLabel.setText(String.valueOf(assignedTechRed));
@@ -499,7 +499,8 @@ public class ChannelPanel extends Parent implements Initializable {
         }
         return false;
     }
-    private void disableNodes(TextField textField, Button button, boolean value){
+    private void disableNodes(Label label, TextField textField, Button button, boolean value){
+        label.setDisable(value);
         textField.setDisable(value);
         button.setDisable(value);
     }

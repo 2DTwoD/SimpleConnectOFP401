@@ -25,7 +25,6 @@ public class QueryStatus {
             dirty = !error.equals("OK") ? getTrueStatus("error") : getTrueStatus(data.substring(14, 15));
             try {
                 int Astatus = Integer.decode("0x" + data.substring(7, 11));
-                //System.out.println(data);
                 A1status = getStatusInternal(Astatus, 0, channelFunctions[0]);
                 A2status = getStatusInternal(Astatus, 1, channelFunctions[1]);
                 A3status = getStatusInternal(Astatus, 2, channelFunctions[2]);

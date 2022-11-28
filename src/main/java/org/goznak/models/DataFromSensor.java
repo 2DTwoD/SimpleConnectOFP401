@@ -525,7 +525,7 @@ public class DataFromSensor {
             numericValue = Integer.parseInt(value);
             numericValue = Math.min(numericValue, limit);
         }
-        catch (Exception ignored){
+        catch (Exception e){
             return null;
         }
         return String.format("%04X", numericValue);
@@ -552,7 +552,7 @@ public class DataFromSensor {
             decimalValue = Integer.parseInt(value);
             decimalValue = Math.min(decimalValue, 65535);
         }
-        catch (Exception ignored){
+        catch (Exception e){
             return;
         }
         int[] sp = switch(function){

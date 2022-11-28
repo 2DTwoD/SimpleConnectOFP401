@@ -2,7 +2,7 @@ package org.goznak.tools;
 
 import javafx.application.Platform;
 import jssc.*;
-import org.goznak.Main;
+import org.goznak.App;
 import org.goznak.models.DataFromSensor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,12 @@ public class ConnectTool {
     ScheduledExecutorService executorService;
     String comPort;
     int baudRate = 38400;
+    public static final String NO_PORTS = "Нет портов";
     public void connect(){
+        if (comPort.equals(NO_PORTS)){
+            Dialog.getWarning("Сначала выберите порт для подключения");
+            return;
+        }
         if(executorService != null && !executorService.isShutdown()){
             return;
         }
@@ -50,7 +55,7 @@ public class ConnectTool {
                     SerialPort.STOPBITS_1,
                     SerialPort.PARITY_NONE);
 
-            PortReader portReader = (PortReader) Main.getContext().getBean("portReader", serialPort);
+            PortReader portReader = (PortReader) App.getContext().getBean("portReader", serialPort);
             serialPort.addEventListener(portReader, SerialPort.MASK_RXCHAR);
             serialPort.writeBytes(CommandList.current().getCommand().getBytes(StandardCharsets.US_ASCII));
         }

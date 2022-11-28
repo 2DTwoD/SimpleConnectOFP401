@@ -1,9 +1,7 @@
 package org.goznak.config;
 
-import jssc.SerialPort;
 import org.goznak.models.DataFromSensor;
 import org.goznak.tools.ConnectTool;
-import org.goznak.tools.PortReader;
 import org.goznak.tools.WatchDog;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

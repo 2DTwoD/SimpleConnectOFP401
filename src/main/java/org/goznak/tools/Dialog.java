@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import org.goznak.App;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -13,6 +14,7 @@ import java.io.StringWriter;
 public class Dialog {
     private static Alert alert;
     public static void getInformation(String text){
+        App.LOGGER.info("Вызвано окно информации: " + text);
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Информация");
         alert.setHeaderText(null);
@@ -20,39 +22,41 @@ public class Dialog {
         alert.showAndWait();
     }
     public static void getHelp(){
+        App.LOGGER.info("Вызвано окно помощь");
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Информация");
         alert.setHeaderText("Спасибо, что используете наше программное обеспечение");
-        alert.setContentText("Данная программа используется для подключению к датчику Wenglor OFP401P0189 по интерфейсу RS232\n" +
-                "Распиновка:\n" +
-                "Датчик ---- Dsub DB9\n" +
-                "3 ------------- 5 (0V)\n" +
-                "4 ------------- 2\n" +
-                "5 ------------- 3\n" +
-                "1 ------------- 24VDC\n" +
-                "Автор: Демьяненко Дмитрий Сергеевич");
+        alert.setContentText("""
+                Данная программа используется для подключению к датчику Wenglor OFP401P0189 по интерфейсу RS232
+                Распиновка:
+                Датчик ---- Dsub DB9
+                3 ------------- 5 (0V)
+                4 ------------- 2
+                5 ------------- 3
+                1 ------------- 24VDC
+                Автор: Демьяненко Дмитрий Сергеевич""");
         alert.showAndWait();
     }
     public static void getWarning(String text){
-        try {
-            alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Внимание");
-            alert.setHeaderText(null);
-            alert.setContentText(text);
-            alert.showAndWait();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        App.LOGGER.warn("Вызвано окно 'внимание': " + text);
+        alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Внимание");
+        alert.setHeaderText(null);
+        alert.setContentText(text);
+        alert.showAndWait();
     }
     public static boolean getConfirm(String text){
         alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Подтвердите действие");
         alert.setHeaderText(null);
         alert.setContentText(text);
-        return alert.showAndWait().get() == ButtonType.OK;
+        boolean result = alert.showAndWait().get() == ButtonType.OK;
+        String agree = result? "Подтверждено": "Отклонено";
+        App.LOGGER.info("Вызвано окно подтверждения: " + text + " Результат: " + agree);
+        return result;
     }
     public static void getError(Exception e){
+        App.LOGGER.error("Ошибка с уведомлением в окне:" + e.getMessage());
         alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Произошло исключение");
         alert.setHeaderText(null);

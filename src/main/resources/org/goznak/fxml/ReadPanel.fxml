@@ -265,7 +265,7 @@
                </font></Label>
             <Label fx:id="opModeLabel" prefHeight="30.0" prefWidth="82.0" text="?" GridPane.columnIndex="7" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
             <ComboBox fx:id="opModeCombo" prefHeight="31.0" prefWidth="94.0" GridPane.columnIndex="8" GridPane.rowIndex="1" />
-            <Button fx:id="opModeButton" mnemonicParsing="false" onAction="#setOpMode" prefHeight="30.0" prefWidth="81.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="1" />
+            <Button fx:id="opModeButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="81.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="1" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="98.0" text="Фильтр:" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -274,7 +274,7 @@
                <font>
                   <Font size="14.0" />
                </font></Label>
-            <Button fx:id="filterButton" mnemonicParsing="false" onAction="#setFilter" prefHeight="31.0" prefWidth="81.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="2" />
+            <Button fx:id="filterButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="81.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="2" />
             <ComboBox fx:id="filterCombo" prefHeight="33.0" prefWidth="94.0" GridPane.columnIndex="8" GridPane.rowIndex="2" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="102.0" text="Излуч. свет:" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <font>
@@ -285,7 +285,7 @@
                   <Font size="14.0" />
                </font></Label>
             <ComboBox fx:id="lightCombo" prefHeight="32.0" prefWidth="94.0" GridPane.columnIndex="8" GridPane.rowIndex="3" />
-            <Button fx:id="lightButton" mnemonicParsing="false" onAction="#setLight" prefHeight="37.0" prefWidth="81.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="3" />
+            <Button fx:id="lightButton" mnemonicParsing="false" prefHeight="37.0" prefWidth="81.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="3" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="96.0" text="FP/OFP:" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -295,7 +295,7 @@
                   <Font size="14.0" />
                </font></Label>
             <ComboBox fx:id="fpModeCombo" prefHeight="30.0" prefWidth="94.0" GridPane.columnIndex="8" GridPane.rowIndex="4" />
-            <Button fx:id="fpModeButton" mnemonicParsing="false" onAction="#setFpMode" prefHeight="34.0" prefWidth="81.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="4" />
+            <Button fx:id="fpModeButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="81.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="4" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="151.0" text="Эксперт. меню:" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -305,8 +305,8 @@
                   <Font size="14.0" />
                </font></Label>
             <ComboBox fx:id="menuCombo" prefHeight="33.0" prefWidth="94.0" GridPane.columnIndex="8" GridPane.rowIndex="5" />
-            <Button fx:id="menuButton" mnemonicParsing="false" onAction="#setMenu" prefHeight="32.0" prefWidth="81.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="5" />
-            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#resetSensor" prefHeight="30.0" prefWidth="174.0" text="Сброс настроек" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="7" />
+            <Button fx:id="menuButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="81.0" text="Применить" GridPane.columnIndex="9" GridPane.rowIndex="5" />
+            <Button fx:id="resetButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="174.0" text="Сброс настроек" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="7" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="94.0" text="Тон(H~расчет):" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
                <font>
                   <Font name="System Bold" size="12.0" />

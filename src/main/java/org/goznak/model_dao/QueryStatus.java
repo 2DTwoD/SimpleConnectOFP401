@@ -1,4 +1,4 @@
-package org.goznak.models;
+package org.goznak.model_dao;
 
 public class QueryStatus {
     boolean A1status;

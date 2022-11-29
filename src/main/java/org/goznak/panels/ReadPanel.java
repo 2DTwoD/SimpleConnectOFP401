@@ -7,8 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import org.goznak.models.DataFromSensor;
-import org.goznak.models.QueryStatus;
+import org.goznak.model_dao.DataFromSensor;
+import org.goznak.model_dao.QueryStatus;
 import org.goznak.tools.ConnectTool;
 import org.goznak.tools.Dialog;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,6 +150,12 @@ public class ReadPanel extends Parent implements Initializable {
         fpModeCombo.setValue("?");
         menuCombo.setValue("?");
         executorService = Executors.newSingleThreadScheduledExecutor();
+        opModeButton.setOnAction(e -> setOpMode());
+        filterButton.setOnAction(e -> setFilter());
+        lightButton.setOnAction(e -> setLight());
+        fpModeButton.setOnAction(e-> setFpMode());
+        menuButton.setOnAction(e -> setMenu());
+        resetButton.setOnAction(e -> resetSensor());
         helpButton.setOnAction(e -> Dialog.getHelp());
         executorService.scheduleAtFixedRate(() -> {
             try {
@@ -220,7 +226,6 @@ public class ReadPanel extends Parent implements Initializable {
         hslLabel.setTextFill(clr);
         xyzLabel.setTextFill(clr);
     }
-    @FXML
     public void setOpMode(){
         String value = opModeCombo.getValue();
         if(badFirstConditionDialog(value, "Изменить режим работы датчика на значение '"+ value + "'?")){
@@ -228,7 +233,6 @@ public class ReadPanel extends Parent implements Initializable {
         }
         dataFromSensor.setOpMode(value);
     }
-    @FXML
     public void setFilter(){
         String value = filterCombo.getValue();
         if(badFirstConditionDialog(value, "Изменить фильтрацию сигнала датчика на значение '"+ value + "'?")){
@@ -236,7 +240,6 @@ public class ReadPanel extends Parent implements Initializable {
         }
         dataFromSensor.setFilter(value);
     }
-    @FXML
     public void setLight(){
         String value = lightCombo.getValue();
         if(badFirstConditionDialog(value, "Изменить излучение датчика на значение '"+ value + "'?")){
@@ -244,7 +247,6 @@ public class ReadPanel extends Parent implements Initializable {
         }
         dataFromSensor.setLight(value);
     }
-    @FXML
     public void setFpMode(){
         String value = fpModeCombo.getValue();
         if(badFirstConditionDialog(value, "Изменить тип датчика на значение '"+ value + "'?")){
@@ -252,7 +254,6 @@ public class ReadPanel extends Parent implements Initializable {
         }
         dataFromSensor.setFpMode(fpModeCombo.getValue());
     }
-    @FXML
     public void setMenu(){
         String value = menuCombo.getValue();
         String experMenu = value.equals(DataFromSensor.getMenuList().get(0))?
@@ -263,7 +264,6 @@ public class ReadPanel extends Parent implements Initializable {
         }
         dataFromSensor.setMenu(menuCombo.getValue());
     }
-    @FXML
     public void resetSensor(){
         if(!connectTool.connected() || !Dialog.getConfirm("Произвести сброс настроек датчика?")){
             return;

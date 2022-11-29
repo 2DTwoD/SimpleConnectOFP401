@@ -52,7 +52,7 @@ public class Dialog {
         alert.setContentText(text);
         boolean result = alert.showAndWait().get() == ButtonType.OK;
         String agree = result? "Подтверждено": "Отклонено";
-        App.LOGGER.info("Вызвано окно подтверждения: " + text + " Результат: " + agree);
+        App.LOGGER.info("Вызвано окно подтверждения: " + text + ". Результат: " + agree);
         return result;
     }
     public static void getError(Exception e){

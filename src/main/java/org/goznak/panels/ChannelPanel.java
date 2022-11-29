@@ -6,8 +6,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import org.goznak.App;
 import org.goznak.inputs.NumericTextField;
-import org.goznak.models.DataFromSensor;
+import org.goznak.model_dao.DataFromSensor;
 import org.goznak.tools.ConnectTool;
 import org.goznak.tools.Dialog;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -257,6 +258,46 @@ public class ChannelPanel extends Parent implements Initializable {
         ObservableList<String> testList = DataFromSensor.getTestOutputListCut();
         testCombo.setItems(testList);
         testCombo.setValue(testList.get(0));
+        applyChannelFunctionButton.setOnAction(e -> setPinFunction());
+        assignTeachButton.setOnAction(e -> makeAssignedTeach());
+        applyAssignRedButton.setOnAction(e -> setAssignTeach(assignRedField.getText(), dataFromSensor.getAssignedTeachRed(channel), "R"));
+        applyAssignGreenButton.setOnAction(e -> setAssignTeach(assignGreenField.getText(), dataFromSensor.getAssignedTeachGreen(channel), "G"));
+        applyAssignBlueButton.setOnAction(e -> setAssignTeach(assignBlueField.getText(), dataFromSensor.getAssignedTeachBlue(channel), "B"));
+        windowTeachButton.setOnAction(e -> makeWindowTeach("0"));
+        windowTeachOKButton.setOnAction(e -> makeWindowTeach("1"));
+        windowTeachNOKButton.setOnAction(e -> makeWindowTeach("2"));
+        spRedHoffButton.setOnAction(e -> setSwitchingPoints(spRedHoffField.getText(), dataFromSensor.getSwitchingPointsRed(channel)[0], "R", "Hoff"));
+        spRedHonButton.setOnAction(e -> setSwitchingPoints(spRedHonField.getText(), dataFromSensor.getSwitchingPointsRed(channel)[1], "R", "Hon"));
+        spRedLonButton.setOnAction(e -> setSwitchingPoints(spRedLonField.getText(), dataFromSensor.getSwitchingPointsRed(channel)[2], "R", "Lon"));
+        spRedLoffButton.setOnAction(e -> setSwitchingPoints(spRedLoffField.getText(), dataFromSensor.getSwitchingPointsRed(channel)[3], "R", "Loff"));
+        spGreenHoffButton.setOnAction(e -> setSwitchingPoints(spGreenHoffField.getText(), dataFromSensor.getSwitchingPointsGreen(channel)[0], "G", "Hoff"));
+        spGreenHonButton.setOnAction(e -> setSwitchingPoints(spGreenHonField.getText(), dataFromSensor.getSwitchingPointsGreen(channel)[1], "G", "Hon"));
+        spGreenLonButton.setOnAction(e -> setSwitchingPoints(spGreenLonField.getText(), dataFromSensor.getSwitchingPointsGreen(channel)[2], "G", "Lon"));
+        spGreenLoffButton.setOnAction(e -> setSwitchingPoints(spGreenLoffField.getText(), dataFromSensor.getSwitchingPointsGreen(channel)[3], "G", "Loff"));
+        spBlueHoffButton.setOnAction(e -> setSwitchingPoints(spBlueHoffField.getText(), dataFromSensor.getSwitchingPointsBlue(channel)[0], "B", "Hoff"));
+        spBlueHonButton.setOnAction(e -> setSwitchingPoints(spBlueHonField.getText(), dataFromSensor.getSwitchingPointsBlue(channel)[1], "B", "Hon"));
+        spBlueLonButton.setOnAction(e -> setSwitchingPoints(spBlueLonField.getText(), dataFromSensor.getSwitchingPointsBlue(channel)[2], "B", "Lon"));
+        spBlueLoffButton.setOnAction(e -> setSwitchingPoints(spBlueLoffField.getText(), dataFromSensor.getSwitchingPointsBlue(channel)[3], "B", "Loff"));
+        spSatHoffButton.setOnAction(e -> setSwitchingPoints(spSatHoffField.getText(), dataFromSensor.getSwitchingPointsSat(channel)[0], "S", "Hoff"));
+        spSatHonButton.setOnAction(e -> setSwitchingPoints(spSatHonField.getText(), dataFromSensor.getSwitchingPointsSat(channel)[1], "S", "Hon"));
+        spSatLonButton.setOnAction(e -> setSwitchingPoints(spSatLonField.getText(), dataFromSensor.getSwitchingPointsSat(channel)[2], "S", "Lon"));
+        spSatLoffButton.setOnAction(e -> setSwitchingPoints(spSatLoffField.getText(), dataFromSensor.getSwitchingPointsSat(channel)[3], "S", "Loff"));
+        spLightHoffButton.setOnAction(e -> setSwitchingPoints(spLightHoffField.getText(), dataFromSensor.getSwitchingPointsLight(channel)[0], "L", "Hoff"));
+        spLightHonButton.setOnAction(e -> setSwitchingPoints(spLightHonField.getText(), dataFromSensor.getSwitchingPointsLight(channel)[1], "L", "Hon"));
+        spLightLonButton.setOnAction(e -> setSwitchingPoints(spLightLonField.getText(), dataFromSensor.getSwitchingPointsLight(channel)[2], "L", "Lon"));
+        spLightLoffButton.setOnAction(e -> setSwitchingPoints(spLightLoffField.getText(), dataFromSensor.getSwitchingPointsLight(channel)[3], "L", "Loff"));
+        applyWinCommButton.setOnAction(e-> setWindowSize(winCommField.getText(), dataFromSensor.getWinSizeComm(channel), "b"));
+        applyWinHueButton.setOnAction(e-> setWindowSize(winHueField.getText(), dataFromSensor.getWinSizeHue(channel), "c"));
+        applyWinSatButton.setOnAction(e-> setWindowSize(winSatField.getText(), dataFromSensor.getWinSizeSat(channel), "d"));
+        applyWinLightButton.setOnAction(e-> setWindowSize(winLightField.getText(), dataFromSensor.getWinSizeLight(channel), "e"));
+        applyWinRedButton.setOnAction(e-> setWindowSize(winRedField.getText(), dataFromSensor.getWinSizeRed(channel), "R"));
+        applyWinGreenButton.setOnAction(e-> setWindowSize(winGreenField.getText(), dataFromSensor.getWinSizeGreen(channel), "G"));
+        applyWinBlueButton.setOnAction(e-> setWindowSize(winBlueField.getText(), dataFromSensor.getWinSizeBlue(channel), "B"));
+        onDelayButton.setOnAction(e-> setDelayImpulse(onDelayField.getText(), dataFromSensor.getOnDelay(channel), "j"));
+        offDelayButton.setOnAction(e-> setDelayImpulse(offDelayField.getText(), dataFromSensor.getOffDelay(channel), "k"));
+        impulseButton.setOnAction(e-> setDelayImpulse(impulseField.getText(), dataFromSensor.getImpulse(channel), "l"));
+        testCombo.setOnAction(e -> changeTestOutput());
+        testCheckBox.setOnAction(e -> setTestOutput());
         executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(() -> {
             try {
@@ -381,54 +422,14 @@ public class ChannelPanel extends Parent implements Initializable {
         offDelayLabel.setText(String.valueOf(offDelay));
         impulseLabel.setText(String.valueOf(impulse));
         testLabel.setText(testOutput);
-
-        applyChannelFunctionButton.setOnAction(e -> setPinFunction());
-        assignTeachButton.setOnAction(e -> makeAssignedTeach());
-        applyAssignRedButton.setOnAction(e -> setAssignTeach(assignRedField.getText(), "R"));
-        applyAssignGreenButton.setOnAction(e -> setAssignTeach(assignGreenField.getText(), "G"));
-        applyAssignBlueButton.setOnAction(e -> setAssignTeach(assignBlueField.getText(), "B"));
-        windowTeachButton.setOnAction(e -> makeWindowTeach("0"));
-        windowTeachOKButton.setOnAction(e -> makeWindowTeach("1"));
-        windowTeachNOKButton.setOnAction(e -> makeWindowTeach("2"));
-        spRedHoffButton.setOnAction(e -> setSwitchingPoints(spRedHoffField.getText(), "R", "Hoff"));
-        spRedHonButton.setOnAction(e -> setSwitchingPoints(spRedHonField.getText(), "R", "Hon"));
-        spRedLonButton.setOnAction(e -> setSwitchingPoints(spRedLonField.getText(), "R", "Lon"));
-        spRedLoffButton.setOnAction(e -> setSwitchingPoints(spRedLoffField.getText(), "R", "Loff"));
-        spGreenHoffButton.setOnAction(e -> setSwitchingPoints(spGreenHoffField.getText(), "G", "Hoff"));
-        spGreenHonButton.setOnAction(e -> setSwitchingPoints(spGreenHonField.getText(), "G", "Hon"));
-        spGreenLonButton.setOnAction(e -> setSwitchingPoints(spGreenLonField.getText(), "G", "Lon"));
-        spGreenLoffButton.setOnAction(e -> setSwitchingPoints(spGreenLoffField.getText(), "G", "Loff"));
-        spBlueHoffButton.setOnAction(e -> setSwitchingPoints(spBlueHoffField.getText(), "B", "Hoff"));
-        spBlueHonButton.setOnAction(e -> setSwitchingPoints(spBlueHonField.getText(), "B", "Hon"));
-        spBlueLonButton.setOnAction(e -> setSwitchingPoints(spBlueLonField.getText(), "B", "Lon"));
-        spBlueLoffButton.setOnAction(e -> setSwitchingPoints(spBlueLoffField.getText(), "B", "Loff"));
-        spSatHoffButton.setOnAction(e -> setSwitchingPoints(spSatHoffField.getText(), "S", "Hoff"));
-        spSatHonButton.setOnAction(e -> setSwitchingPoints(spSatHonField.getText(), "S", "Hon"));
-        spSatLonButton.setOnAction(e -> setSwitchingPoints(spSatLonField.getText(), "S", "Lon"));
-        spSatLoffButton.setOnAction(e -> setSwitchingPoints(spSatLoffField.getText(), "S", "Loff"));
-        spLightHoffButton.setOnAction(e -> setSwitchingPoints(spLightHoffField.getText(), "L", "Hoff"));
-        spLightHonButton.setOnAction(e -> setSwitchingPoints(spLightHonField.getText(), "L", "Hon"));
-        spLightLonButton.setOnAction(e -> setSwitchingPoints(spLightLonField.getText(), "L", "Lon"));
-        spLightLoffButton.setOnAction(e -> setSwitchingPoints(spLightLoffField.getText(), "L", "Loff"));
-        applyWinCommButton.setOnAction(e-> setWindowSize(winCommField.getText(), "b"));
-        applyWinHueButton.setOnAction(e-> setWindowSize(winHueField.getText(), "c"));
-        applyWinSatButton.setOnAction(e-> setWindowSize(winSatField.getText(), "d"));
-        applyWinLightButton.setOnAction(e-> setWindowSize(winLightField.getText(), "e"));
-        applyWinRedButton.setOnAction(e-> setWindowSize(winRedField.getText(), "R"));
-        applyWinGreenButton.setOnAction(e-> setWindowSize(winGreenField.getText(), "G"));
-        applyWinBlueButton.setOnAction(e-> setWindowSize(winBlueField.getText(), "B"));
-        onDelayButton.setOnAction(e-> setDelayImpulse(onDelayField.getText(), "j"));
-        offDelayButton.setOnAction(e-> setDelayImpulse(offDelayField.getText(), "k"));
-        impulseButton.setOnAction(e-> setDelayImpulse(impulseField.getText(), "l"));
-        testCombo.setOnAction(e -> changeTestOutput());
-        testCheckBox.setOnAction(e -> setTestOutput());
     }
     public void stopAllThreads(){
         executorService.shutdown();
     }
     private void setPinFunction(){
         String value = channelFunctionCombo.getValue();
-        if(badFirstConditionDialog(value, "Изменить функцию канала A" + channel + "?")){
+        if(badFirstConditionDialog(value, dataFromSensor.getChannelFunction(channel),
+                "Изменить функцию канала A" + channel + "? Текущая функция: %s, выбранная функция: %s")){
             return;
         }
         dataFromSensor.setPinFunction(channel, channelFunctionCombo.getValue());
@@ -439,32 +440,37 @@ public class ChannelPanel extends Parent implements Initializable {
         }
         dataFromSensor.makeAssignTeach(channel);
     }
-    private void setAssignTeach(String value, String color) {
-        if(badFirstConditionDialog(value, "Применить значение %s?")){
+    private void setAssignTeach(String value, int curValue, String color) {
+        if(badFirstConditionDialog(value, String.valueOf(curValue), "Применить значение %s? Текущее знаечение: %s")){
             return;
         }
         dataFromSensor.setAssignedTeach(channel, value, color);
     }
     private void makeWindowTeach(String function){
-        if(!connectTool.connected() || !Dialog.getConfirm("Сделать обучение по окну для канала A" + channel + "?")){
+        String message = switch(function){
+            case "0" -> "Сделать обучение по окну";
+            case "1" -> "Сделать обучение по образцу OK";
+            default -> "Сделать обучение по образцу NOK";
+        };
+        if(!connectTool.connected() || !Dialog.getConfirm(message + " для канала A" + channel + "?")){
             return;
         }
         dataFromSensor.makeWindowTeach(channel, function);
     }
-    private void setSwitchingPoints(String value, String function, String target){
-        if(badFirstConditionDialog(value, "Применить значение %s?")){
+    private void setSwitchingPoints(String value, int curValue, String function, String target){
+        if(badFirstConditionDialog(value, String.valueOf(curValue), "Применить значение %s? Текущее знаечение: %s")){
             return;
         }
         dataFromSensor.setSwitchingPoints(channel, value, function, target);
     }
-    private void setWindowSize(String value, String function){
-        if(badFirstConditionDialog(value, "Применить значение %s?")){
+    private void setWindowSize(String value, int curValue, String function){
+        if(badFirstConditionDialog(value, String.valueOf(curValue), "Применить значение %s? Текущее знаечение: %s")){
             return;
         }
         dataFromSensor.setWindowSize(channel, value, function);
     }
-    private void setDelayImpulse(String value, String function){
-        if(badFirstConditionDialog(value, "Применить значение %s?")){
+    private void setDelayImpulse(String value, int curValue, String function){
+        if(badFirstConditionDialog(value, String.valueOf(curValue), "Применить значение %s? Текущее знаечение: %s")){
             return;
         }
         dataFromSensor.setDelayImpulse(channel, value, function);
@@ -481,8 +487,11 @@ public class ChannelPanel extends Parent implements Initializable {
             return;
         }
         dataFromSensor.setTestOutput(channel, testCheckBox.isSelected(), testCombo.getValue());
+        String simText = testCheckBox.isSelected()? "включена": "выключена";
+        App.LOGGER.info(String.format("Изменение симуляции сигнала на канале A%d на значение: %s, симуляция в данный момент %s"
+                ,channel, testCombo.getValue(), simText));
     }
-    private boolean badFirstConditionDialog(String value, String message){
+    private boolean badFirstConditionDialog(String value, String curValue, String message){
         if(!connectTool.connected()){
             return true;
         }
@@ -494,7 +503,7 @@ public class ChannelPanel extends Parent implements Initializable {
             Dialog.getInformation("Введите значение прежде чем применять");
             return true;
         }
-        if(!Dialog.getConfirm(String.format(message, value))){
+        if(!Dialog.getConfirm(String.format(message, value, curValue))){
             return true;
         }
         return false;

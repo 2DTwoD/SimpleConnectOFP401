@@ -10,7 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import jssc.SerialPortList;
-import org.goznak.models.DataFromSensor;
+import org.goznak.App;
+import org.goznak.model_dao.DataFromSensor;
 import org.goznak.tools.ConnectTool;
 import org.goznak.tools.Dialog;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +61,14 @@ public class ConnectPanel extends Parent implements Initializable {
         setBaudRate();
         comCombo.setOnAction(e -> setComPort());
         baudRateCombo.setOnAction(e -> setBaudRate());
-        connectButton.setOnAction(e -> connect());
-        disconnectButton.setOnAction(e -> disconnect());
+        connectButton.setOnAction(e -> {
+            App.LOGGER.info("Нажата кнопка подключиться к датчику");
+            connect();
+        });
+        disconnectButton.setOnAction(e -> {
+            App.LOGGER.info("Нажата кнопка отключиться от датчика");
+            disconnect();
+        });
         executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(() -> {
             try {
@@ -85,9 +92,11 @@ public class ConnectPanel extends Parent implements Initializable {
         connectedAux = connectTool.connected();
     }
     private void setComPort(){
+        App.LOGGER.info("Изменение параметров подключения. Установлен Com-порт: " + comCombo.getValue());
         connectTool.setComPort(comCombo.getValue());
     }
     private void setBaudRate(){
+        App.LOGGER.info("Изменение параметров подключения. Установлен baud rate: " + baudRateCombo.getValue());
         connectTool.setBaudRate(baudRateCombo.getValue());
     }
     public void connect(){

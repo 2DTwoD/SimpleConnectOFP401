@@ -1,7 +1,7 @@
-package org.goznak.tools;
+package org.goznak.model_dao;
 
-import org.goznak.models.Command;
-import org.goznak.models.RequestCommand;
+import org.goznak.model_dao.Command;
+import org.goznak.model_dao.RequestCommand;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package org.goznak.config;
 
-import org.goznak.models.DataFromSensor;
+import org.goznak.model_dao.DataFromSensor;
 import org.goznak.tools.ConnectTool;
 import org.goznak.tools.WatchDog;
 import org.springframework.context.annotation.Bean;

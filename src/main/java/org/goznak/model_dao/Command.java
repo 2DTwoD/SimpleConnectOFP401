@@ -1,4 +1,4 @@
-package org.goznak.models;
+package org.goznak.model_dao;
 
 import java.nio.charset.StandardCharsets;
 

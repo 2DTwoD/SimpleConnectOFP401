@@ -3,7 +3,8 @@ package org.goznak.tools;
 import javafx.application.Platform;
 import jssc.*;
 import org.goznak.App;
-import org.goznak.models.DataFromSensor;
+import org.goznak.model_dao.CommandList;
+import org.goznak.model_dao.DataFromSensor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -58,6 +59,7 @@ public class ConnectTool {
             PortReader portReader = (PortReader) App.getContext().getBean("portReader", serialPort);
             serialPort.addEventListener(portReader, SerialPort.MASK_RXCHAR);
             serialPort.writeBytes(CommandList.current().getCommand().getBytes(StandardCharsets.US_ASCII));
+            App.LOGGER.info("Подключение к датчику!");
         }
         catch (SerialPortException e) {
             Dialog.getError(e);
@@ -71,6 +73,7 @@ public class ConnectTool {
             if(serialPort.isOpened()) {
                 serialPort.closePort();
             }
+            App.LOGGER.info("Произошло отключение от датчика!");
         } catch (SerialPortException e) {
             Dialog.getError(e);
             throw new RuntimeException(e);

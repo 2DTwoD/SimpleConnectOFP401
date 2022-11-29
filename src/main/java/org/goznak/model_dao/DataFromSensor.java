@@ -1,10 +1,9 @@
-package org.goznak.models;
+package org.goznak.model_dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import org.goznak.tools.CommandList;
 import org.goznak.tools.ConnectTool;
 import org.springframework.beans.factory.annotation.Autowired;
 

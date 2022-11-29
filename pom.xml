@@ -6,7 +6,7 @@
 
     <groupId>org.goznak</groupId>
     <artifactId>SimpleConnectOFP401</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>SimpleConnectOFP401</name>
 
     <properties>
@@ -103,7 +103,6 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4jVersion}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-assembly-plugin -->
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-assembly-plugin</artifactId>

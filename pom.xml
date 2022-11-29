@@ -11,9 +11,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>5.8.2</junit.version>
+        <junit.version>5.9.0</junit.version>
         <javaFXVersion>19</javaFXVersion>
-        <springVersion>5.3.23</springVersion>
+        <springVersion>6.0.0</springVersion>
         <slf4jVersion>2.0.5</slf4jVersion>
     </properties>
 
@@ -89,7 +89,7 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>RELEASE</version>
+            <version>7.6.1</version>
             <scope>compile</scope>
         </dependency>
         <!--Logger-->
@@ -102,6 +102,12 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4jVersion}</version>
+        </dependency>
+        <!--shade plugin-->
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>3.4.1</version>
         </dependency>
     </dependencies>
     <build>

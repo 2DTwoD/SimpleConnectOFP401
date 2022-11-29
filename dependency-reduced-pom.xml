@@ -58,7 +58,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>5.8.2</version>
+      <version>5.9.0</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -78,7 +78,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.8.2</version>
+      <version>5.9.0</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -99,10 +99,10 @@
     </dependency>
   </dependencies>
   <properties>
-    <springVersion>5.3.23</springVersion>
+    <springVersion>6.0.0</springVersion>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <slf4jVersion>2.0.5</slf4jVersion>
-    <junit.version>5.8.2</junit.version>
+    <junit.version>5.9.0</junit.version>
     <javaFXVersion>19</javaFXVersion>
   </properties>
 </project>

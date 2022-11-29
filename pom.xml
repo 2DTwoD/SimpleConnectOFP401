@@ -103,12 +103,6 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4jVersion}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <version>3.4.2</version>
-        </dependency>
-
     </dependencies>
     <build>
         <plugins>

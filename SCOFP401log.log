@@ -1,0 +1,30 @@
+29-11-2022 10:18:57 DEBUG AnnotationConfigApplicationContext:629 - Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@16aa0a0a
+29-11-2022 10:18:57 DEBUG DefaultListableBeanFactory:225 - Creating shared instance of singleton bean 'org.springframework.context.annotation.internalConfigurationAnnotationProcessor'
+29-11-2022 10:18:57 DEBUG ClassPathBeanDefinitionScanner:435 - Identified candidate component class: file [D:\GitProjects\SimpleConnectOFP401\target\classes\org\goznak\panels\ChannelPanel.class]
+29-11-2022 10:18:57 DEBUG ClassPathBeanDefinitionScanner:435 - Identified candidate component class: file [D:\GitProjects\SimpleConnectOFP401\target\classes\org\goznak\panels\ChooseChannelPanel.class]
+29-11-2022 10:18:57 DEBUG ClassPathBeanDefinitionScanner:435 - Identified candidate component class: file [D:\GitProjects\SimpleConnectOFP401\target\classes\org\goznak\panels\ConnectPanel.class]
+29-11-2022 10:18:57 DEBUG ClassPathBeanDefinitionScanner:435 - Identified candidate component class: file [D:\GitProjects\SimpleConnectOFP401\target\classes\org\goznak\panels\ReadPanel.class]
+29-11-2022 10:18:57 DEBUG ClassPathBeanDefinitionScanner:435 - Identified candidate component class: file [D:\GitProjects\SimpleConnectOFP401\target\classes\org\goznak\tools\ConnectTool.class]
+29-11-2022 10:18:57 DEBUG ClassPathBeanDefinitionScanner:435 - Identified candidate component class: file [D:\GitProjects\SimpleConnectOFP401\target\classes\org\goznak\tools\PortReader.class]
+29-11-2022 10:18:57 DEBUG ClassPathBeanDefinitionScanner:435 - Identified candidate component class: file [D:\GitProjects\SimpleConnectOFP401\target\classes\org\goznak\tools\WatchDog.class]
+29-11-2022 10:18:57 DEBUG DefaultListableBeanFactory:1018 - Overriding bean definition for bean 'connectTool' with a different definition: replacing [Generic bean: class [org.goznak.tools.ConnectTool]; scope=singleton; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null; defined in file [D:\GitProjects\SimpleConnectOFP401\target\classes\org\goznak\tools\ConnectTool.class]] with [Root bean: class [null]; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=appConfig; factoryMethodName=connectTool; initMethodName=null; destroyMethodName=(inferred); defined in org.goznak.config.AppConfig]
+29-11-2022 10:18:57 DEBUG DefaultListableBeanFactory:1018 - Overriding bean definition for bean 'watchDog' with a different definition: replacing [Generic bean: class [org.goznak.tools.WatchDog]; scope=singleton; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null; defined in file [D:\GitProjects\SimpleConnectOFP401\target\classes\org\goznak\tools\WatchDog.class]] with [Root bean: class [null]; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=appConfig; factoryMethodName=watchDog; initMethodName=null; destroyMethodName=(inferred); defined in org.goznak.config.AppConfig]
+29-11-2022 10:18:57 DEBUG DefaultListableBeanFactory:225 - Creating shared instance of singleton bean 'org.springframework.context.event.internalEventListenerProcessor'
+29-11-2022 10:18:57 DEBUG DefaultListableBeanFactory:225 - Creating shared instance of singleton bean 'org.springframework.context.event.internalEventListenerFactory'
+29-11-2022 10:18:57 DEBUG DefaultListableBeanFactory:225 - Creating shared instance of singleton bean 'org.springframework.context.annotation.internalAutowiredAnnotationProcessor'
+29-11-2022 10:18:57 DEBUG DefaultListableBeanFactory:225 - Creating shared instance of singleton bean 'appConfig'
+29-11-2022 10:18:57 DEBUG DefaultListableBeanFactory:225 - Creating shared instance of singleton bean 'chooseChannelPanel'
+29-11-2022 10:18:57 DEBUG DefaultListableBeanFactory:225 - Creating shared instance of singleton bean 'connectPanel'
+29-11-2022 10:18:57 DEBUG DefaultListableBeanFactory:225 - Creating shared instance of singleton bean 'connectTool'
+29-11-2022 10:18:57 DEBUG DefaultListableBeanFactory:225 - Creating shared instance of singleton bean 'dataFromSensor'
+29-11-2022 10:18:57 DEBUG DefaultListableBeanFactory:225 - Creating shared instance of singleton bean 'watchDog'
+29-11-2022 10:18:57 DEBUG DefaultListableBeanFactory:225 - Creating shared instance of singleton bean 'readPanel'
+29-11-2022 10:18:58 INFO  App:32 - Запуск программы
+29-11-2022 10:18:58 INFO  App:95 - Изменение параметров подключения. Установлен Com-порт: COM1
+29-11-2022 10:18:58 INFO  App:99 - Изменение параметров подключения. Установлен baud rate: 38400
+29-11-2022 10:19:50 INFO  App:65 - Нажата кнопка подключиться к датчику
+29-11-2022 10:19:50 INFO  App:62 - Подключение к датчику!
+29-11-2022 10:19:52 WARN  App:41 - Вызвано окно 'внимание': Нет связи с датчиком
+29-11-2022 10:19:52 ERROR App:59 - Ошибка с уведомлением в окне:Port name - COM1; Method name - removeEventListener(); Exception type - Event listener thread interrupted.
+29-11-2022 10:19:58 INFO  App:55 - Вызвано окно подтверждения: Вы действительно хотите закрыть программу?. Результат: Подтверждено
+29-11-2022 10:19:58 INFO  App:78 - Остановка программы
